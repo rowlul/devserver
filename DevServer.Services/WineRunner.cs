@@ -11,7 +11,7 @@ public class WineRunner : IWineRunner
         _process = process;
     }
 
-    public Process? RunWithArgsViaWine(string osuPath, string ipAddress, WineStartInfo wine)
+    public Process? RunWithArgs(string osuPath, string ipAddress, WineStartInfo wine)
     {
         var processStartInfo = new ProcessStartInfo
         {
