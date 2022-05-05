@@ -5,6 +5,8 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 
+using DevServer.Extensions;
+
 namespace DevServer
 {
     class Program
@@ -36,6 +38,7 @@ namespace DevServer
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
-                .UseReactiveUI();
+                .UseReactiveUI()
+                .RegisterDependencies();
     }
 }
