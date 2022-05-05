@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DevServer.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DevServer.Views.ToolBarPanel">
+    
+    <UserControl.DataContext>
+        <vm:ToolBarPanelViewModel/>
+    </UserControl.DataContext>
+    
+    <Grid ColumnDefinitions="Auto * Auto Auto Auto">
+        <Button 
+            Grid.Column="0"
+            Content="Play" />
+        <TextBox 
+            Grid.Column="1"
+            Watermark="Server Address" />
+        <Button 
+            Grid.Column="2"
+            Content="Add" />
+        <Button 
+            Grid.Column="3"
+            Content="Remove"/>
+        <Button 
+            Grid.Column="4"
+            Content="Refresh"/>
+    </Grid>
+    
+</UserControl>
