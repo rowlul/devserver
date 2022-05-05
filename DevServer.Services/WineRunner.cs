@@ -23,12 +23,15 @@ public class WineRunner : IWineRunner
                 { "WINEARCH", Enum.GetName(typeof(WineArch), wine.Arch)?.ToLower() },
             }
         };
-        
-        foreach (KeyValuePair<string, string> envVar in wine.Environment)
+
+        if (wine.Environment != null)
         {
-            processStartInfo.EnvironmentVariables[envVar.Key] = envVar.Value;
+            foreach (KeyValuePair<string, string> envVar in wine.Environment)
+            {
+                processStartInfo.EnvironmentVariables[envVar.Key] = envVar.Value;
+            }
         }
-        
+
         var process = _process.Start(processStartInfo);
         return process;
     }

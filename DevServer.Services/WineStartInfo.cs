@@ -11,5 +11,5 @@ public sealed class WineStartInfo
     public string Path { get; set; }
     public string Prefix { get; set; }
     public WineArch Arch { get; set; }
-    public IDictionary<string, string> Environment { get; set; }
+    public IDictionary<string, string>? Environment { get; set; }
 }
