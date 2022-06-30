@@ -3,26 +3,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:DevServer"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="DevServer.Views.ToolBarPanel"
-             d:DataContext="{x:Static local:DesignData.ToolBarPanelViewModel}">
+             mc:Ignorable="d" d:DataContext="{x:Static local:DesignData.ToolBarPanelViewModel}"
+             x:Class="DevServer.Views.ToolBarPanel">
     
-    <Grid ColumnDefinitions="Auto * Auto Auto Auto">
-        <Button 
+    <Grid ColumnDefinitions="Auto * Auto Auto Auto"
+          RowDefinitions="Auto">
+        <Button
             Grid.Column="0"
             Content="Play" />
-        <TextBox 
+        <TextBox
             Grid.Column="1"
             Watermark="Server Address" />
-        <Button 
+        <Button
             Grid.Column="2"
             Content="Add" />
-        <Button 
+        <Button
             Grid.Column="3"
-            Content="Remove"/>
-        <Button 
+            Content="Remove" />
+        <Button
             Grid.Column="4"
-            Content="Refresh"/>
+            Content="Refresh" />
     </Grid>
     
 </UserControl>
