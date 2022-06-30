@@ -2,8 +2,11 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
+using DevServer.Extensions;
 using DevServer.ViewModels;
 using DevServer.Views;
+
+using Splat;
 
 namespace DevServer
 {
@@ -18,7 +21,8 @@ namespace DevServer
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow { DataContext = new MainWindowViewModel(), };
+                desktop.MainWindow = 
+                    new MainWindow(Locator.Current.GetRequiredService<MainWindowViewModel>());
             }
 
             base.OnFrameworkInitializationCompleted();

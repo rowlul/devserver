@@ -14,8 +14,10 @@ public static class Bootstrapper
 
     public static void RegisterViewModels(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
     {
-        services.RegisterLazySingleton(() => new MainWindowViewModel());
-        services.RegisterLazySingleton(() => new ToolBarPanelViewModel());
         services.RegisterLazySingleton(() => new EntryListViewModel());
+        services.RegisterLazySingleton(() => new ToolBarPanelViewModel());
+        services.RegisterLazySingleton(() => new MainWindowViewModel(
+            resolver.GetRequiredService<EntryListViewModel>(),
+            resolver.GetRequiredService<ToolBarPanelViewModel>()));
     }
 }

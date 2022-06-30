@@ -1,20 +1,17 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:v="using:DevServer.Views"
-        xmlns:vm="using:DevServer.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DevServer"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
         x:Class="DevServer.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="DevServer">
-
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+        Title="DevServer"
+        d:DataContext="{x:Static local:DesignData.MainWindowViewModel}">
 
     <Grid RowDefinitions="* Auto">
-        <v:EntryListView Grid.Row="0"/>
-        <v:ToolBarPanel Grid.Row="1" />
+        <v:EntryListView Grid.Row="0" DataContext="{Binding EntryListViewModel}"/>
+        <v:ToolBarPanel Grid.Row="1" DataContext="{Binding ToolBarPanelViewModel}"/>
     </Grid>
 </Window>

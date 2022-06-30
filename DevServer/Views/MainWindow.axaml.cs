@@ -8,5 +8,10 @@ namespace DevServer.Views
         {
             InitializeComponent();
         }
+
+        public MainWindow(object? dataContext) : this()
+        {
+            DataContext = dataContext;
+        }
     }
 }

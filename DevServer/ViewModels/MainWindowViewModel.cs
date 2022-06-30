@@ -2,8 +2,15 @@
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public MainWindowViewModel()
+        public EntryListViewModel EntryListViewModel { get; }
+        public ToolBarPanelViewModel ToolBarPanelViewModel { get; }
+
+        public MainWindowViewModel(
+            EntryListViewModel entryListViewModel, 
+            ToolBarPanelViewModel toolBarPanelViewModel)
         {
+            EntryListViewModel = entryListViewModel;
+            ToolBarPanelViewModel = toolBarPanelViewModel;
         }
     }
 }
