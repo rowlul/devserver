@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevServer.Services.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevServer", "DevServer\DevServer.csproj", "{BBA07A54-1C60-41DC-B984-F94CE1DB7051}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevServer.Models", "DevServer.Models\DevServer.Models.csproj", "{4C4ADC51-9DA7-4B74-B5C1-6C34E89F5D41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{BBA07A54-1C60-41DC-B984-F94CE1DB7051}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBA07A54-1C60-41DC-B984-F94CE1DB7051}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBA07A54-1C60-41DC-B984-F94CE1DB7051}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C4ADC51-9DA7-4B74-B5C1-6C34E89F5D41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C4ADC51-9DA7-4B74-B5C1-6C34E89F5D41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C4ADC51-9DA7-4B74-B5C1-6C34E89F5D41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C4ADC51-9DA7-4B74-B5C1-6C34E89F5D41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
