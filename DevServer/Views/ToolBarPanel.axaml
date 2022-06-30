@@ -10,10 +10,12 @@
           RowDefinitions="Auto">
         <Button
             Grid.Column="0"
-            Content="Play" />
+            Content="Play"
+            Command="{Binding PlayCommand}" />
         <TextBox
             Grid.Column="1"
-            Watermark="Server Address" />
+            Watermark="Server Address"
+            Text="{Binding ServerAddress}" />
         <Button
             Grid.Column="2"
             Content="Add" />
