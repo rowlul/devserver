@@ -7,6 +7,9 @@
              x:Class="DevServer.Views.EntryListView"
              d:DataContext="{x:Static local:DesignData.EntryListViewModel}">
     
-    <ListBox/>
+    <ListBox Items="{Binding Entries}"
+             SelectedItem="{Binding SelectedEntry}"
+             SelectionMode="Single">
+    </ListBox>
     
 </UserControl>
