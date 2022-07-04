@@ -1,15 +1,10 @@
-﻿namespace DevServer.ViewModels;
+﻿using Splat;
+
+namespace DevServer.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public EntryListViewModel EntryListViewModel { get; }
-    public ToolBarPanelViewModel ToolBarPanelViewModel { get; }
+    [DependencyInjectionProperty] public EntryListViewModel EntryListViewModel { get; set; }
 
-    public MainWindowViewModel(
-        EntryListViewModel entryListViewModel,
-        ToolBarPanelViewModel toolBarPanelViewModel)
-    {
-        EntryListViewModel = entryListViewModel;
-        ToolBarPanelViewModel = toolBarPanelViewModel;
-    }
+    [DependencyInjectionProperty] public ToolBarPanelViewModel ToolBarPanelViewModel { get; set; }
 }
