@@ -2,10 +2,11 @@
 using System.Threading;
 
 using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 
-using DevServer.Extensions;
+using DevServer.ViewModels;
+
+using Splat;
 
 namespace DevServer;
 
@@ -25,6 +26,9 @@ internal class Program
                 return;
             }
 
+            SplatRegistrations.SetupIOC();
+            RegisterDependencies();
+
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
         }
@@ -34,10 +38,16 @@ internal class Program
         }
     }
 
+    public static void RegisterDependencies()
+    {
+        SplatRegistrations.RegisterLazySingleton<EntryListViewModel>();
+        SplatRegistrations.RegisterLazySingleton<ToolBarPanelViewModel>();
+        SplatRegistrations.RegisterLazySingleton<MainWindowViewModel>();
+    }
+
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
                      .UsePlatformDetect()
                      .LogToTrace()
-                     .UseReactiveUI()
-                     .RegisterDependencies();
+                     .UseReactiveUI();
 }
