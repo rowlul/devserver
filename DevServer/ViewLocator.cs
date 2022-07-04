@@ -5,6 +5,8 @@ using Avalonia.Controls.Templates;
 
 using DevServer.ViewModels;
 
+using Splat;
+
 namespace DevServer;
 
 public class ViewLocator : IDataTemplate
@@ -14,18 +16,13 @@ public class ViewLocator : IDataTemplate
         var name = data.GetType().FullName!.Replace("ViewModel", "View");
         var type = Type.GetType(name);
 
-        if (type != null)
-        {
-            return (Control)Activator.CreateInstance(type)!;
-        }
-        else
+        if (type is null)
         {
             return new TextBlock { Text = "Not Found: " + name };
         }
+
+        return (Control)Locator.Current.GetService(type);
     }
 
-    public bool Match(object data)
-    {
-        return data is ViewModelBase;
-    }
+    public bool Match(object data) => data is ViewModelBase;
 }
