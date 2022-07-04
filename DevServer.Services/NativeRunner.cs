@@ -5,7 +5,7 @@ namespace DevServer.Services;
 public class NativeRunner : INativeRunner
 {
     private readonly IProcess _process;
-    
+
     public NativeRunner(IProcess process)
     {
         _process = process;

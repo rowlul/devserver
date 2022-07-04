@@ -17,7 +17,7 @@ public static class Bootstrapper
         services.RegisterLazySingleton(() => new EntryListViewModel());
         services.RegisterLazySingleton(() => new ToolBarPanelViewModel());
         services.RegisterLazySingleton(() => new MainWindowViewModel(
-            resolver.GetRequiredService<EntryListViewModel>(),
-            resolver.GetRequiredService<ToolBarPanelViewModel>()));
+                                           resolver.GetRequiredService<EntryListViewModel>(),
+                                           resolver.GetRequiredService<ToolBarPanelViewModel>()));
     }
 }

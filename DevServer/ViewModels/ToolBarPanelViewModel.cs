@@ -9,7 +9,7 @@ namespace DevServer.ViewModels;
 public class ToolBarPanelViewModel : ViewModelBase
 {
     private string _serverAddress;
-    
+
     public ToolBarPanelViewModel()
     {
         IObservable<bool> isNotEmpty = this.WhenAnyValue(

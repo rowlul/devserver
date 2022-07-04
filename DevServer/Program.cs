@@ -7,38 +7,37 @@ using Avalonia.ReactiveUI;
 
 using DevServer.Extensions;
 
-namespace DevServer
+namespace DevServer;
+
+internal class Program
 {
-    class Program
+    private const int TimeoutSeconds = 3;
+
+    [STAThread]
+    public static void Main(string[] args)
     {
-        private const int TimeoutSeconds = 3;
-        
-        [STAThread]
-        public static void Main(string[] args)
+        var mutex = new Mutex(false, typeof(Program).FullName);
+
+        try
         {
-            var mutex = new Mutex(false, typeof(Program).FullName);
+            if (!mutex.WaitOne(TimeSpan.FromSeconds(TimeoutSeconds), true))
+            {
+                return;
+            }
 
-            try
-            {
-                if (!mutex.WaitOne(TimeSpan.FromSeconds(TimeoutSeconds), true))
-                {
-                    return;
-                }
-                
-                BuildAvaloniaApp()
-                    .StartWithClassicDesktopLifetime(args);
-            }
-            finally
-            {
-                mutex.ReleaseMutex();
-            }
+            BuildAvaloniaApp()
+                .StartWithClassicDesktopLifetime(args);
         }
-
-        public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
-                .UsePlatformDetect()
-                .LogToTrace()
-                .UseReactiveUI()
-                .RegisterDependencies();
+        finally
+        {
+            mutex.ReleaseMutex();
+        }
     }
+
+    public static AppBuilder BuildAvaloniaApp()
+        => AppBuilder.Configure<App>()
+                     .UsePlatformDetect()
+                     .LogToTrace()
+                     .UseReactiveUI()
+                     .RegisterDependencies();
 }

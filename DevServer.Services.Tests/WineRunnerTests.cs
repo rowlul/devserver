@@ -11,7 +11,7 @@ namespace DevServer.Services.Tests;
 public class WineRunnerTests
 {
     private readonly WineRunner _runner;
-    
+
     public WineRunnerTests()
     {
         var processMock = new ProcessMock();
@@ -25,22 +25,18 @@ public class WineRunnerTests
     public void RunWithArgs_ShouldStartProcessWithArgs(string? environment)
     {
         var envVars = environment?
-            .Split(" ")
-            .Select(x => x.Split("="))
-            .ToDictionary(x => x[0],
-                x => x[1]);
-        
+                      .Split(" ")
+                      .Select(x => x.Split("="))
+                      .ToDictionary(x => x[0],
+                                    x => x[1]);
+
         var expected = new ProcessStartInfo
         {
-            FileName = "/usr/bin/wine", 
+            FileName = "/usr/bin/wine",
             Arguments = "~/.wineprefix/osu!.exe -devserver localhost",
-            Environment =
-            {
-                { "WINEPREFIX", "~/.wineprefix" },
-                { "WINEARCH", "win32" }
-            }
+            Environment = { { "WINEPREFIX", "~/.wineprefix" }, { "WINEARCH", "win32" } }
         };
-        
+
         if (envVars != null)
         {
             foreach (var envVar in envVars)
@@ -50,20 +46,18 @@ public class WineRunnerTests
         }
 
         var actual = _runner.RunWithArgs(
-            "~/.wineprefix/osu!.exe", 
+            "~/.wineprefix/osu!.exe",
             "localhost",
             new WineStartInfo
             {
-                Path = "/usr/bin/wine",
-                Prefix = "~/.wineprefix",
-                Arch = WineArch.Win32,
-                Environment = envVars
+                Path = "/usr/bin/wine", Prefix = "~/.wineprefix", Arch = WineArch.Win32, Environment = envVars
             }
         )!.StartInfo;
 
-        actual.Should().BeEquivalentTo(expected, x => x
-            .Including(x => x.FileName)
-            .Including(x => x.Arguments)
-            .Including(x => x.Environment));
+        actual.Should().BeEquivalentTo(expected,
+                                       x => x
+                                            .Including(x => x.FileName)
+                                            .Including(x => x.Arguments)
+                                            .Including(x => x.Environment));
     }
 }

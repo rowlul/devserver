@@ -12,7 +12,8 @@ public static class AppBuilderExtensions
 {
     public static TAppBuilder RegisterDependencies<TAppBuilder>(this TAppBuilder builder)
         where TAppBuilder : AppBuilderBase<TAppBuilder>, new() =>
-        builder.AfterPlatformServicesSetup(_ => {
+        builder.AfterPlatformServicesSetup(_ =>
+        {
             Bootstrapper.RegisterDependencies(Locator.CurrentMutable, Locator.Current);
         });
 }

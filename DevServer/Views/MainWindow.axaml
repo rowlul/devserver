@@ -11,7 +11,7 @@
         d:DataContext="{x:Static local:DesignData.MainWindowViewModel}">
 
     <Grid RowDefinitions="* Auto">
-        <v:EntryListView Grid.Row="0" DataContext="{Binding EntryListViewModel}"/>
-        <v:ToolBarPanel Grid.Row="1" DataContext="{Binding ToolBarPanelViewModel}"/>
+        <v:EntryListView Grid.Row="0" DataContext="{Binding EntryListViewModel}" />
+        <v:ToolBarPanel Grid.Row="1" DataContext="{Binding ToolBarPanelViewModel}" />
     </Grid>
 </Window>

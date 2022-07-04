@@ -6,10 +6,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DevServer.Views.EntryListView"
              d:DataContext="{x:Static local:DesignData.EntryListViewModel}">
-    
+
     <ListBox Items="{Binding Entries}"
              SelectedItem="{Binding SelectedEntry}"
-             SelectionMode="Single">
-    </ListBox>
-    
+             SelectionMode="Single" />
+
 </UserControl>

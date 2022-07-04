@@ -16,10 +16,10 @@ public class WineRunner : IWineRunner
         var processStartInfo = new ProcessStartInfo
         {
             FileName = wine.Path,
-            Arguments = $"{osuPath} -devserver {ipAddress}", 
+            Arguments = $"{osuPath} -devserver {ipAddress}",
             Environment =
             {
-                { "WINEPREFIX", wine.Prefix }, 
+                { "WINEPREFIX", wine.Prefix },
                 { "WINEARCH", Enum.GetName(typeof(WineArch), wine.Arch)?.ToLower() },
             }
         };

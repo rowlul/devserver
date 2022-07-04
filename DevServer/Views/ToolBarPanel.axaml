@@ -5,7 +5,7 @@
              xmlns:local="clr-namespace:DevServer"
              mc:Ignorable="d" d:DataContext="{x:Static local:DesignData.ToolBarPanelViewModel}"
              x:Class="DevServer.Views.ToolBarPanel">
-    
+
     <Grid ColumnDefinitions="Auto * Auto Auto Auto"
           RowDefinitions="Auto">
         <Button
@@ -26,5 +26,5 @@
             Grid.Column="4"
             Content="Refresh" />
     </Grid>
-    
+
 </UserControl>
