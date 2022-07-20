@@ -10,20 +10,15 @@ namespace DevServer.Services.Tests;
 
 public class WineRunnerTests
 {
-    private readonly WineRunner _runner;
-
-    public WineRunnerTests()
-    {
-        var processMock = new ProcessMock();
-        _runner = new WineRunner(processMock);
-    }
-
     [Theory]
     [InlineData(null)]
     [InlineData("STAGING_AUDIO_PERIOD=10000")]
     [InlineData("STAGING_AUDIO_PERIOD=10000 WINEFSYNC=1")]
     public void RunWithArgs_ShouldStartProcessWithArgs(string? environment)
     {
+        var processMock = new ProcessMock();
+        var runner = new WineRunner(processMock);
+
         var envVars = environment?
                       .Split(" ")
                       .Select(x => x.Split("="))
@@ -45,7 +40,7 @@ public class WineRunnerTests
             }
         }
 
-        var actual = _runner.RunWithArgs(
+        var actual = runner.RunWithArgs(
             "~/.wineprefix/osu!.exe",
             "localhost",
             new WineStartInfo
