@@ -1,6 +1,7 @@
 using System.Drawing;
 using System.IO.Abstractions;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 using DevServer.Models;
 
@@ -30,14 +31,14 @@ public class EntryService : IEntryService
         foreach (var file in files)
         {
             await using var fileStream = _fileSystem.File.OpenRead(file);
-            using var jsonDocument = await JsonDocument.ParseAsync(fileStream);
 
-            JsonElement root = jsonDocument.RootElement;
+            var node = JsonNode.Parse(fileStream)!;
             yield return new Entry(
-                root.GetProperty("name").GetString() ?? throw new InvalidOperationException(""),
-                root.GetProperty("description").GetString(),
-                await GetBitmap(root.GetProperty("logo").GetString()),
-                root.GetProperty("serveraddress").GetString() ?? throw new InvalidOperationException(""));
+                node["name"]?.ToString() ?? throw new InvalidOperationException("Property doesn't exist or is null"),
+                node["description"]?.ToString(),
+                await GetBitmap(node["logo"]?.ToString()),
+                node["serveraddress"]?.ToString() ??
+                throw new InvalidOperationException("Property doesn't exist or is null"));
         }
     }
 
