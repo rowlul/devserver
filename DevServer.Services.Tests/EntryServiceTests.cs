@@ -46,13 +46,12 @@ public class EntryServiceTests
     [Fact]
     public async Task GetEntries_ShouldReturnEntry_AllFields()
     {
-        var json = JsonSerializer.Serialize(new
+        var server = new
         {
-            Name = "server",
-            Description = "server description",
-            Logo = "logo.png",
-            ServerAddress = "localhost"
-        });
+            Name = "server", Description = "server description", Logo = "logo.png", ServerAddress = "localhost"
+        };
+
+        var json = JsonSerializer.Serialize(server);
 
         const int imageByteSize = 100 * 100 * 3;
 
@@ -73,11 +72,7 @@ public class EntryServiceTests
 
         var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
 
-        var node = JsonNode.Parse(json)!;
-        var expected = new Entry(node["Name"]!.ToString(),
-                                 node["Description"]!.ToString(),
-                                 image,
-                                 node["ServerAddress"]!.ToString());
+        var expected = new Entry(server.Name, server.Description, image, server.ServerAddress);
 
         var entries = service.GetEntries().GetAsyncEnumerator();
         await entries.MoveNextAsync();
