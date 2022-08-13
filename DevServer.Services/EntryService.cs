@@ -5,6 +5,8 @@ using System.Text.Json.Nodes;
 
 using DevServer.Models;
 
+using SkiaSharp;
+
 namespace DevServer.Services;
 
 public class EntryService : IEntryService
@@ -36,7 +38,7 @@ public class EntryService : IEntryService
             yield return new Entry(
                 node["name"]?.ToString() ?? throw new InvalidOperationException("Property doesn't exist or is null"),
                 node["description"]?.ToString(),
-                await GetBitmap(node["logo"]?.ToString()),
+                await GetImage(node["logo"]?.ToString()),
                 node["serveraddress"]?.ToString() ??
                 throw new InvalidOperationException("Property doesn't exist or is null"));
         }
@@ -57,7 +59,7 @@ public class EntryService : IEntryService
         throw new NotImplementedException();
     }
 
-    internal async Task<Bitmap?> GetBitmap(string? source)
+    internal async Task<SKImage?> GetImage(string? source)
     {
         if (source is null)
         {
@@ -66,21 +68,21 @@ public class EntryService : IEntryService
 
         if (source[..4] == "http" || source[..5] == "https")
         {
-            return await GetBitmapFromUrl(source);
+            return await GetImageFromUrl(source);
         }
 
-        return await GetBitmapFromLocalFile(source);
+        return await GetImageFromLocalFile(source);
     }
 
-    internal async Task<Bitmap> GetBitmapFromUrl(string url)
+    internal async Task<SKImage> GetImageFromUrl(string url)
     {
         await using var stream = await _httpHandler.GetStreamAsync(url);
-        return new Bitmap(stream);
+        return SKImage.FromEncodedData(stream);
     }
 
-    internal async Task<Bitmap> GetBitmapFromLocalFile(string path)
+    internal async Task<SKImage> GetImageFromLocalFile(string path)
     {
         await using var stream = _fileSystem.File.OpenRead(path);
-        return new Bitmap(stream);
+        return SKImage.FromEncodedData(stream);
     }
 }
