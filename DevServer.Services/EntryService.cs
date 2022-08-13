@@ -32,7 +32,7 @@ public class EntryService : IEntryService
         {
             await using var fileStream = _fileSystem.File.OpenRead(file);
 
-            var node = JsonNode.Parse(fileStream)!;
+            var node = JsonNode.Parse(fileStream, new JsonNodeOptions { PropertyNameCaseInsensitive = true })!;
             yield return new Entry(
                 node["name"]?.ToString() ?? throw new InvalidOperationException("Property doesn't exist or is null"),
                 node["description"]?.ToString(),
