@@ -78,9 +78,9 @@ public class EntryService : IEntryService
         return new Bitmap(stream);
     }
 
-    internal static async Task<Bitmap> GetBitmapFromLocalFile(string path)
+    internal async Task<Bitmap> GetBitmapFromLocalFile(string path)
     {
-        await using var stream = File.OpenRead(path);
+        await using var stream = _fileSystem.File.OpenRead(path);
         return new Bitmap(stream);
     }
 }
