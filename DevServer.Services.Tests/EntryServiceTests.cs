@@ -80,4 +80,25 @@ public class EntryServiceTests
 
         actual.Should().BeEquivalentTo(expected);
     }
+
+    [Fact]
+    public async Task GetEntries_ShouldFail_MissingNecessaryFields()
+    {
+        var json = JsonSerializer.Serialize(new { Description = "server description" });
+
+        var mockFileSystem = new MockFileSystem();
+        mockFileSystem.AddFile("server.json", new MockFileData(json));
+
+        var mockHttp = new MockHttpMessageHandler();
+        var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
+
+        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+
+        var entries = service.GetEntries().GetAsyncEnumerator();
+
+        Func<Task> act = async () => await entries.MoveNextAsync();
+        await act.Should()
+                 .ThrowAsync<InvalidOperationException>()
+                 .WithMessage("Property doesn't exist or is null");
+    }
 }
