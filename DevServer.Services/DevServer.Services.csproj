@@ -7,11 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DevServer.Models\DevServer.Models.csproj" />
+        <InternalsVisibleTo Include="DevServer.Services.Tests"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.IO.Abstractions" Version="17.0.24" />
+        <ProjectReference Include="..\DevServer.Models\DevServer.Models.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.IO.Abstractions" Version="17.0.24"/>
     </ItemGroup>
 
 </Project>

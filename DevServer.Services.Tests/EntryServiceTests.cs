@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 using DevServer.Models;
@@ -100,5 +99,94 @@ public class EntryServiceTests
         await act.Should()
                  .ThrowAsync<InvalidOperationException>()
                  .WithMessage("Property doesn't exist or is null");
+    }
+
+    [Theory]
+    [InlineData("https://localhost/image.png")]
+    [InlineData("http://localhost/image.png")]
+    [InlineData(@"C:\image.png")]
+    public async Task GetImage_ShouldNotReturnNull(string source)
+    {
+        const int imageByteSize = 100 * 100 * 3;
+
+        var rnd = new Random();
+        var imageBytes = new byte[imageByteSize];
+        rnd.NextBytes(imageBytes);
+
+        var mockFileSystem = new MockFileSystem();
+        mockFileSystem.AddFile(XFS.Path(source), new MockFileData(imageBytes));
+
+        using var memoryStream = new MemoryStream(imageBytes);
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When(source).Respond("image/png", memoryStream);
+
+        var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
+        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+
+        var image = await service.GetImage(source);
+        image.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task GetImage_ShouldReturnNull()
+    {
+        var mockFileSystem = new MockFileSystem();
+        var mockHttp = new MockHttpMessageHandler();
+        var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
+        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+
+        var image = await service.GetImage(null);
+        image.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetImageFromUrl_ShouldReturnImage()
+    {
+        var mockFileSystem = new MockFileSystem();
+
+        const string url = "https://localhost/image.png";
+        const int imageByteSize = 100 * 100 * 3;
+
+        var rnd = new Random();
+        var imageBytes = new byte[imageByteSize];
+        rnd.NextBytes(imageBytes);
+
+        using var memoryStream = new MemoryStream(imageBytes);
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When(url).Respond("image/png", memoryStream);
+
+        var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
+
+        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+
+        var expected = SKImage.FromEncodedData(memoryStream);
+        var actual = await service.GetImageFromUrl(url);
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public async Task GetImageFromLocalFile_ShouldReturnImage()
+    {
+        const string path = @"C:\image.png";
+        const int imageByteSize = 100 * 100 * 3;
+
+        var rnd = new Random();
+        var imageBytes = new byte[imageByteSize];
+        rnd.NextBytes(imageBytes);
+
+        var mockFileSystem = new MockFileSystem();
+        mockFileSystem.AddFile(XFS.Path(path), new MockFileData(imageBytes));
+
+        using var memoryStream = new MemoryStream(imageBytes);
+
+        var mockHttp = new MockHttpMessageHandler();
+        var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
+        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+
+        var expected = SKImage.FromEncodedData(memoryStream);
+        var actual = await service.GetImageFromLocalFile(XFS.Path(path));
+
+        actual.Should().BeEquivalentTo(expected);
     }
 }
