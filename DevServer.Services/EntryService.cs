@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.IO.Abstractions;
 using System.Text.Json;
 
 using DevServer.Models;
@@ -8,20 +9,27 @@ namespace DevServer.Services;
 public class EntryService : IEntryService
 {
     private readonly string _entryStorePath;
+    private readonly IFileSystem _fileSystem;
     private readonly IHttpHandler _httpHandler;
 
     public EntryService(string entryStorePath,
+                        IFileSystem fileSystem,
                         IHttpHandler httpHandler)
     {
         _entryStorePath = entryStorePath;
+        _fileSystem = fileSystem;
         _httpHandler = httpHandler;
     }
 
     public async IAsyncEnumerable<Entry> GetEntries()
     {
-        foreach (var file in Directory.EnumerateFiles(_entryStorePath, "*.json", SearchOption.TopDirectoryOnly))
+        var files = _fileSystem.Directory.EnumerateFiles(_entryStorePath,
+                                                         "*.json",
+                                                         SearchOption.TopDirectoryOnly);
+
+        foreach (var file in files)
         {
-            await using var fileStream = File.OpenRead(file);
+            await using var fileStream = _fileSystem.File.OpenRead(file);
             using var jsonDocument = await JsonDocument.ParseAsync(fileStream);
 
             JsonElement root = jsonDocument.RootElement;
