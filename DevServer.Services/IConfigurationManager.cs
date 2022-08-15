@@ -4,7 +4,9 @@ namespace DevServer.Services;
 
 public interface IConfigurationManager
 {
-    Settings? Settings { get; }
-    Task Load();
-    Task Save();
+    Settings? Settings { get; set; }
+    void Load();
+    Task LoadAsync();
+    void Save();
+    Task SaveAsync();
 }

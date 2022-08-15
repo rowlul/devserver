@@ -19,7 +19,7 @@ public class ConfigurationManager : IConfigurationManager
         WriteIndented = true,
     };
 
-    public Settings? Settings { get; private set; }
+    public Settings? Settings { get; set; }
 
     public ConfigurationManager(IPlatformService platformService, IFileSystem fileSystem)
     {
@@ -27,13 +27,25 @@ public class ConfigurationManager : IConfigurationManager
         _fileSystem = fileSystem;
     }
 
-    public async Task Load()
+    public void Load()
+    {
+        using var fileStream = _fileSystem.File.OpenRead(_platformService.GetConfigFile());
+        Settings = JsonSerializer.Deserialize<Settings>(fileStream, JsonSerializerOptions);
+    }
+
+    public async Task LoadAsync()
     {
         await using var fileStream = _fileSystem.File.OpenRead(_platformService.GetConfigFile());
         Settings = await JsonSerializer.DeserializeAsync<Settings>(fileStream, JsonSerializerOptions);
     }
 
-    public async Task Save()
+    public void Save()
+    {
+        using var fileStream = _fileSystem.File.OpenWrite(_platformService.GetConfigFile());
+        JsonSerializer.Serialize<Settings>(fileStream, Settings, JsonSerializerOptions);
+    }
+
+    public async Task SaveAsync()
     {
         await using var fileStream = _fileSystem.File.OpenWrite(_platformService.GetConfigFile());
         await JsonSerializer.SerializeAsync(fileStream, Settings, JsonSerializerOptions);

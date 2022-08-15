@@ -1,7 +1,11 @@
+using System.IO;
+
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
+using DevServer.Models;
+using DevServer.Services;
 using DevServer.ViewModels;
 using DevServer.Views;
 
@@ -15,11 +19,26 @@ public class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var resolver = Locator.Current;
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow =
-                new MainWindow(Locator.Current.GetService<MainWindowViewModel>());
+                new MainWindow(resolver.GetService<MainWindowViewModel>());
         }
+
+        var config = resolver.GetService<IConfigurationManager>();
+        var platform = resolver.GetService<IPlatformService>();
+        if (!File.Exists(platform.GetConfigFile()))
+        {
+            config.Settings = new Settings();
+            config.Save();
+        }
+        else
+        {
+            config.Load();
+        }
+
 
         base.OnFrameworkInitializationCompleted();
     }

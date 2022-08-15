@@ -48,6 +48,7 @@ internal class Program
             () => new HttpClientHandler(new System.Net.Http.HttpClient()));
 
         SplatRegistrations.RegisterLazySingleton<IFileSystem, FileSystem>();
+        SplatRegistrations.RegisterLazySingleton<IConfigurationManager, ConfigurationManager>();
         SplatRegistrations.RegisterLazySingleton<IHttpHandler, HttpClientHandler>();
         SplatRegistrations.RegisterLazySingleton<IEntryService, EntryService>();
 
