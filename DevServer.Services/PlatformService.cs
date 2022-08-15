@@ -38,5 +38,5 @@ public class PlatformService : IPlatformService
 
     public string GetEntryStorePath() => Path.Combine(GetAppRootPath(), "servers");
 
-    public string GetConfigFile() => Path.Combine(GetUserDataPath(), "settings.json");
+    public string GetConfigFile() => Path.Combine(GetAppRootPath(), "settings.json");
 }
