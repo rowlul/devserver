@@ -13,7 +13,10 @@ public class Settings
 
     private static WineStartInfo? GetWineSettings() =>
         OperatingSystem.IsLinux()
-            ? new WineStartInfo(Path: "/usr/bin/wine", Prefix: "~/.wineprefix", Arch: WineArch.Win32, null)
+            ? new WineStartInfo(Path: "/usr/bin/wine",
+                                Prefix: "~/.wineprefix",
+                                Arch: WineArch.Win32,
+                                new Dictionary<string, string>())
             : null;
 
     public string OsuExePath { get; set; } = GetPath();
