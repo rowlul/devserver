@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using DevServer.Models;
+using DevServer.Services.Helpers;
 
 namespace DevServer.Services;
 
@@ -13,10 +14,10 @@ public class ConfigurationManager : IConfigurationManager
 
     private static JsonSerializerOptions JsonSerializerOptions { get; } = new()
     {
+        Converters = { new JsonEnumMemberStringEnumConverter() },
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         PropertyNameCaseInsensitive = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        WriteIndented = true,
+        WriteIndented = true
     };
 
     public Settings? Settings { get; set; }

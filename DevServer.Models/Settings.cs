@@ -1,3 +1,5 @@
+using System.Runtime.Serialization;
+
 namespace DevServer.Models;
 
 public class Settings
