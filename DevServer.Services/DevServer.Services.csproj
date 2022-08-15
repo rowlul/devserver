@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <InternalsVisibleTo Include="DevServer.Services.Tests"/>
-    </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="DevServer.Services.Tests" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\DevServer.Models\DevServer.Models.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DevServer.Models\DevServer.Models.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="System.IO.Abstractions" Version="17.0.24"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.IO.Abstractions" Version="17.0.24" />
+  </ItemGroup>
 
 </Project>
