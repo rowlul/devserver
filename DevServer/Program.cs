@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO.Abstractions;
 using System.Threading;
 
 using Avalonia;
 using Avalonia.ReactiveUI;
 
+using DevServer.Services;
 using DevServer.ViewModels;
 
 using Splat;
@@ -40,6 +42,15 @@ internal class Program
 
     public static void RegisterDependencies()
     {
+        var mutableResolver = Locator.CurrentMutable;
+        mutableResolver.RegisterLazySingleton<IPlatformService>(() => new PlatformService("devserver"));
+        mutableResolver.RegisterLazySingleton<IHttpHandler>(
+            () => new HttpClientHandler(new System.Net.Http.HttpClient()));
+
+        SplatRegistrations.RegisterLazySingleton<IFileSystem, FileSystem>();
+        SplatRegistrations.RegisterLazySingleton<IHttpHandler, HttpClientHandler>();
+        SplatRegistrations.RegisterLazySingleton<IEntryService, EntryService>();
+
         SplatRegistrations.RegisterLazySingleton<EntryListViewModel>();
         SplatRegistrations.RegisterLazySingleton<ToolBarPanelViewModel>();
         SplatRegistrations.RegisterLazySingleton<MainWindowViewModel>();
