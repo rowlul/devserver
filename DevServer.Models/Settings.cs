@@ -1,4 +1,5 @@
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace DevServer.Models;
 
@@ -19,6 +20,9 @@ public class Settings
                                 new Dictionary<string, string>())
             : null;
 
+    [JsonPropertyName("ExecutablePath")]
     public string OsuExePath { get; set; } = GetPath();
+
+    [JsonPropertyName("Wine")]
     public WineStartInfo? WineSettings { get; set; } = GetWineSettings();
 }
