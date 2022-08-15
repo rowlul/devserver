@@ -25,13 +25,15 @@ public class EntryServiceTests
     {
         var json = JsonSerializer.Serialize(new { Name = "server", ServerAddress = "localhost" });
 
+        var mockPlatform = new PlatformMock();
+
         var mockFileSystem = new MockFileSystem();
         mockFileSystem.AddFile("server.json", new MockFileData(json));
 
         var mockHttp = new MockHttpMessageHandler();
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
 
-        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+        var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
         var expected = JsonSerializer.Deserialize<Entry>(json);
 
@@ -62,6 +64,8 @@ public class EntryServiceTests
         using var memoryStream = new MemoryStream(imageBytes);
         var image = SKImage.FromEncodedData(memoryStream);
 
+        var mockPlatform = new PlatformMock();
+
         var mockFileSystem = new MockFileSystem();
         mockFileSystem.AddFile("server.json", new MockFileData(json));
         mockFileSystem.AddFile("logo.png", new MockFileData(imageBytes));
@@ -69,7 +73,7 @@ public class EntryServiceTests
         var mockHttp = new MockHttpMessageHandler();
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
 
-        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+        var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
         var expected = new Entry(server.Name, server.Description, image, server.ServerAddress);
 
@@ -85,13 +89,15 @@ public class EntryServiceTests
     {
         var json = JsonSerializer.Serialize(new { Description = "server description" });
 
+        var mockPlatform = new PlatformMock();
+
         var mockFileSystem = new MockFileSystem();
         mockFileSystem.AddFile("server.json", new MockFileData(json));
 
         var mockHttp = new MockHttpMessageHandler();
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
 
-        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+        var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
         var entries = service.GetEntries().GetAsyncEnumerator();
 
@@ -113,6 +119,8 @@ public class EntryServiceTests
         var imageBytes = new byte[imageByteSize];
         rnd.NextBytes(imageBytes);
 
+        var mockPlatform = new PlatformMock();
+
         var mockFileSystem = new MockFileSystem();
         mockFileSystem.AddFile(XFS.Path(source), new MockFileData(imageBytes));
 
@@ -121,7 +129,7 @@ public class EntryServiceTests
         mockHttp.When(source).Respond("image/png", memoryStream);
 
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
-        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+        var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
         var image = await service.GetImage(source);
         image.Should().NotBeNull();
@@ -130,10 +138,11 @@ public class EntryServiceTests
     [Fact]
     public async Task GetImage_ShouldReturnNull()
     {
+        var mockPlatform = new PlatformMock();
         var mockFileSystem = new MockFileSystem();
         var mockHttp = new MockHttpMessageHandler();
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
-        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+        var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
         var image = await service.GetImage(null);
         image.Should().BeNull();
@@ -151,13 +160,15 @@ public class EntryServiceTests
         var imageBytes = new byte[imageByteSize];
         rnd.NextBytes(imageBytes);
 
+        var mockPlatform = new PlatformMock();
+
         using var memoryStream = new MemoryStream(imageBytes);
         var mockHttp = new MockHttpMessageHandler();
         mockHttp.When(url).Respond("image/png", memoryStream);
 
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
 
-        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+        var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
         var expected = SKImage.FromEncodedData(memoryStream);
         var actual = await service.GetImageFromUrl(url);
@@ -175,6 +186,8 @@ public class EntryServiceTests
         var imageBytes = new byte[imageByteSize];
         rnd.NextBytes(imageBytes);
 
+        var mockPlatform = new PlatformMock();
+
         var mockFileSystem = new MockFileSystem();
         mockFileSystem.AddFile(XFS.Path(path), new MockFileData(imageBytes));
 
@@ -182,7 +195,7 @@ public class EntryServiceTests
 
         var mockHttp = new MockHttpMessageHandler();
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
-        var service = new EntryService(XFS.Path(@"C:\"), mockFileSystem, httpHandler);
+        var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
         var expected = SKImage.FromEncodedData(memoryStream);
         var actual = await service.GetImageFromLocalFile(XFS.Path(path));
