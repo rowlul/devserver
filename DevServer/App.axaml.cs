@@ -31,7 +31,6 @@ public class App : Application
         var platform = resolver.GetService<IPlatformService>();
         if (!File.Exists(platform.GetConfigFile()))
         {
-            config.Settings = new Settings();
             config.Save();
         }
         else

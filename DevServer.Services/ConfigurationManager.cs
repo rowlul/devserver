@@ -20,7 +20,7 @@ public class ConfigurationManager : IConfigurationManager
         WriteIndented = true
     };
 
-    public Settings? Settings { get; set; }
+    public Settings? Settings { get; set; } = new();
 
     public ConfigurationManager(IPlatformService platformService, IFileSystem fileSystem)
     {
