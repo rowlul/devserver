@@ -1,6 +1,7 @@
 using System.IO;
 
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
@@ -27,17 +28,19 @@ public class App : Application
                 new MainWindow(resolver.GetService<MainWindowViewModel>());
         }
 
-        var config = resolver.GetService<IConfigurationManager>();
-        var platform = resolver.GetService<IPlatformService>();
-        if (!File.Exists(platform.GetConfigFile()))
+        if (!Design.IsDesignMode)
         {
-            config.Save();
+            var config = resolver.GetService<IConfigurationManager>();
+            var platform = resolver.GetService<IPlatformService>();
+            if (!File.Exists(platform.GetConfigFile()))
+            {
+                config.Save();
+            }
+            else
+            {
+                config.Load();
+            }
         }
-        else
-        {
-            config.Load();
-        }
-
 
         base.OnFrameworkInitializationCompleted();
     }
