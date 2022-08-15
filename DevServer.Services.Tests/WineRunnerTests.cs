@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using DevServer.Models;
+
 using FluentAssertions;
 
 using Xunit;
@@ -43,10 +45,10 @@ public class WineRunnerTests
         var actual = runner.RunWithArgs(
             "~/.wineprefix/osu!.exe",
             "localhost",
-            new WineStartInfo
-            {
-                Path = "/usr/bin/wine", Prefix = "~/.wineprefix", Arch = WineArch.Win32, Environment = envVars
-            }
+            new WineStartInfo(Path: "/usr/bin/wine",
+                              Prefix: "~/.wineprefix",
+                              Arch: WineArch.Win32,
+                              Environment: envVars)
         )!.StartInfo;
 
         actual.Should().BeEquivalentTo(expected,

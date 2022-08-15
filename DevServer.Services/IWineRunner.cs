@@ -1,5 +1,7 @@
 using System.Diagnostics;
 
+using DevServer.Models;
+
 namespace DevServer.Services;
 
 public interface IWineRunner
