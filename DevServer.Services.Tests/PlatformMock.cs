@@ -22,4 +22,5 @@ public class PlatformMock : IPlatformService
     public string GetAppCachePath() => Path;
 
     public string GetEntryStorePath() => Path;
+    public string GetConfigFile() => Path + "settings.json";
 }

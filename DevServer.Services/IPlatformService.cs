@@ -7,4 +7,5 @@ public interface IPlatformService
     string GetAppRootPath();
     string GetAppCachePath();
     string GetEntryStorePath();
+    string GetConfigFile();
 }
