@@ -2,29 +2,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="using:Material.Icons.Avalonia"
              xmlns:local="clr-namespace:DevServer"
-             mc:Ignorable="d" d:DataContext="{x:Static local:DesignData.ToolBarPanelViewModel}"
-             x:Class="DevServer.Views.ToolBarPanel">
+             mc:Ignorable="d"
+             x:Class="DevServer.Views.ToolBarPanel"
+             d:DataContext="{x:Static local:DesignData.ToolBarPanelViewModel}">
 
-    <Grid ColumnDefinitions="Auto * Auto Auto Auto"
-          RowDefinitions="Auto">
-        <Button
-            Grid.Column="0"
-            Content="Play"
-            Command="{Binding PlayCommand}" />
-        <TextBox
-            Grid.Column="1"
-            Watermark="Server Address"
-            Text="{Binding ServerAddress}" />
-        <Button
-            Grid.Column="2"
-            Content="Add" />
-        <Button
-            Grid.Column="3"
-            Content="Remove" />
-        <Button
-            Grid.Column="4"
-            Content="Refresh" />
+    <Grid ColumnDefinitions="Auto * Auto Auto Auto">
+        <Button Grid.Column="0" ToolTip.Tip="Direct Connect">
+            <material:MaterialIcon Kind="PlayNetwork" />
+        </Button>
+        <Button Grid.Column="2" ToolTip.Tip="Add Server">
+            <material:MaterialIcon Kind="Add" />
+        </Button>
+        <Button Grid.Column="3" ToolTip.Tip="Delete Server">
+            <material:MaterialIcon Kind="Minus" />
+        </Button>
+        <Button Grid.Column="4" ToolTip.Tip="Refresh Servers">
+            <material:MaterialIcon Kind="Refresh" />
+        </Button>
+
+        <Grid.Styles>
+            <Style Selector="material|MaterialIcon">
+                <Setter Property="Width" Value="24" />
+                <Setter Property="Height" Value="24" />
+            </Style>
+        </Grid.Styles>
     </Grid>
 
 </UserControl>
