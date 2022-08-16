@@ -1,5 +1,6 @@
 using System.IO.Abstractions;
-using System.Text.Json.Nodes;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 using DevServer.Models;
 
@@ -10,6 +11,13 @@ public class EntryService : IEntryService
     private readonly IPlatformService _platformService;
     private readonly IFileSystem _fileSystem;
     private readonly IHttpHandler _httpHandler;
+
+    private static JsonSerializerOptions JsonSerializerOptions { get; } = new()
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNameCaseInsensitive = true,
+        WriteIndented = true
+    };
 
     public EntryService(IPlatformService platformService,
                         IFileSystem fileSystem,
@@ -30,15 +38,8 @@ public class EntryService : IEntryService
         foreach (var file in files)
         {
             await using var fileStream = _fileSystem.File.OpenRead(file);
-
-            var node = JsonNode.Parse(fileStream, new JsonNodeOptions { PropertyNameCaseInsensitive = true })!;
-            yield return new Entry(
-                file,
-                node["name"]?.ToString() ?? throw new InvalidOperationException("Property doesn't exist or is null"),
-                node["description"]?.ToString(),
-                node["logo"]?.ToString(),
-                node["serveraddress"]?.ToString() ??
-                throw new InvalidOperationException("Property doesn't exist or is null"));
+            var entry = await JsonSerializer.DeserializeAsync<Entry>(fileStream, JsonSerializerOptions);
+            yield return entry!;
         }
     }
 
