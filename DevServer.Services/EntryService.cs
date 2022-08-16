@@ -35,6 +35,7 @@ public class EntryService : IEntryService
 
             var node = JsonNode.Parse(fileStream, new JsonNodeOptions { PropertyNameCaseInsensitive = true })!;
             yield return new Entry(
+                file,
                 node["name"]?.ToString() ?? throw new InvalidOperationException("Property doesn't exist or is null"),
                 node["description"]?.ToString(),
                 await GetImage(node["logo"]?.ToString()),
@@ -48,14 +49,14 @@ public class EntryService : IEntryService
         throw new NotImplementedException();
     }
 
-    public Task<Entry> EditEntry(Entry entry)
+    public Task EditEntry(Entry entry)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Entry> DeleteEntry(Entry entry)
+    public async Task DeleteEntry(Entry entry)
     {
-        throw new NotImplementedException();
+        await Task.Run(() => _fileSystem.File.Delete(entry.FilePath));
     }
 
     internal async Task<SKImage?> GetImage(string? source)

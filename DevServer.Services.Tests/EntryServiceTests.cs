@@ -75,7 +75,11 @@ public class EntryServiceTests
 
         var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
-        var expected = new Entry(server.Name, server.Description, image, server.ServerAddress);
+        var expected = new Entry(mockPlatform.Path + "server.json",
+                                 server.Name,
+                                 server.Description,
+                                 image,
+                                 server.ServerAddress);
 
         var entries = service.GetEntries().GetAsyncEnumerator();
         await entries.MoveNextAsync();
