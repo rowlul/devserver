@@ -19,13 +19,10 @@
             </StackPanel>
         </Button>
         <Button Grid.Column="2" ToolTip.Tip="Add Server">
-            <material:MaterialIcon Kind="Add" />
-        </Button>
-        <Button Grid.Column="3" ToolTip.Tip="Delete Server">
-            <material:MaterialIcon Kind="Minus" />
+            <material:MaterialIcon Kind="LibraryAdd" />
         </Button>
         <Button Grid.Column="4" ToolTip.Tip="Refresh Servers" Command="{Binding RefreshEntries}">
-            <material:MaterialIcon Kind="Refresh" />
+            <material:MaterialIcon Kind="RefreshCircle" />
         </Button>
 
         <Grid.Styles>
