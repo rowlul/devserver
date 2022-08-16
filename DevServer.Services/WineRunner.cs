@@ -13,7 +13,7 @@ public class WineRunner : IWineRunner
         _process = process;
     }
 
-    public Process? RunWithArgs(string osuPath, string ipAddress, WineStartInfo wine)
+    public Process RunWithArgs(string osuPath, string ipAddress, WineStartInfo wine)
     {
         var processStartInfo = new ProcessStartInfo
         {
@@ -35,6 +35,11 @@ public class WineRunner : IWineRunner
         }
 
         var process = _process.Start(processStartInfo);
+        if (process is null)
+        {
+            throw new InvalidOperationException($"Process {processStartInfo.FileName} was not started");
+        }
+
         return process;
     }
 }

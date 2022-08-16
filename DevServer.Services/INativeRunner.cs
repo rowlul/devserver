@@ -4,5 +4,5 @@ namespace DevServer.Services;
 
 public interface INativeRunner
 {
-    Process? RunWithArgs(string exePath, string ipAddress);
+    Process RunWithArgs(string exePath, string ipAddress);
 }

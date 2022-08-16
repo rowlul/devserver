@@ -11,10 +11,15 @@ public class NativeRunner : INativeRunner
         _process = process;
     }
 
-    public Process? RunWithArgs(string exePath, string ipAddress)
+    public Process RunWithArgs(string exePath, string ipAddress)
     {
         var args = $"-devserver {ipAddress}";
         var process = _process.Start(exePath, args);
+
+        if (process is null)
+        {
+            throw new InvalidOperationException($"Process {Path.GetFileName(exePath)} was not started");
+        }
 
         return process;
     }
