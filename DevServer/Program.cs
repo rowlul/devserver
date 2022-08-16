@@ -47,6 +47,9 @@ internal class Program
         mutableResolver.RegisterLazySingleton<IHttpHandler>(
             () => new HttpClientHandler(new System.Net.Http.HttpClient()));
 
+        SplatRegistrations.RegisterLazySingleton<IProcess, ProcessProxy>();
+        SplatRegistrations.RegisterLazySingleton<INativeRunner, NativeRunner>();
+        SplatRegistrations.RegisterLazySingleton<IWineRunner, WineRunner>();
         SplatRegistrations.RegisterLazySingleton<IFileSystem, FileSystem>();
         SplatRegistrations.RegisterLazySingleton<IConfigurationManager, ConfigurationManager>();
         SplatRegistrations.RegisterLazySingleton<IHttpHandler, HttpClientHandler>();
