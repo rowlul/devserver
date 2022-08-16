@@ -1,3 +1,6 @@
+using System.Reactive;
+using System.Threading.Tasks;
+
 using Avalonia.Media.Imaging;
 
 using DevServer.Models;
@@ -12,11 +15,6 @@ public class EntryViewModel : ViewModelBase
 
     private Bitmap? _logo;
 
-    public EntryViewModel(Entry entry)
-    {
-        _entry = entry;
-    }
-
     public string Name => _entry.Name;
     public string? Description => _entry.Description;
 
@@ -26,6 +24,18 @@ public class EntryViewModel : ViewModelBase
         private set => this.RaiseAndSetIfChanged(ref _logo, value);
     }
 
-    // TODO: load logo async method
-    // TODO: do business in a seperate service
+    public ReactiveCommand<Unit, Unit> LoadLogo { get; }
+
+    public EntryViewModel(Entry entry)
+    {
+        _entry = entry;
+
+        LoadLogo = ReactiveCommand.CreateFromTask(async () =>
+        {
+            await using var stream = _entry.Logo?.EncodedData.AsStream();
+            Logo = Bitmap.DecodeToWidth(stream, 42);
+        });
+
+        LoadLogo.Execute();
+    }
 }

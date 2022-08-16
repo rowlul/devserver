@@ -3,12 +3,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:DevServer"
+             xmlns:views="clr-namespace:DevServer.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DevServer.Views.EntryListView"
              d:DataContext="{x:Static local:DesignData.EntryListViewModel}">
 
     <ListBox Items="{Binding Entries}"
              SelectedItem="{Binding SelectedEntry}"
-             SelectionMode="Single" />
+             SelectionMode="Single">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <views:EntryView />
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
 
 </UserControl>

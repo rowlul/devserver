@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="using:Material.Icons.Avalonia"
+             xmlns:local="clr-namespace:DevServer"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="100"
+             x:Class="DevServer.Views.EntryView"
+             d:DataContext="{x:Static local:DesignData.EntryViewModel}">
+
+    <Grid ColumnDefinitions="Auto * Auto">
+        <DockPanel Grid.Column="0" Margin="0 0 10 0">
+            <Image Width="42" Stretch="Uniform" Source="{Binding Logo}" />
+        </DockPanel>
+        <DockPanel Grid.Column="1" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+            <TextBlock Text="{Binding Description}" FontSize="12" Margin="10 2 0 0" />
+        </DockPanel>
+        <DockPanel Grid.Column="2" Margin="10 0 0 0">
+            <Button>
+                <material:MaterialIcon Kind="Play" />
+            </Button>
+            <Button Margin="4 0 0 0">
+                <material:MaterialIcon Kind="EditOutline" />
+            </Button>
+        </DockPanel>
+    </Grid>
+
+</UserControl>
