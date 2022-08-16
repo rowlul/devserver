@@ -3,8 +3,6 @@ using System.Text.Json.Nodes;
 
 using DevServer.Models;
 
-using SkiaSharp;
-
 namespace DevServer.Services;
 
 public class EntryService : IEntryService
@@ -38,7 +36,7 @@ public class EntryService : IEntryService
                 file,
                 node["name"]?.ToString() ?? throw new InvalidOperationException("Property doesn't exist or is null"),
                 node["description"]?.ToString(),
-                await GetImage(node["logo"]?.ToString()),
+                node["logo"]?.ToString(),
                 node["serveraddress"]?.ToString() ??
                 throw new InvalidOperationException("Property doesn't exist or is null"));
         }
@@ -59,7 +57,7 @@ public class EntryService : IEntryService
         await Task.Run(() => _fileSystem.File.Delete(entry.FilePath));
     }
 
-    internal async Task<SKImage?> GetImage(string? source)
+    public async Task<Stream?> GetLogoStream(string? source)
     {
         if (source is null)
         {
@@ -68,21 +66,21 @@ public class EntryService : IEntryService
 
         if (source[..4] == "http" || source[..5] == "https")
         {
-            return await GetImageFromUrl(source);
+            return await GetLogoStreamFromUrl(source);
         }
 
-        return await GetImageFromLocalFile(source);
+        return await GetLogoStreamFromLocalFile(source);
     }
 
-    internal async Task<SKImage> GetImageFromUrl(string url)
+    internal async Task<Stream> GetLogoStreamFromUrl(string url)
     {
-        await using var stream = await _httpHandler.GetStreamAsync(url);
-        return SKImage.FromEncodedData(stream);
+        var stream = await _httpHandler.GetStreamAsync(url);
+        return stream;
     }
 
-    internal async Task<SKImage> GetImageFromLocalFile(string path)
+    internal async Task<Stream> GetLogoStreamFromLocalFile(string path)
     {
-        await using var stream = _fileSystem.File.OpenRead(path);
-        return SKImage.FromEncodedData(stream);
+        await using var fileStream = _fileSystem.File.OpenRead(path);
+        return fileStream;
     }
 }

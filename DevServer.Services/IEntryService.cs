@@ -8,4 +8,5 @@ public interface IEntryService
     Task AddEntry(Entry entry);
     Task EditEntry(Entry entry);
     Task DeleteEntry(Entry entry);
+    Task<Stream?> GetLogoStream(string? source);
 }

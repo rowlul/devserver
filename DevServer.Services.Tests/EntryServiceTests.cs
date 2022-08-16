@@ -10,8 +10,6 @@ using FluentAssertions;
 
 using RichardSzalay.MockHttp;
 
-using SkiaSharp;
-
 using Xunit;
 
 using XFS = System.IO.Abstractions.TestingHelpers.MockUnixSupport;
@@ -54,21 +52,10 @@ public class EntryServiceTests
 
         var json = JsonSerializer.Serialize(server);
 
-        const int imageByteSize = 100 * 100 * 3;
-
-        // Generate a completely random image
-        var rnd = new Random();
-        var imageBytes = new byte[imageByteSize];
-        rnd.NextBytes(imageBytes);
-
-        using var memoryStream = new MemoryStream(imageBytes);
-        var image = SKImage.FromEncodedData(memoryStream);
-
         var mockPlatform = new PlatformMock();
 
         var mockFileSystem = new MockFileSystem();
         mockFileSystem.AddFile("server.json", new MockFileData(json));
-        mockFileSystem.AddFile("logo.png", new MockFileData(imageBytes));
 
         var mockHttp = new MockHttpMessageHandler();
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
@@ -78,7 +65,7 @@ public class EntryServiceTests
         var expected = new Entry(mockPlatform.Path + "server.json",
                                  server.Name,
                                  server.Description,
-                                 image,
+                                 server.Logo,
                                  server.ServerAddress);
 
         var entries = service.GetEntries().GetAsyncEnumerator();
@@ -135,7 +122,7 @@ public class EntryServiceTests
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
         var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
-        var image = await service.GetImage(source);
+        var image = await service.GetLogoStream(source);
         image.Should().NotBeNull();
     }
 
@@ -148,7 +135,7 @@ public class EntryServiceTests
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
         var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
-        var image = await service.GetImage(null);
+        var image = await service.GetLogoStream(null);
         image.Should().BeNull();
     }
 
@@ -166,18 +153,19 @@ public class EntryServiceTests
 
         var mockPlatform = new PlatformMock();
 
-        using var memoryStream = new MemoryStream(imageBytes);
+        using var expected = new MemoryStream(imageBytes);
         var mockHttp = new MockHttpMessageHandler();
-        mockHttp.When(url).Respond("image/png", memoryStream);
+        mockHttp.When(url).Respond("image/png", expected);
 
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
 
         var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
-        var expected = SKImage.FromEncodedData(memoryStream);
-        var actual = await service.GetImageFromUrl(url);
+        await using var logoStream = await service.GetLogoStreamFromUrl(url);
+        using var actual = new MemoryStream();
+        await actual.CopyToAsync(logoStream);
 
-        actual.Should().BeEquivalentTo(expected);
+        actual.ToArray().Should().BeEquivalentTo(expected.ToArray());
     }
 
     [Fact]
@@ -195,15 +183,16 @@ public class EntryServiceTests
         var mockFileSystem = new MockFileSystem();
         mockFileSystem.AddFile(XFS.Path(path), new MockFileData(imageBytes));
 
-        using var memoryStream = new MemoryStream(imageBytes);
-
         var mockHttp = new MockHttpMessageHandler();
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
         var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
-        var expected = SKImage.FromEncodedData(memoryStream);
-        var actual = await service.GetImageFromLocalFile(XFS.Path(path));
+        using var expected = new MemoryStream(imageBytes);
 
-        actual.Should().BeEquivalentTo(expected);
+        await using var logoStream = await service.GetLogoStreamFromLocalFile(XFS.Path(path));
+        using var actual = new MemoryStream();
+        await actual.CopyToAsync(logoStream);
+
+        actual.ToArray().Should().BeEquivalentTo(expected.ToArray());
     }
 }

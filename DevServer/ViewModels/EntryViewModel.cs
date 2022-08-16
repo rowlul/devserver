@@ -57,7 +57,7 @@ public class EntryViewModel : ViewModelBase
 
         LoadLogo = ReactiveCommand.CreateFromTask(async () =>
         {
-            await using var stream = _entry.Logo?.EncodedData.AsStream();
+            var stream = await _entryService.GetLogoStream(_entry.Logo);
             Logo = Bitmap.DecodeToWidth(stream, 42);
         });
 
