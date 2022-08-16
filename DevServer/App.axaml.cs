@@ -5,7 +5,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-using DevServer.Models;
 using DevServer.Services;
 using DevServer.ViewModels;
 using DevServer.Views;
@@ -32,6 +31,12 @@ public class App : Application
         {
             var config = resolver.GetService<IConfigurationManager>();
             var platform = resolver.GetService<IPlatformService>();
+
+            if (!Directory.Exists(platform.GetAppRootPath()))
+            {
+                Directory.CreateDirectory(platform.GetAppRootPath());
+            }
+
             if (!File.Exists(platform.GetConfigFile()))
             {
                 config.Save();
