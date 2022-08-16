@@ -5,24 +5,13 @@ using Avalonia.Controls.Templates;
 
 using DevServer.ViewModels;
 
+using HanumanInstitute.MvvmDialogs.Avalonia;
+
 using Splat;
 
 namespace DevServer;
 
-public class ViewLocator : IDataTemplate
+public class ViewLocator : ViewLocatorBase
 {
-    public IControl Build(object data)
-    {
-        var name = data.GetType().FullName!.Replace("ViewModel", "View");
-        var type = Type.GetType(name);
-
-        if (type is null)
-        {
-            return new TextBlock { Text = "Not Found: " + name };
-        }
-
-        return (Control)Locator.Current.GetService(type);
-    }
-
-    public bool Match(object data) => data is ViewModelBase;
+    protected override string GetViewName(object viewModel) => viewModel.GetType().FullName!.Replace("ViewModel", "");
 }

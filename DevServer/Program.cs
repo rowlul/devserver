@@ -8,6 +8,9 @@ using Avalonia.ReactiveUI;
 using DevServer.Services;
 using DevServer.ViewModels;
 
+using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.Avalonia;
+
 using Splat;
 
 namespace DevServer;
@@ -43,9 +46,17 @@ internal class Program
     public static void RegisterDependencies()
     {
         var mutableResolver = Locator.CurrentMutable;
+        var readonlyResolver = Locator.Current;
+
         mutableResolver.RegisterLazySingleton<IPlatformService>(() => new PlatformService("devserver"));
         mutableResolver.RegisterLazySingleton<IHttpHandler>(
             () => new HttpClientHandler(new System.Net.Http.HttpClient()));
+
+        mutableResolver.RegisterLazySingleton<IDialogService>(
+            () => new DialogService(
+                new DialogManager(viewLocator: new ViewLocator(),
+                                  dialogFactory: new DialogFactory().AddMessageBox()),
+                viewModelFactory: x => readonlyResolver.GetService(x)));
 
         SplatRegistrations.RegisterLazySingleton<IProcess, ProcessProxy>();
         SplatRegistrations.RegisterLazySingleton<INativeRunner, NativeRunner>();
