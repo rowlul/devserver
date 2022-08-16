@@ -15,8 +15,8 @@ public class Settings
     private static WineStartInfo? GetWineSettings() =>
         OperatingSystem.IsLinux()
             ? new WineStartInfo(Path: "/usr/bin/wine",
-                                Prefix: Environment.GetEnvironmentVariable("WINEPREFIX") ??
-                                        $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.wineprefix",
+                                Prefix:
+                                $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.wineprefix",
                                 Arch: WineArch.Win32,
                                 new Dictionary<string, string>())
             : null;

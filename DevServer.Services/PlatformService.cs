@@ -19,9 +19,7 @@ public class PlatformService : IPlatformService
         }
         else if (OperatingSystem.IsLinux())
         {
-            // return ~/.cache if XDG envvar is not set
-            return Environment.GetEnvironmentVariable("XDG_CACHE_HOME") ??
-                   Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".cache");
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".cache");
         }
         else if (OperatingSystem.IsMacOS())
         {
