@@ -8,7 +8,10 @@ namespace DevServer.ViewModels;
 
 public class ToolBarPanelViewModel : ViewModelBase
 {
-    public ToolBarPanelViewModel()
+    public ReactiveCommand<Unit, Unit> RefreshEntries { get; }
+
+    public ToolBarPanelViewModel(EntryListViewModel entryListViewModel)
     {
+        RefreshEntries = entryListViewModel.UpdateEntries;
     }
 }

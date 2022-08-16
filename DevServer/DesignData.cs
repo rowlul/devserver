@@ -13,7 +13,7 @@ public static class DesignData
 
     public static EntryListViewModel EntryListViewModel => new(null!);
 
-    public static ToolBarPanelViewModel ToolBarPanelViewModel { get; } = new();
+    public static ToolBarPanelViewModel ToolBarPanelViewModel { get; } = new(null!);
 
     public static EntryViewModel EntryViewModel { get; } =
         new(new Entry("server", "server description", SKImage.Create(SKImageInfo.Empty), "localhost"));
