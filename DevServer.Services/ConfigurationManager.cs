@@ -20,7 +20,7 @@ public class ConfigurationManager : IConfigurationManager
         WriteIndented = true
     };
 
-    public Settings? Settings { get; set; } = new();
+    public Settings Settings { get; private set; } = new();
 
     public ConfigurationManager(IPlatformService platformService, IFileSystem fileSystem)
     {
@@ -43,7 +43,7 @@ public class ConfigurationManager : IConfigurationManager
     public void Save()
     {
         using var fileStream = _fileSystem.File.OpenWrite(_platformService.GetConfigFile());
-        JsonSerializer.Serialize<Settings>(fileStream, Settings, JsonSerializerOptions);
+        JsonSerializer.Serialize(fileStream, Settings, JsonSerializerOptions);
     }
 
     public async Task SaveAsync()
