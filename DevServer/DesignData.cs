@@ -1,9 +1,3 @@
-using System;
-using System.IO;
-
-using Avalonia;
-using Avalonia.Platform;
-
 using DevServer.Models;
 using DevServer.ViewModels;
 
@@ -15,12 +9,11 @@ namespace DevServer;
 
 public static class DesignData
 {
-    public static MainWindowViewModel MainWindowViewModel { get; } = Locator.Current.GetService<MainWindowViewModel>();
+    public static MainWindowViewModel MainWindowViewModel => new();
 
-    public static EntryListViewModel EntryListViewModel { get; } = Locator.Current.GetService<EntryListViewModel>();
+    public static EntryListViewModel EntryListViewModel => new(null!);
 
-    public static ToolBarPanelViewModel ToolBarPanelViewModel { get; } =
-        Locator.Current.GetService<ToolBarPanelViewModel>();
+    public static ToolBarPanelViewModel ToolBarPanelViewModel { get; } = new();
 
     public static EntryViewModel EntryViewModel { get; } =
         new(new Entry("server", "server description", SKImage.Create(SKImageInfo.Empty), "localhost"));
