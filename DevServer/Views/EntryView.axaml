@@ -21,14 +21,6 @@
             <Button Command="{Binding PlayCommand}">
                 <material:MaterialIcon Kind="Play" />
             </Button>
-            <Separator Width="2" />
-            <Button>
-                <material:MaterialIcon Kind="Edit" />
-            </Button>
-            <Separator Width="2" />
-            <Button Command="{Binding DeleteCommand}">
-                <material:MaterialIcon Kind="Delete" />
-            </Button>
         </DockPanel>
     </Grid>
 

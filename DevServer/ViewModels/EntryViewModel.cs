@@ -15,17 +15,15 @@ namespace DevServer.ViewModels;
 
 public class EntryViewModel : ViewModelBase
 {
-    private readonly EntryListViewModel _entryListViewModel;
-
     private readonly INativeRunner _nativeRunner;
     private readonly IWineRunner _wineRunner;
     private readonly IConfigurationManager _configurationManager;
-    private readonly IEntryService _entryService;
 
     private readonly Entry _entry;
 
     private Bitmap? _logo;
 
+    public string FilePath => _entry.FilePath;
     public string Name => _entry.Name;
     public string? Description => _entry.Description;
 
@@ -36,28 +34,24 @@ public class EntryViewModel : ViewModelBase
     }
 
     public ReactiveCommand<Unit, Unit> PlayCommand { get; }
-    public ReactiveCommand<Unit, Unit> DeleteCommand { get; }
     public ReactiveCommand<Unit, Unit> LoadLogo { get; }
 
     public EntryViewModel(Entry entry)
     {
         // using locator here instead of passing through constructor
         // because we always want to initialize this vm programmatically
-        _entryListViewModel = Locator.Current.GetService<EntryListViewModel>();
-
         _nativeRunner = Locator.Current.GetService<INativeRunner>();
         _wineRunner = Locator.Current.GetService<IWineRunner>();
         _configurationManager = Locator.Current.GetService<IConfigurationManager>();
-        _entryService = Locator.Current.GetService<IEntryService>();
 
         _entry = entry;
 
         PlayCommand = ReactiveCommand.CreateFromTask(Play);
-        DeleteCommand = ReactiveCommand.CreateFromTask(Delete);
 
         LoadLogo = ReactiveCommand.CreateFromTask(async () =>
         {
-            var stream = await _entryService.GetLogoStream(_entry.Logo);
+            var entryService = Locator.Current.GetService<IEntryService>();
+            var stream = await entryService.GetLogoStream(_entry.Logo);
             Logo = await Task.Run(() => Bitmap.DecodeToWidth(stream, 42));
         });
 
@@ -76,11 +70,5 @@ public class EntryViewModel : ViewModelBase
         process.OutputDataReceived += (_, args) => this.Log().Info(args.Data);
 
         await process.WaitForExitAsync();
-    }
-
-    private async Task Delete()
-    {
-        _entryListViewModel.Entries.Remove(this);
-        await _entryService.DeleteEntry(_entry);
     }
 }

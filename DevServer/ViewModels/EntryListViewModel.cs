@@ -31,6 +31,8 @@ public class EntryListViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> UpdateEntriesCommand { get; }
     public ReactiveCommand<Unit, Unit> DirectConnectCommand { get; }
     public ReactiveCommand<Unit, Unit> AddEntryCommand { get; }
+    public ReactiveCommand<Unit, Unit> EditEntryCommand { get; }
+    public ReactiveCommand<Unit, Unit> DeleteEntryCommand { get; }
 
     public EntryListViewModel(IEntryService entryService)
     {
@@ -39,6 +41,8 @@ public class EntryListViewModel : ViewModelBase
         UpdateEntriesCommand = ReactiveCommand.CreateFromTask(UpdateEntries);
         DirectConnectCommand = ReactiveCommand.CreateFromTask(DirectConnect);
         AddEntryCommand = ReactiveCommand.CreateFromTask(AddEntry);
+        EditEntryCommand = ReactiveCommand.CreateFromTask(EditEntry);
+        DeleteEntryCommand = ReactiveCommand.CreateFromTask(DeleteEntry);
 
         UpdateEntriesCommand.Execute();
     }
@@ -62,5 +66,20 @@ public class EntryListViewModel : ViewModelBase
     private Task AddEntry()
     {
         return Task.CompletedTask;
+    }
+
+    private Task EditEntry()
+    {
+        return Task.CompletedTask;
+    }
+
+    private async Task DeleteEntry()
+    {
+        if (SelectedEntry is null)
+        {
+            return;
+        }
+
+        await _entryService.DeleteEntry(SelectedEntry.FilePath);
     }
 }
