@@ -56,9 +56,9 @@ public class EntryService : IEntryService
         throw new NotImplementedException();
     }
 
-    public async Task DeleteEntry(Entry entry)
+    public async Task DeleteEntry(string filePath)
     {
-        await Task.Run(() => _fileSystem.File.Delete(entry.FilePath));
+        await Task.Run(() => _fileSystem.File.Delete(filePath));
     }
 
     public async Task<Stream?> GetLogoStream(string? source)
