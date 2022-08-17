@@ -9,8 +9,6 @@ public static class DesignData
 
     public static EntryListViewModel EntryListViewModel => new(null!);
 
-    public static ToolBarPanelViewModel ToolBarPanelViewModel { get; } = new(EntryListViewModel);
-
     public static EntryViewModel EntryViewModel { get; } =
         new(new Entry
         {

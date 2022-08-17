@@ -1,4 +1,5 @@
 using System.Reactive;
+using System.Threading.Tasks;
 
 using Avalonia.Collections;
 
@@ -27,22 +28,39 @@ public class EntryListViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedEntry, value);
     }
 
-    public ReactiveCommand<Unit, Unit> UpdateEntries { get; }
+    public ReactiveCommand<Unit, Unit> UpdateEntriesCommand { get; }
+    public ReactiveCommand<Unit, Unit> DirectConnectCommand { get; }
+    public ReactiveCommand<Unit, Unit> AddEntryCommand { get; }
 
     public EntryListViewModel(IEntryService entryService)
     {
         _entryService = entryService;
 
-        UpdateEntries = ReactiveCommand.CreateFromTask(async () =>
+        UpdateEntriesCommand = ReactiveCommand.CreateFromTask(UpdateEntries);
+        DirectConnectCommand = ReactiveCommand.CreateFromTask(DirectConnect);
+        AddEntryCommand = ReactiveCommand.CreateFromTask(AddEntry);
+
+        UpdateEntriesCommand.Execute();
+    }
+
+
+    private async Task UpdateEntries()
+    {
+        Entries.Clear();
+
+        await foreach (var entry in _entryService.GetEntries())
         {
-            Entries.Clear();
+            Entries.Add(new EntryViewModel(entry));
+        }
+    }
 
-            await foreach (var entry in entryService.GetEntries())
-            {
-                Entries.Add(new EntryViewModel(entry));
-            }
-        });
+    private Task DirectConnect()
+    {
+        return Task.CompletedTask;
+    }
 
-        UpdateEntries.Execute();
+    private Task AddEntry()
+    {
+        return Task.CompletedTask;
     }
 }

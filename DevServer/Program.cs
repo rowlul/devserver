@@ -67,7 +67,6 @@ internal class Program
         SplatRegistrations.RegisterLazySingleton<IEntryService, EntryService>();
 
         SplatRegistrations.RegisterLazySingleton<EntryListViewModel>();
-        SplatRegistrations.RegisterLazySingleton<ToolBarPanelViewModel>();
         SplatRegistrations.RegisterLazySingleton<MainWindowViewModel>();
     }
 

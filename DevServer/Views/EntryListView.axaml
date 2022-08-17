@@ -2,20 +2,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="using:Material.Icons.Avalonia"
              xmlns:local="clr-namespace:DevServer"
              xmlns:views="clr-namespace:DevServer.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DevServer.Views.EntryListView"
              d:DataContext="{x:Static local:DesignData.EntryListViewModel}">
 
-    <ListBox Items="{Binding Entries}"
-             SelectedItem="{Binding SelectedEntry}"
-             SelectionMode="Single">
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <views:EntryView />
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+    <Grid RowDefinitions="* Auto">
+        <ListBox Items="{Binding Entries}"
+                 SelectedItem="{Binding SelectedEntry}"
+                 SelectionMode="Single">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <views:EntryView />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Grid Grid.Row="1" ColumnDefinitions="Auto * Auto Auto Auto">
+            <Button Grid.Column="0" Command="{Binding DirectConnectCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <material:MaterialIcon Kind="PlayNetwork" />
+                    <Separator Width="10" />
+                    <TextBlock Text="Direct Connect"
+                               FontWeight="Medium"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="2" ToolTip.Tip="Add Server" Command="{Binding AddEntryCommand}">
+                <material:MaterialIcon Kind="LibraryAdd" />
+            </Button>
+            <Button Grid.Column="4" ToolTip.Tip="Refresh Servers" Command="{Binding UpdateEntriesCommand}">
+                <material:MaterialIcon Kind="RefreshCircle" />
+            </Button>
+
+            <Grid.Styles>
+                <Style Selector="material|MaterialIcon">
+                    <Setter Property="Width" Value="24" />
+                    <Setter Property="Height" Value="24" />
+                </Style>
+            </Grid.Styles>
+        </Grid>
+    </Grid>
+
 
 </UserControl>
