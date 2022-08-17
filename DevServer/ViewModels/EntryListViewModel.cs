@@ -75,11 +75,12 @@ public class EntryListViewModel : ViewModelBase
 
     private async Task DeleteEntry()
     {
-        if (SelectedEntry is null)
+        if (_selectedEntry is null)
         {
             return;
         }
 
-        await _entryService.DeleteEntry(SelectedEntry.FilePath);
+        await _entryService.DeleteEntry(_selectedEntry.FilePath);
+        _entries.Remove(_selectedEntry);
     }
 }
