@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
@@ -16,4 +15,3 @@ public partial class EntryView : UserControl
         AvaloniaXamlLoader.Load(this);
     }
 }
-

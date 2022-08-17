@@ -15,11 +15,11 @@ namespace DevServer.ViewModels;
 
 public class EntryViewModel : ViewModelBase
 {
-    private readonly INativeRunner _nativeRunner;
-    private readonly IWineRunner _wineRunner;
     private readonly IConfigurationManager _configurationManager;
 
     private readonly Entry _entry;
+    private readonly INativeRunner _nativeRunner;
+    private readonly IWineRunner _wineRunner;
 
     private Bitmap? _logo;
 

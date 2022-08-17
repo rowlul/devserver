@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO.Abstractions;
+using System.Net.Http;
 using System.Threading;
 
 using Avalonia;
@@ -12,6 +13,8 @@ using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
 
 using Splat;
+
+using HttpClientHandler = DevServer.Services.HttpClientHandler;
 
 namespace DevServer;
 
@@ -50,12 +53,12 @@ internal class Program
 
         mutableResolver.RegisterLazySingleton<IPlatformService>(() => new PlatformService("devserver"));
         mutableResolver.RegisterLazySingleton<IHttpHandler>(
-            () => new HttpClientHandler(new System.Net.Http.HttpClient()));
+            () => new HttpClientHandler(new HttpClient()));
 
         mutableResolver.RegisterLazySingleton<IDialogService>(
             () => new DialogService(
-                new DialogManager(viewLocator: new ViewLocator(),
-                                  dialogFactory: new DialogFactory().AddMessageBox()),
+                new DialogManager(new ViewLocator(),
+                                  new DialogFactory().AddMessageBox()),
                 viewModelFactory: x => readonlyResolver.GetService(x)));
 
         SplatRegistrations.RegisterLazySingleton<IProcess, ProcessProxy>();
@@ -71,8 +74,10 @@ internal class Program
     }
 
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
-                     .UsePlatformDetect()
-                     .LogToTrace()
-                     .UseReactiveUI();
+    {
+        return AppBuilder.Configure<App>()
+                         .UsePlatformDetect()
+                         .LogToTrace()
+                         .UseReactiveUI();
+    }
 }
