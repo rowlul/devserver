@@ -34,7 +34,7 @@ public class EntryViewModel : ViewModelBase
     }
 
     public ReactiveCommand<Unit, Unit> PlayCommand { get; }
-    public ReactiveCommand<Unit, Unit> LoadLogo { get; }
+    public ReactiveCommand<Unit, Unit> LoadLogoCommand { get; }
 
     public EntryViewModel(Entry entry)
     {
@@ -48,14 +48,14 @@ public class EntryViewModel : ViewModelBase
 
         PlayCommand = ReactiveCommand.CreateFromTask(Play);
 
-        LoadLogo = ReactiveCommand.CreateFromTask(async () =>
+        LoadLogoCommand = ReactiveCommand.CreateFromTask(async () =>
         {
             var entryService = Locator.Current.GetService<IEntryService>();
             var stream = await entryService.GetLogoStream(_entry.Logo);
             Logo = await Task.Run(() => Bitmap.DecodeToWidth(stream, 42));
         });
 
-        LoadLogo.Execute();
+        LoadLogoCommand.Execute();
     }
 
     private async Task Play()
