@@ -12,5 +12,12 @@ public static class DesignData
     public static ToolBarPanelViewModel ToolBarPanelViewModel { get; } = new(EntryListViewModel);
 
     public static EntryViewModel EntryViewModel { get; } =
-        new(new Entry(null!, "server", "server description", "", "localhost"));
+        new(new Entry
+        {
+            FilePath = null!,
+            Name = "server",
+            Description = "server description",
+            Logo = "",
+            ServerAddress = "localhost"
+        });
 }

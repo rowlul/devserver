@@ -38,8 +38,11 @@ public class EntryService : IEntryService
         foreach (var file in files)
         {
             await using var fileStream = _fileSystem.File.OpenRead(file);
-            var entry = await JsonSerializer.DeserializeAsync<Entry>(fileStream, JsonSerializerOptions);
-            yield return entry!;
+
+            var entry = (await JsonSerializer.DeserializeAsync<Entry>(fileStream, JsonSerializerOptions))!;
+            entry.FilePath = file;
+
+            yield return entry;
         }
     }
 
@@ -75,13 +78,13 @@ public class EntryService : IEntryService
 
     internal async Task<Stream> GetLogoStreamFromUrl(string url)
     {
-        var stream = await _httpHandler.GetStreamAsync(url);
-        return stream;
+        var bytes = await _httpHandler.GetByteArrayAsync(url);
+        return new MemoryStream(bytes);
     }
 
     internal async Task<Stream> GetLogoStreamFromLocalFile(string path)
     {
-        await using var fileStream = _fileSystem.File.OpenRead(path);
-        return fileStream;
+        var stream = await Task.Run(() => _fileSystem.File.OpenRead(path));
+        return stream;
     }
 }

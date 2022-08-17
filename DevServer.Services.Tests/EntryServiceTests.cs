@@ -62,11 +62,14 @@ public class EntryServiceTests
 
         var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
-        var expected = new Entry(mockPlatform.Path + "server.json",
-                                 server.Name,
-                                 server.Description,
-                                 server.Logo,
-                                 server.ServerAddress);
+        var expected = new Entry
+        {
+            FilePath = mockPlatform.Path + "server.json",
+            Name = server.Name,
+            Description = server.Description,
+            Logo = server.Logo,
+            ServerAddress = server.ServerAddress
+        };
 
         var entries = service.GetEntries().GetAsyncEnumerator();
         await entries.MoveNextAsync();
@@ -163,7 +166,7 @@ public class EntryServiceTests
 
         await using var logoStream = await service.GetLogoStreamFromUrl(url);
         using var actual = new MemoryStream();
-        await actual.CopyToAsync(logoStream);
+        await logoStream.CopyToAsync(actual);
 
         actual.ToArray().Should().BeEquivalentTo(expected.ToArray());
     }
@@ -191,7 +194,7 @@ public class EntryServiceTests
 
         await using var logoStream = await service.GetLogoStreamFromLocalFile(XFS.Path(path));
         using var actual = new MemoryStream();
-        await actual.CopyToAsync(logoStream);
+        await logoStream.CopyToAsync(actual);
 
         actual.ToArray().Should().BeEquivalentTo(expected.ToArray());
     }

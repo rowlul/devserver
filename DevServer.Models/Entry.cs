@@ -2,5 +2,13 @@ using System.Text.Json.Serialization;
 
 namespace DevServer.Models;
 
-public record Entry([property: JsonIgnore] string FilePath,
-                    string Name, string? Description, string? Logo, string ServerAddress);
+public class Entry
+{
+    [JsonIgnore]
+    public string FilePath { get; set; }
+
+    public string Name { get; set; }
+    public string? Description { get; set; }
+    public string? Logo { get; set; }
+    public string ServerAddress { get; set; }
+}
