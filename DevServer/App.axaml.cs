@@ -40,6 +40,11 @@ public class App : Application
                 Directory.CreateDirectory(platform.GetAppRootPath());
             }
 
+            if (!Directory.Exists(platform.GetEntryStorePath()))
+            {
+                Directory.CreateDirectory(platform.GetEntryStorePath());
+            }
+
             if (!File.Exists(platform.GetConfigFile()))
             {
                 config.Save();
