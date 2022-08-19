@@ -16,6 +16,7 @@ using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 using HttpClientHandler = DevServer.Services.HttpClientHandler;
 
@@ -79,6 +80,7 @@ public class App : Application
     {
         var services = new ServiceCollection();
 
+        services.AddLogging(logging => logging.AddConsole());
         services.AddSingleton<IPlatformService>(new PlatformService("devserver"));
         services.AddSingleton<IHttpHandler>(new HttpClientHandler(new HttpClient()));
         services.AddSingleton<ViewLocator>();
@@ -98,7 +100,9 @@ public class App : Application
                                                  provider.GetRequiredService<IFileSystem>(),
                                                  provider.GetRequiredService<IHttpHandler>()));
 
-        services.AddSingleton(provider => new EntryListViewModel(provider.GetRequiredService<IEntryService>()));
+        services.AddSingleton(provider => new EntryListViewModel(
+                                  provider.GetRequiredService<ILogger<EntryListViewModel>>(),
+                                  provider.GetRequiredService<IEntryService>()));
         services.AddSingleton(provider => new MainWindowViewModel(provider.GetRequiredService<EntryListViewModel>()));
 
         return services.BuildServiceProvider();

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 using Avalonia.Collections;
@@ -7,10 +8,13 @@ using CommunityToolkit.Mvvm.Input;
 
 using DevServer.Services;
 
+using Microsoft.Extensions.Logging;
+
 namespace DevServer.ViewModels;
 
 public partial class EntryListViewModel : ViewModelBase
 {
+    private readonly ILogger<EntryListViewModel> _logger;
     private readonly IEntryService _entryService;
 
     [ObservableProperty]
@@ -19,8 +23,11 @@ public partial class EntryListViewModel : ViewModelBase
     [ObservableProperty]
     private EntryViewModel? _selectedEntry;
 
-    public EntryListViewModel(IEntryService entryService)
+    public EntryListViewModel(
+        ILogger<EntryListViewModel> logger,
+        IEntryService entryService)
     {
+        _logger = logger;
         _entryService = entryService;
     }
 
@@ -30,9 +37,25 @@ public partial class EntryListViewModel : ViewModelBase
     {
         Entries.Clear();
 
-        await foreach (var entry in _entryService.GetEntries())
+        var enumerable = _entryService.GetEntries();
+        await using var enumerator = enumerable.GetAsyncEnumerator();
+        for (var more = true; more;)
         {
-            Entries.Add(new EntryViewModel(entry));
+            try
+            {
+                more = await enumerator.MoveNextAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Could not parse entry");
+                continue;
+            }
+
+            if (more is not false)
+            {
+                // ensure we're not adding an extra entry if failed
+                Entries.Add(new EntryViewModel(enumerator.Current));
+            }
         }
     }
 

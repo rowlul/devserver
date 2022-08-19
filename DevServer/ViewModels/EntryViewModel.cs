@@ -10,13 +10,16 @@ using DevServer.Models;
 using DevServer.Services;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels;
 
 public partial class EntryViewModel : ViewModelBase
 {
-    private readonly IConfigurationManager _configurationManager;
     private readonly Entry _entry;
+
+    private readonly ILogger<EntryViewModel> _logger;
+    private readonly IConfigurationManager _configurationManager;
     private readonly INativeRunner _nativeRunner;
     private readonly IWineRunner _wineRunner;
 
@@ -31,6 +34,7 @@ public partial class EntryViewModel : ViewModelBase
     {
         _entry = entry;
 
+        _logger = Services.GetRequiredService<ILogger<EntryViewModel>>();
         _configurationManager = Services.GetRequiredService<IConfigurationManager>();
         _nativeRunner = Services.GetRequiredService<INativeRunner>();
         _wineRunner = Services.GetRequiredService<IWineRunner>();
@@ -45,9 +49,8 @@ public partial class EntryViewModel : ViewModelBase
                                       _configurationManager.Settings.WineSettings!)
             : _nativeRunner.RunWithArgs(_configurationManager.Settings.OsuExePath, _entry.ServerAddress);
 
-        // TODO: use a proper logger
-        process.ErrorDataReceived += (_, args) => Console.WriteLine(args.Data);
-        process.OutputDataReceived += (_, args) => Console.WriteLine(args.Data);
+        process.ErrorDataReceived += (_, args) => _logger.LogError(args.Data);
+        process.OutputDataReceived += (_, args) => _logger.LogTrace(args.Data);
 
         await process.WaitForExitAsync();
     }
@@ -56,7 +59,18 @@ public partial class EntryViewModel : ViewModelBase
     private async Task LoadLogo()
     {
         var entryService = Services.GetRequiredService<IEntryService>();
-        var stream = await entryService.GetLogoStream(_entry.Logo);
-        Logo = await Task.Run(() => Bitmap.DecodeToWidth(stream, 42));
+        Logo = await Task.Run(async () =>
+        {
+            try
+            {
+                return Bitmap.DecodeToWidth(await entryService.GetLogoStream(_entry.Logo), 42);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Could not load logo for entry {}", FilePath);
+            }
+
+            return null;
+        });
     }
 }

@@ -2,6 +2,10 @@
 using System.Threading;
 
 using Avalonia;
+using Avalonia.Controls;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DevServer;
 
@@ -23,6 +27,12 @@ internal class Program
 
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
+        }
+        catch (Exception e)
+        {
+            var services = (IServiceProvider)Application.Current!.FindResource(typeof(IServiceProvider))!;
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(e, "Unexpected exception");
         }
         finally
         {
