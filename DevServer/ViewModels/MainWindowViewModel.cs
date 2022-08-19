@@ -1,9 +1,11 @@
-﻿using Splat;
-
-namespace DevServer.ViewModels;
+﻿namespace DevServer.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    [DependencyInjectionProperty]
-    public EntryListViewModel EntryListViewModel { get; set; }
+    public EntryListViewModel EntryListViewModel { get; }
+
+    public MainWindowViewModel(EntryListViewModel entryListViewModel)
+    {
+        EntryListViewModel = entryListViewModel;
+    }
 }

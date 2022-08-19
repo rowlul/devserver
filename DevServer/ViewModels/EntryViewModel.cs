@@ -1,63 +1,43 @@
 using System;
-using System.Reactive;
 using System.Threading.Tasks;
 
 using Avalonia.Media.Imaging;
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
 using DevServer.Models;
 using DevServer.Services;
 
-using ReactiveUI;
-
-using Splat;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DevServer.ViewModels;
 
-public class EntryViewModel : ViewModelBase
+public partial class EntryViewModel : ViewModelBase
 {
     private readonly IConfigurationManager _configurationManager;
-
     private readonly Entry _entry;
     private readonly INativeRunner _nativeRunner;
     private readonly IWineRunner _wineRunner;
 
-    private Bitmap? _logo;
+    [ObservableProperty] private Bitmap? _logo;
 
     public string FilePath => _entry.FilePath;
     public string Name => _entry.Name;
     public string? Description => _entry.Description;
 
-    public Bitmap? Logo
-    {
-        get => _logo;
-        private set => this.RaiseAndSetIfChanged(ref _logo, value);
-    }
-
-    public ReactiveCommand<Unit, Unit> PlayCommand { get; }
-    public ReactiveCommand<Unit, Unit> LoadLogoCommand { get; }
-
     public EntryViewModel(Entry entry)
     {
-        // using locator here instead of passing through constructor
-        // because we always want to initialize this vm programmatically
-        _nativeRunner = Locator.Current.GetService<INativeRunner>();
-        _wineRunner = Locator.Current.GetService<IWineRunner>();
-        _configurationManager = Locator.Current.GetService<IConfigurationManager>();
-
         _entry = entry;
 
-        PlayCommand = ReactiveCommand.CreateFromTask(Play);
+        _configurationManager = Services.GetRequiredService<IConfigurationManager>();
+        _nativeRunner = Services.GetRequiredService<INativeRunner>();
+        _wineRunner = Services.GetRequiredService<IWineRunner>();
 
-        LoadLogoCommand = ReactiveCommand.CreateFromTask(async () =>
-        {
-            var entryService = Locator.Current.GetService<IEntryService>();
-            var stream = await entryService.GetLogoStream(_entry.Logo);
-            Logo = await Task.Run(() => Bitmap.DecodeToWidth(stream, 42));
-        });
-
-        LoadLogoCommand.Execute();
+        LoadLogoCommand.ExecuteAsync(null);
     }
 
+    [RelayCommand]
     private async Task Play()
     {
         using var process = OperatingSystem.IsLinux()
@@ -66,9 +46,18 @@ public class EntryViewModel : ViewModelBase
                                       _configurationManager.Settings.WineSettings!)
             : _nativeRunner.RunWithArgs(_configurationManager.Settings.OsuExePath, _entry.ServerAddress);
 
-        process.ErrorDataReceived += (_, args) => this.Log().Error(args.Data);
-        process.OutputDataReceived += (_, args) => this.Log().Info(args.Data);
+        // TODO: use a proper logger
+        process.ErrorDataReceived += (_, args) => Console.WriteLine(args.Data);
+        process.OutputDataReceived += (_, args) => Console.WriteLine(args.Data);
 
         await process.WaitForExitAsync();
+    }
+
+    [RelayCommand]
+    private async Task LoadLogo()
+    {
+        var entryService = Services.GetRequiredService<IEntryService>();
+        var stream = await entryService.GetLogoStream(_entry.Logo);
+        Logo = await Task.Run(() => Bitmap.DecodeToWidth(stream, 42));
     }
 }

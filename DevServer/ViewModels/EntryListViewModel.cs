@@ -1,53 +1,31 @@
-using System.Reactive;
 using System.Threading.Tasks;
 
 using Avalonia.Collections;
 
-using DevServer.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
-using ReactiveUI;
+using DevServer.Services;
 
 namespace DevServer.ViewModels;
 
-public class EntryListViewModel : ViewModelBase
+public partial class EntryListViewModel : ViewModelBase
 {
     private readonly IEntryService _entryService;
 
-    private AvaloniaList<EntryViewModel> _entries = new();
-    private EntryViewModel? _selectedEntry;
+    [ObservableProperty] private AvaloniaList<EntryViewModel> _entries = new();
 
-    public AvaloniaList<EntryViewModel> Entries
-    {
-        get => _entries;
-        set => this.RaiseAndSetIfChanged(ref _entries, value);
-    }
-
-    public EntryViewModel? SelectedEntry
-    {
-        get => _selectedEntry;
-        set => this.RaiseAndSetIfChanged(ref _selectedEntry, value);
-    }
-
-    public ReactiveCommand<Unit, Unit> UpdateEntriesCommand { get; }
-    public ReactiveCommand<Unit, Unit> DirectConnectCommand { get; }
-    public ReactiveCommand<Unit, Unit> AddEntryCommand { get; }
-    public ReactiveCommand<Unit, Unit> EditEntryCommand { get; }
-    public ReactiveCommand<Unit, Unit> DeleteEntryCommand { get; }
+    [ObservableProperty] private EntryViewModel? _selectedEntry;
 
     public EntryListViewModel(IEntryService entryService)
     {
         _entryService = entryService;
 
-        UpdateEntriesCommand = ReactiveCommand.CreateFromTask(UpdateEntries);
-        DirectConnectCommand = ReactiveCommand.CreateFromTask(DirectConnect);
-        AddEntryCommand = ReactiveCommand.CreateFromTask(AddEntry);
-        EditEntryCommand = ReactiveCommand.CreateFromTask(EditEntry);
-        DeleteEntryCommand = ReactiveCommand.CreateFromTask(DeleteEntry);
-
-        UpdateEntriesCommand.Execute();
+        UpdateEntriesCommand.ExecuteAsync(null);
     }
 
 
+    [RelayCommand]
     private async Task UpdateEntries()
     {
         Entries.Clear();
@@ -58,21 +36,25 @@ public class EntryListViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
     private Task DirectConnect()
     {
         return Task.CompletedTask;
     }
 
+    [RelayCommand]
     private Task AddEntry()
     {
         return Task.CompletedTask;
     }
 
+    [RelayCommand]
     private Task EditEntry()
     {
         return Task.CompletedTask;
     }
 
+    [RelayCommand]
     private async Task DeleteEntry()
     {
         if (_selectedEntry is null)
