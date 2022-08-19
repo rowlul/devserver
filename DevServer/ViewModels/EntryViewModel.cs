@@ -20,7 +20,8 @@ public partial class EntryViewModel : ViewModelBase
     private readonly INativeRunner _nativeRunner;
     private readonly IWineRunner _wineRunner;
 
-    [ObservableProperty] private Bitmap? _logo;
+    [ObservableProperty]
+    private Bitmap? _logo;
 
     public string FilePath => _entry.FilePath;
     public string Name => _entry.Name;

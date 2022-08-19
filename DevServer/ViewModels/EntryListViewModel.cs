@@ -13,9 +13,11 @@ public partial class EntryListViewModel : ViewModelBase
 {
     private readonly IEntryService _entryService;
 
-    [ObservableProperty] private AvaloniaList<EntryViewModel> _entries = new();
+    [ObservableProperty]
+    private AvaloniaList<EntryViewModel> _entries = new();
 
-    [ObservableProperty] private EntryViewModel? _selectedEntry;
+    [ObservableProperty]
+    private EntryViewModel? _selectedEntry;
 
     public EntryListViewModel(IEntryService entryService)
     {
