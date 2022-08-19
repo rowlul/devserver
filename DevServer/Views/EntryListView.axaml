@@ -18,7 +18,9 @@
     </i:Interaction.Behaviors>
 
     <Grid RowDefinitions="* Auto">
-        <ListBox Items="{Binding Entries}"
+        <ListBox Grid.Row="0"
+                 IsEnabled="{Binding IsEnabled}"
+                 Items="{Binding Entries}"
                  SelectedItem="{Binding SelectedEntry}"
                  SelectionMode="Single">
             <ListBox.ItemTemplate>
@@ -28,7 +30,9 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Grid Grid.Row="1" ColumnDefinitions="Auto * Auto Auto Auto Auto Auto">
+        <Grid Grid.Row="1"
+              IsEnabled="{Binding IsEnabled}"
+              ColumnDefinitions="Auto * Auto Auto Auto Auto Auto">
             <Button Grid.Column="0" Command="{Binding DirectConnectCommand}">
                 <StackPanel Orientation="Horizontal">
                     <material:MaterialIcon Kind="PlayNetwork" />
