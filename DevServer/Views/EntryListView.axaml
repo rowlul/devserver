@@ -5,9 +5,17 @@
              xmlns:material="using:Material.Icons.Avalonia"
              xmlns:local="clr-namespace:DevServer"
              xmlns:views="clr-namespace:DevServer.Views"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DevServer.Views.EntryListView"
              d:DataContext="{x:Static local:DesignData.EntryListViewModel}">
+
+    <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="AttachedToVisualTree">
+            <ia:InvokeCommandAction Command="{Binding UpdateEntriesCommand}" />
+        </ia:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
 
     <Grid RowDefinitions="* Auto">
         <ListBox Items="{Binding Entries}"

@@ -33,8 +33,6 @@ public partial class EntryViewModel : ViewModelBase
         _configurationManager = Services.GetRequiredService<IConfigurationManager>();
         _nativeRunner = Services.GetRequiredService<INativeRunner>();
         _wineRunner = Services.GetRequiredService<IWineRunner>();
-
-        LoadLogoCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]

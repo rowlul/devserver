@@ -20,8 +20,6 @@ public partial class EntryListViewModel : ViewModelBase
     public EntryListViewModel(IEntryService entryService)
     {
         _entryService = entryService;
-
-        UpdateEntriesCommand.ExecuteAsync(null);
     }
 
 

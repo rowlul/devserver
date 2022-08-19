@@ -4,9 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:material="using:Material.Icons.Avalonia"
              xmlns:local="clr-namespace:DevServer"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="100"
              x:Class="DevServer.Views.EntryView"
              d:DataContext="{x:Static local:DesignData.EntryViewModel}">
+
+    <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="AttachedToVisualTree">
+            <ia:InvokeCommandAction Command="{Binding LoadLogoCommand}" />
+        </ia:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
 
     <Grid ColumnDefinitions="Auto * Auto">
         <DockPanel Grid.Column="0" Margin="0 0 10 0">
