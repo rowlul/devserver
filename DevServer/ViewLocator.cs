@@ -32,15 +32,11 @@ public class ViewLocator : ViewLocatorBase
         var type = Assembly.GetEntryAssembly()?.GetType(viewName);
         var obj = type != null ? _serviceProvider.GetRequiredService(type) : null;
 
-        switch (obj)
+        return obj switch
         {
-            case Window _:
-            case IControl _:
-            case IWindow _:
-                return obj;
-            default:
-                throw new TypeLoadException($"Dialog {viewName} is missing");
-        }
+             Window or IWindow or IControl => obj,
+            _ => throw new TypeLoadException($"Dialog {viewName} is missing")
+        };
     }
 
     public override bool Match(object data)
