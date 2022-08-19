@@ -82,9 +82,9 @@ public class EntryService : IEntryService
         return new MemoryStream(bytes);
     }
 
-    internal async Task<Stream> GetLogoStreamFromLocalFile(string path)
+    internal Task<Stream> GetLogoStreamFromLocalFile(string path)
     {
-        var stream = await Task.Run(() => _fileSystem.File.OpenRead(path));
-        return stream;
+        var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
+        return Task.FromResult<Stream>(stream);
     }
 }

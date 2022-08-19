@@ -1,20 +1,11 @@
 ﻿using System;
-using System.IO.Abstractions;
-using System.Net.Http;
 using System.Threading;
 
 using Avalonia;
-using Avalonia.ReactiveUI;
+using Avalonia.Controls;
 
-using DevServer.Services;
-using DevServer.ViewModels;
-
-using HanumanInstitute.MvvmDialogs;
-using HanumanInstitute.MvvmDialogs.Avalonia;
-
-using Splat;
-
-using HttpClientHandler = DevServer.Services.HttpClientHandler;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DevServer;
 
@@ -34,11 +25,14 @@ internal class Program
                 return;
             }
 
-            SplatRegistrations.SetupIOC();
-            RegisterDependencies();
-
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
+        }
+        catch (Exception e)
+        {
+            var services = (IServiceProvider)Application.Current!.FindResource(typeof(IServiceProvider))!;
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(e, "Unexpected exception");
         }
         finally
         {
@@ -46,38 +40,10 @@ internal class Program
         }
     }
 
-    public static void RegisterDependencies()
-    {
-        var mutableResolver = Locator.CurrentMutable;
-        var readonlyResolver = Locator.Current;
-
-        mutableResolver.RegisterLazySingleton<IPlatformService>(() => new PlatformService("devserver"));
-        mutableResolver.RegisterLazySingleton<IHttpHandler>(
-            () => new HttpClientHandler(new HttpClient()));
-
-        mutableResolver.RegisterLazySingleton<IDialogService>(
-            () => new DialogService(
-                new DialogManager(new ViewLocator(),
-                                  new DialogFactory().AddMessageBox()),
-                viewModelFactory: x => readonlyResolver.GetService(x)));
-
-        SplatRegistrations.RegisterLazySingleton<IProcess, ProcessProxy>();
-        SplatRegistrations.RegisterLazySingleton<INativeRunner, NativeRunner>();
-        SplatRegistrations.RegisterLazySingleton<IWineRunner, WineRunner>();
-        SplatRegistrations.RegisterLazySingleton<IFileSystem, FileSystem>();
-        SplatRegistrations.RegisterLazySingleton<IConfigurationManager, ConfigurationManager>();
-        SplatRegistrations.RegisterLazySingleton<IHttpHandler, HttpClientHandler>();
-        SplatRegistrations.RegisterLazySingleton<IEntryService, EntryService>();
-
-        SplatRegistrations.RegisterLazySingleton<EntryListViewModel>();
-        SplatRegistrations.RegisterLazySingleton<MainWindowViewModel>();
-    }
-
     public static AppBuilder BuildAvaloniaApp()
     {
         return AppBuilder.Configure<App>()
                          .UsePlatformDetect()
-                         .LogToTrace()
-                         .UseReactiveUI();
+                         .LogToTrace();
     }
 }

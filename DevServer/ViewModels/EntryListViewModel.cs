@@ -1,78 +1,83 @@
-using System.Reactive;
+using System;
 using System.Threading.Tasks;
 
 using Avalonia.Collections;
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
 using DevServer.Services;
 
-using ReactiveUI;
+using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels;
 
-public class EntryListViewModel : ViewModelBase
+public partial class EntryListViewModel : ViewModelBase
 {
+    private readonly ILogger<EntryListViewModel> _logger;
     private readonly IEntryService _entryService;
 
+    [ObservableProperty]
     private AvaloniaList<EntryViewModel> _entries = new();
+
+    [ObservableProperty]
     private EntryViewModel? _selectedEntry;
 
-    public AvaloniaList<EntryViewModel> Entries
+    public EntryListViewModel(
+        ILogger<EntryListViewModel> logger,
+        IEntryService entryService)
     {
-        get => _entries;
-        set => this.RaiseAndSetIfChanged(ref _entries, value);
-    }
-
-    public EntryViewModel? SelectedEntry
-    {
-        get => _selectedEntry;
-        set => this.RaiseAndSetIfChanged(ref _selectedEntry, value);
-    }
-
-    public ReactiveCommand<Unit, Unit> UpdateEntriesCommand { get; }
-    public ReactiveCommand<Unit, Unit> DirectConnectCommand { get; }
-    public ReactiveCommand<Unit, Unit> AddEntryCommand { get; }
-    public ReactiveCommand<Unit, Unit> EditEntryCommand { get; }
-    public ReactiveCommand<Unit, Unit> DeleteEntryCommand { get; }
-
-    public EntryListViewModel(IEntryService entryService)
-    {
+        _logger = logger;
         _entryService = entryService;
-
-        UpdateEntriesCommand = ReactiveCommand.CreateFromTask(UpdateEntries);
-        DirectConnectCommand = ReactiveCommand.CreateFromTask(DirectConnect);
-        AddEntryCommand = ReactiveCommand.CreateFromTask(AddEntry);
-        EditEntryCommand = ReactiveCommand.CreateFromTask(EditEntry);
-        DeleteEntryCommand = ReactiveCommand.CreateFromTask(DeleteEntry);
-
-        UpdateEntriesCommand.Execute();
     }
 
 
+    [RelayCommand]
     private async Task UpdateEntries()
     {
         Entries.Clear();
 
-        await foreach (var entry in _entryService.GetEntries())
+        var enumerable = _entryService.GetEntries();
+        await using var enumerator = enumerable.GetAsyncEnumerator();
+        for (var more = true; more;)
         {
-            Entries.Add(new EntryViewModel(entry));
+            try
+            {
+                more = await enumerator.MoveNextAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Could not parse entry");
+                continue;
+            }
+
+            if (more is not false)
+            {
+                // ensure we're not adding an extra entry if failed
+                Entries.Add(new EntryViewModel(enumerator.Current));
+            }
         }
     }
 
+    [RelayCommand]
     private Task DirectConnect()
     {
         return Task.CompletedTask;
     }
 
+    [RelayCommand]
     private Task AddEntry()
     {
         return Task.CompletedTask;
     }
 
+    [RelayCommand]
     private Task EditEntry()
     {
         return Task.CompletedTask;
     }
 
+    [RelayCommand]
     private async Task DeleteEntry()
     {
         if (_selectedEntry is null)
