@@ -22,6 +22,7 @@ public partial class EntryViewModel : RecipientViewModelBase
 
     private readonly ILogger<EntryViewModel> _logger;
     private readonly IConfigurationManager _configurationManager;
+    private readonly IEntryService _entryService;
     private readonly INativeRunner _nativeRunner;
     private readonly IWineRunner _wineRunner;
 
@@ -38,8 +39,27 @@ public partial class EntryViewModel : RecipientViewModelBase
 
         _logger = Ioc.Default.GetRequiredService<ILogger<EntryViewModel>>();
         _configurationManager = Ioc.Default.GetRequiredService<IConfigurationManager>();
+        _entryService = Ioc.Default.GetRequiredService<IEntryService>();
         _nativeRunner = Ioc.Default.GetRequiredService<INativeRunner>();
         _wineRunner = Ioc.Default.GetRequiredService<IWineRunner>();
+    }
+
+    [RelayCommand]
+    private async Task LoadLogo()
+    {
+        Logo = await Task.Run(async () =>
+        {
+            try
+            {
+                return Bitmap.DecodeToWidth(await _entryService.GetLogoStream(_entry.Logo), 42);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Could not load logo for entry {}", FilePath);
+            }
+
+            return null;
+        });
     }
 
     [RelayCommand]
@@ -65,21 +85,15 @@ public partial class EntryViewModel : RecipientViewModelBase
     }
 
     [RelayCommand]
-    private async Task LoadLogo()
+    private Task EditEntry()
     {
-        var entryService = Ioc.Default.GetRequiredService<IEntryService>();
-        Logo = await Task.Run(async () =>
-        {
-            try
-            {
-                return Bitmap.DecodeToWidth(await entryService.GetLogoStream(_entry.Logo), 42);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Could not load logo for entry {}", FilePath);
-            }
+        return Task.CompletedTask;
+    }
 
-            return null;
-        });
+    [RelayCommand]
+    private async Task DeleteEntry()
+    {
+        await _entryService.DeleteEntry(FilePath);
+        Messenger.Send(new EntryChangedMessage(this));
     }
 }

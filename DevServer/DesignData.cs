@@ -5,9 +5,11 @@ namespace DevServer;
 
 public static class DesignData
 {
-    public static MainWindowViewModel MainWindowViewModel => new(EntryListViewModel);
+    public static MainWindowViewModel MainWindowViewModel => new(EntryListViewModel, MainPanelViewModel);
 
-    public static EntryListViewModel EntryListViewModel => new(null!, null!);
+    public static EntryListViewModel EntryListViewModel => new();
+
+    public static MainPanelViewModel MainPanelViewModel => new(null!, null!);
 
     public static EntryViewModel EntryViewModel { get; } =
         new(new Entry

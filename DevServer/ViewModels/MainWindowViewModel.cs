@@ -10,13 +10,18 @@ namespace DevServer.ViewModels;
 public partial class MainWindowViewModel : RecipientViewModelBase
 {
     [ObservableProperty]
+    private bool _canExecute;
+
+    [ObservableProperty]
     private WindowState _windowState;
 
     public EntryListViewModel EntryListViewModel { get; }
+    public MainPanelViewModel MainPanelViewModel { get; }
 
-    public MainWindowViewModel(EntryListViewModel entryListViewModel)
+    public MainWindowViewModel(EntryListViewModel entryListViewModel, MainPanelViewModel mainPanelViewModel)
     {
         EntryListViewModel = entryListViewModel;
+        MainPanelViewModel = mainPanelViewModel;
 
         IsActive = true;
     }
@@ -26,6 +31,11 @@ public partial class MainWindowViewModel : RecipientViewModelBase
         Messenger.Register<MainWindowViewModel, ProcessRunningMessage>(
             this,
             (r, m) =>
-                r.WindowState = m.Value ? WindowState.Minimized : WindowState.Normal);
+            {
+                // can execute if process is not running
+                r.CanExecute = !m.Value;
+
+                r.WindowState = m.Value ? WindowState.Minimized : WindowState.Normal;
+            });
     }
 }

@@ -11,7 +11,8 @@
         WindowState="{Binding WindowState}"
         d:DataContext="{x:Static local:DesignData.MainWindowViewModel}">
 
-    <Grid>
-        <v:EntryListView DataContext="{Binding EntryListViewModel}" />
+    <Grid RowDefinitions="* Auto">
+        <v:EntryListView Grid.Row="0" DataContext="{Binding EntryListViewModel}" />
+        <v:MainPanelView Grid.Row="1" DataContext="{Binding MainPanelViewModel}" />
     </Grid>
 </Window>

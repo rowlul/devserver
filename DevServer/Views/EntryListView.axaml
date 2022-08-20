@@ -2,22 +2,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:material="using:Material.Icons.Avalonia"
              xmlns:local="clr-namespace:DevServer"
              xmlns:views="clr-namespace:DevServer.Views"
-             xmlns:i="using:Avalonia.Xaml.Interactivity"
-             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DevServer.Views.EntryListView"
              d:DataContext="{x:Static local:DesignData.EntryListViewModel}">
 
     <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="AttachedToVisualTree">
-            <ia:InvokeCommandAction Command="{Binding UpdateEntriesCommand}" />
+            <ia:InvokeCommandAction Command="{Binding LoadEntriesCommand}" />
         </ia:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
-    <Grid RowDefinitions="* Auto">
+    <Grid>
         <ListBox Grid.Row="0"
                  IsEnabled="{Binding IsEnabled}"
                  Items="{Binding Entries}"
@@ -29,40 +28,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
-        <Grid Grid.Row="1"
-              IsEnabled="{Binding IsEnabled}"
-              ColumnDefinitions="Auto * Auto Auto Auto Auto Auto">
-            <Button Grid.Column="0" Command="{Binding DirectConnectCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <material:MaterialIcon Kind="PlayNetwork" />
-                    <Separator Width="10" />
-                    <TextBlock Text="Direct Connect"
-                               FontWeight="Medium"
-                               VerticalAlignment="Center" />
-                </StackPanel>
-            </Button>
-            <Button Grid.Column="2" ToolTip.Tip="Add Server" Command="{Binding AddEntryCommand}">
-                <material:MaterialIcon Kind="Add" />
-            </Button>
-            <Button Grid.Column="4" ToolTip.Tip="Delete Server" Command="{Binding DeleteEntryCommand}">
-                <material:MaterialIcon Kind="Minus" />
-            </Button>
-            <Button Grid.Column="5" ToolTip.Tip="Edit Server" Command="{Binding EditEntryCommand}">
-                <material:MaterialIcon Kind="EditOutline" />
-            </Button>
-            <Button Grid.Column="6" ToolTip.Tip="Refresh Servers" Command="{Binding UpdateEntriesCommand}">
-                <material:MaterialIcon Kind="Refresh" />
-            </Button>
-
-            <Grid.Styles>
-                <Style Selector="material|MaterialIcon">
-                    <Setter Property="Width" Value="24" />
-                    <Setter Property="Height" Value="24" />
-                </Style>
-            </Grid.Styles>
-        </Grid>
     </Grid>
-
 
 </UserControl>
