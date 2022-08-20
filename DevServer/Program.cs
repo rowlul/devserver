@@ -2,9 +2,9 @@
 using System.Threading;
 
 using Avalonia;
-using Avalonia.Controls;
 
-using Microsoft.Extensions.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
+
 using Microsoft.Extensions.Logging;
 
 namespace DevServer;
@@ -30,8 +30,7 @@ internal class Program
         }
         catch (Exception e)
         {
-            var services = (IServiceProvider)Application.Current!.FindResource(typeof(IServiceProvider))!;
-            var logger = services.GetRequiredService<ILogger<Program>>();
+            var logger = Ioc.Default.GetRequiredService<ILogger<Program>>();
             logger.LogError(e, "Unexpected exception");
         }
         finally
