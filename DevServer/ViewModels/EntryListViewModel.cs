@@ -22,9 +22,6 @@ public partial class EntryListViewModel : RecipientViewModelBase
     [ObservableProperty]
     private EntryViewModel? _selectedEntry;
 
-    [ObservableProperty]
-    private bool _isEnabled = true;
-
     public EntryListViewModel()
     {
         IsActive = true;
@@ -32,11 +29,6 @@ public partial class EntryListViewModel : RecipientViewModelBase
 
     protected override void OnActivated()
     {
-        Messenger.Register<EntryListViewModel, ProcessRunningMessage>(
-            this,
-            (r, m) =>
-                r.IsEnabled = !m.Value);
-
         Messenger.Register<EntryListViewModel, EntryChangedMessage>(
             this,
             (r, m) =>
