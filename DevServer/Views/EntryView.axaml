@@ -33,8 +33,9 @@
             <Button ToolTip.Tip="Edit Server" Command="{Binding EditEntryCommand}">
                 <material:MaterialIcon Kind="Edit" />
             </Button>
+            <Separator Width="2" />
             <Button ToolTip.Tip="Delete Server" Command="{Binding DeleteEntryCommand}">
-                <material:MaterialIcon Kind="Remove" />
+                <material:MaterialIcon Kind="RemoveBold" />
             </Button>
         </DockPanel>
     </Grid>
