@@ -20,6 +20,8 @@ using HanumanInstitute.MvvmDialogs.Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using Serilog;
+
 using HttpClientHandler = DevServer.Services.HttpClientHandler;
 
 namespace DevServer;
@@ -74,8 +76,21 @@ public class App : Application
     {
         var services = new ServiceCollection();
 
-        services.AddLogging(logging => logging.AddConsole());
         services.AddSingleton<IPlatformService>(new PlatformService("devserver"));
+        services.AddLogging(logging =>
+        {
+            logging.AddSerilog(
+                new LoggerConfiguration()
+                    .Enrich.FromLogContext()
+#if !DEBUG
+                    .MinimumLevel.Information()
+                    .WriteTo.File(Path.Combine(Environment.ProcessPath!, "log.txt"))
+#else
+                    .MinimumLevel.Debug()
+#endif
+                    .WriteTo.Console()
+                    .CreateLogger());
+        });
         services.AddSingleton<IHttpHandler>(new HttpClientHandler(new HttpClient()));
         services.AddSingleton<ViewLocator>();
         services.AddSingleton<IDialogService>(provider => new DialogService(
