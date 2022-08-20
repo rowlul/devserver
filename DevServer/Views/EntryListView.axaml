@@ -45,12 +45,7 @@
             <Button Grid.Column="2" ToolTip.Tip="Add Server" Command="{Binding AddEntryCommand}">
                 <material:MaterialIcon Kind="Add" />
             </Button>
-            <Button Grid.Column="4" ToolTip.Tip="Delete Server" Command="{Binding DeleteEntryCommand}">
-                <material:MaterialIcon Kind="Minus" />
-            </Button>
-            <Button Grid.Column="5" ToolTip.Tip="Edit Server" Command="{Binding EditEntryCommand}">
-                <material:MaterialIcon Kind="EditOutline" />
-            </Button>
+
             <Button Grid.Column="6" ToolTip.Tip="Refresh Servers" Command="{Binding UpdateEntriesCommand}">
                 <material:MaterialIcon Kind="Refresh" />
             </Button>

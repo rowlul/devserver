@@ -44,6 +44,11 @@ public partial class EntryListViewModel : RecipientViewModelBase
             this,
             (r, m) =>
                 r.IsEnabled = !m.Value);
+
+        Messenger.Register<EntryListViewModel, EntryChangedMessage>(
+            this,
+            (r, m) =>
+                r.Entries.Remove(m.Value));
     }
 
     [RelayCommand]
@@ -83,23 +88,5 @@ public partial class EntryListViewModel : RecipientViewModelBase
     private Task AddEntry()
     {
         return Task.CompletedTask;
-    }
-
-    [RelayCommand]
-    private Task EditEntry()
-    {
-        return Task.CompletedTask;
-    }
-
-    [RelayCommand]
-    private async Task DeleteEntry()
-    {
-        if (_selectedEntry is null)
-        {
-            return;
-        }
-
-        await _entryService.DeleteEntry(_selectedEntry.FilePath);
-        _entries.Remove(_selectedEntry);
     }
 }
