@@ -4,6 +4,7 @@ using System.Reflection;
 using Avalonia.Controls;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
@@ -14,13 +15,6 @@ namespace DevServer;
 
 public class ViewLocator : ViewLocatorBase
 {
-    private readonly IServiceProvider _serviceProvider;
-
-    public ViewLocator(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-
     protected override string GetViewName(object viewModel)
     {
         return viewModel.GetType().FullName!.Replace("ViewModel", "");
@@ -30,7 +24,7 @@ public class ViewLocator : ViewLocatorBase
     {
         var viewName = GetViewName(viewModel);
         var type = Assembly.GetEntryAssembly()?.GetType(viewName);
-        var obj = type != null ? _serviceProvider.GetRequiredService(type) : null;
+        var obj = type != null ? Ioc.Default.GetRequiredService(type) : null;
 
         return obj switch
         {
