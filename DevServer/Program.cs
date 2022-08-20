@@ -32,6 +32,7 @@ internal class Program
         {
             var logger = Ioc.Default.GetRequiredService<ILogger<Program>>();
             logger.LogError(e, "Unexpected exception");
+            throw;
         }
         finally
         {
