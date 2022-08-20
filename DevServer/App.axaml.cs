@@ -111,10 +111,12 @@ public class App : Application
                                                  provider.GetRequiredService<IFileSystem>(),
                                                  provider.GetRequiredService<IHttpHandler>()));
 
-        services.AddSingleton(provider => new EntryListViewModel(
-                                  provider.GetRequiredService<ILogger<EntryListViewModel>>(),
+        services.AddSingleton(provider => new MainPanelViewModel(
+                                  provider.GetRequiredService<ILogger<MainPanelViewModel>>(),
                                   provider.GetRequiredService<IEntryService>()));
-        services.AddSingleton(provider => new MainWindowViewModel(provider.GetRequiredService<EntryListViewModel>()));
+        services.AddSingleton(provider => new EntryListViewModel());
+        services.AddSingleton(provider => new MainWindowViewModel(provider.GetRequiredService<EntryListViewModel>(),
+                                                                  provider.GetRequiredService<MainPanelViewModel>()));
 
         return services.BuildServiceProvider();
     }

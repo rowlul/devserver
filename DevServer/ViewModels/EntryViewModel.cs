@@ -29,7 +29,6 @@ public partial class EntryViewModel : RecipientViewModelBase
     [ObservableProperty]
     private Bitmap? _logo;
 
-
     public string FilePath => _entry.FilePath;
     public string Name => _entry.Name;
     public string? Description => _entry.Description;
@@ -37,7 +36,6 @@ public partial class EntryViewModel : RecipientViewModelBase
     public EntryViewModel(Entry entry)
     {
         _entry = entry;
-
 
         _logger = Ioc.Default.GetRequiredService<ILogger<EntryViewModel>>();
         _configurationManager = Ioc.Default.GetRequiredService<IConfigurationManager>();

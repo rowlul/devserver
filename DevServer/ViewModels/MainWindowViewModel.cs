@@ -13,10 +13,12 @@ public partial class MainWindowViewModel : RecipientViewModelBase
     private WindowState _windowState;
 
     public EntryListViewModel EntryListViewModel { get; }
+    public MainPanelViewModel MainPanelViewModel { get; }
 
-    public MainWindowViewModel(EntryListViewModel entryListViewModel)
+    public MainWindowViewModel(EntryListViewModel entryListViewModel, MainPanelViewModel mainPanelViewModel)
     {
         EntryListViewModel = entryListViewModel;
+        MainPanelViewModel = mainPanelViewModel;
 
         IsActive = true;
     }

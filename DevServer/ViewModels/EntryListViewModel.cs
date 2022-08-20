@@ -16,9 +16,6 @@ namespace DevServer.ViewModels;
 
 public partial class EntryListViewModel : RecipientViewModelBase
 {
-    private readonly ILogger<EntryListViewModel> _logger;
-    private readonly IEntryService _entryService;
-
     [ObservableProperty]
     private AvaloniaList<EntryViewModel> _entries = new();
 
@@ -28,13 +25,8 @@ public partial class EntryListViewModel : RecipientViewModelBase
     [ObservableProperty]
     private bool _isEnabled = true;
 
-    public EntryListViewModel(
-        ILogger<EntryListViewModel> logger,
-        IEntryService entryService)
+    public EntryListViewModel()
     {
-        _logger = logger;
-        _entryService = entryService;
-
         IsActive = true;
     }
 
@@ -49,44 +41,18 @@ public partial class EntryListViewModel : RecipientViewModelBase
             this,
             (r, m) =>
                 r.Entries.Remove(m.Value));
+
+        Messenger.Register<EntryListViewModel, EntriesChangedMessage>(this,
+                                                                      (r, m) =>
+                                                                      {
+                                                                          r.Entries.Clear();
+                                                                          r.Entries.AddRange(m.Value);
+                                                                      });
     }
 
     [RelayCommand]
-    private async Task UpdateEntries()
+    private async Task LoadEntries()
     {
-        Entries.Clear();
-
-        var enumerable = _entryService.GetEntries();
-        await using var enumerator = enumerable.GetAsyncEnumerator();
-        for (var more = true; more;)
-        {
-            try
-            {
-                more = await enumerator.MoveNextAsync();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Could not parse entry");
-                continue;
-            }
-
-            if (more is not false)
-            {
-                // ensure we're not adding an extra entry if failed
-                Entries.Add(new EntryViewModel(enumerator.Current));
-            }
-        }
-    }
-
-    [RelayCommand]
-    private Task DirectConnect()
-    {
-        return Task.CompletedTask;
-    }
-
-    [RelayCommand]
-    private Task AddEntry()
-    {
-        return Task.CompletedTask;
+        Entries = new AvaloniaList<EntryViewModel>(await Messenger.Send<EntriesRequestMessage>());
     }
 }
