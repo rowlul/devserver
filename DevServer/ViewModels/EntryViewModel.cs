@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -11,7 +12,6 @@ using DevServer.Messages;
 using DevServer.Models;
 using DevServer.Services;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels;
@@ -36,10 +36,10 @@ public partial class EntryViewModel : RecipientViewModelBase
     {
         _entry = entry;
 
-        _logger = Services.GetRequiredService<ILogger<EntryViewModel>>();
-        _configurationManager = Services.GetRequiredService<IConfigurationManager>();
-        _nativeRunner = Services.GetRequiredService<INativeRunner>();
-        _wineRunner = Services.GetRequiredService<IWineRunner>();
+        _logger = Ioc.Default.GetRequiredService<ILogger<EntryViewModel>>();
+        _configurationManager = Ioc.Default.GetRequiredService<IConfigurationManager>();
+        _nativeRunner = Ioc.Default.GetRequiredService<INativeRunner>();
+        _wineRunner = Ioc.Default.GetRequiredService<IWineRunner>();
     }
 
     [RelayCommand]
@@ -67,7 +67,7 @@ public partial class EntryViewModel : RecipientViewModelBase
     [RelayCommand]
     private async Task LoadLogo()
     {
-        var entryService = Services.GetRequiredService<IEntryService>();
+        var entryService = Ioc.Default.GetRequiredService<IEntryService>();
         Logo = await Task.Run(async () =>
         {
             try

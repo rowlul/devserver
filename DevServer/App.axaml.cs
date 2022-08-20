@@ -8,6 +8,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
+using CommunityToolkit.Mvvm.DependencyInjection;
+
 using DevServer.Services;
 using DevServer.ViewModels;
 using DevServer.Views;
@@ -24,59 +26,51 @@ namespace DevServer;
 
 public class App : Application
 {
-    private readonly IServiceProvider _serviceCollection;
-
-    public App()
-    {
-        _serviceCollection = ConfigureServices();
-    }
-
     public override void Initialize()
     {
-        Resources[typeof(IServiceProvider)] = _serviceCollection;
-
-        DataTemplates.Add(_serviceCollection.GetRequiredService<ViewLocator>());
-
         AvaloniaXamlLoader.Load(this);
     }
 
     public override void OnFrameworkInitializationCompleted()
     {
+        Ioc.Default.ConfigureServices(ConfigureServicesInternal());
+        var ioc = Ioc.Default;
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow =
-                new MainWindow(_serviceCollection.GetRequiredService<MainWindowViewModel>());
+                new MainWindow(ioc.GetRequiredService<MainWindowViewModel>());
         }
 
-        if (!Design.IsDesignMode)
+        if (Design.IsDesignMode)
         {
-            var config = _serviceCollection.GetRequiredService<IConfigurationManager>();
-            var platform = _serviceCollection.GetRequiredService<IPlatformService>();
-
-            if (!Directory.Exists(platform.GetAppRootPath()))
-            {
-                Directory.CreateDirectory(platform.GetAppRootPath());
-            }
-
-            if (!Directory.Exists(platform.GetEntryStorePath()))
-            {
-                Directory.CreateDirectory(platform.GetEntryStorePath());
-            }
-
-            if (!File.Exists(platform.GetConfigFile()))
-            {
-                config.Save();
-            }
-            else
-            {
-                config.Load();
-            }
+            return;
         }
 
-        base.OnFrameworkInitializationCompleted();
+        var config = ioc.GetRequiredService<IConfigurationManager>();
+        var platform = ioc.GetRequiredService<IPlatformService>();
+
+        if (!Directory.Exists(platform.GetAppRootPath()))
+        {
+            Directory.CreateDirectory(platform.GetAppRootPath());
+        }
+
+        if (!Directory.Exists(platform.GetEntryStorePath()))
+        {
+            Directory.CreateDirectory(platform.GetEntryStorePath());
+        }
+
+        if (!File.Exists(platform.GetConfigFile()))
+        {
+            config.Save();
+        }
+        else
+        {
+            config.Load();
+        }
     }
 
-    private static IServiceProvider ConfigureServices()
+    private static IServiceProvider ConfigureServicesInternal()
     {
         var services = new ServiceCollection();
 
