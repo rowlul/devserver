@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace DevServer.Services;
 
 public interface IPlatformService
@@ -8,4 +10,5 @@ public interface IPlatformService
     string GetAppCachePath();
     string GetEntryStorePath();
     string GetConfigFile();
+    OSPlatform GetOperatingSystem();
 }

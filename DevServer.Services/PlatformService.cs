@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace DevServer.Services;
 
 public class PlatformService : IPlatformService
@@ -37,4 +39,20 @@ public class PlatformService : IPlatformService
     public string GetEntryStorePath() => Path.Combine(GetAppRootPath(), "servers");
 
     public string GetConfigFile() => Path.Combine(GetAppRootPath(), "settings.json");
+
+    public OSPlatform GetOperatingSystem()
+    {
+        if (OperatingSystem.IsLinux())
+        {
+            return OSPlatform.Linux;
+        } else if (OperatingSystem.IsWindows())
+        {
+            return OSPlatform.Windows;
+        } else if (OperatingSystem.IsMacOS())
+        {
+            return OSPlatform.OSX;
+        }
+
+        throw new PlatformNotSupportedException();
+    }
 }
