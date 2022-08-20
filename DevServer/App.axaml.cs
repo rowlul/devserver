@@ -85,10 +85,12 @@ public class App : Application
 #if !DEBUG
                     .MinimumLevel.Information()
                     .WriteTo.File(Path.Combine(Environment.ProcessPath!, "log.txt"))
+                    .WriteTo.Console()
 #else
                     .MinimumLevel.Debug()
+                    .WriteTo.Debug()
 #endif
-                    .WriteTo.Console()
+
                     .CreateLogger());
         });
         services.AddSingleton<IHttpHandler>(new HttpClientHandler(new HttpClient()));
