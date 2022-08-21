@@ -31,13 +31,15 @@ public class ConfigurationManager : IConfigurationManager
     public void Load()
     {
         using var fileStream = _fileSystem.File.OpenRead(_platformService.GetConfigFile());
-        Settings = JsonSerializer.Deserialize<Settings>(fileStream, JsonSerializerOptions);
+        Settings = JsonSerializer.Deserialize<Settings>(fileStream, JsonSerializerOptions) ??
+                   throw new InvalidOperationException("Settings was null");
     }
 
     public async Task LoadAsync()
     {
         await using var fileStream = _fileSystem.File.OpenRead(_platformService.GetConfigFile());
-        Settings = await JsonSerializer.DeserializeAsync<Settings>(fileStream, JsonSerializerOptions);
+        Settings = await JsonSerializer.DeserializeAsync<Settings>(fileStream, JsonSerializerOptions) ??
+                   throw new InvalidOperationException("Settings was null");
     }
 
     public void Save()
