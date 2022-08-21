@@ -28,7 +28,6 @@ public partial class EntryViewModel : RecipientViewModelBase
     [ObservableProperty]
     private Bitmap? _logo;
 
-    public string FilePath => _entry.FilePath;
     public string Name => _entry.Name;
     public string? Description => _entry.Description;
 
@@ -53,7 +52,7 @@ public partial class EntryViewModel : RecipientViewModelBase
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Could not load logo for entry {}", FilePath);
+                _logger.LogError(e, "Could not load logo for entry {}", _entry.FilePath);
             }
 
             return null;
@@ -87,7 +86,7 @@ public partial class EntryViewModel : RecipientViewModelBase
     [RelayCommand]
     private async Task DeleteEntry()
     {
-        await _entryService.DeleteEntry(FilePath);
+        await _entryService.DeleteEntry(_entry.FilePath);
         Messenger.Send(new EntryChangedMessage(this));
     }
 }
