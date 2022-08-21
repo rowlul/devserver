@@ -21,7 +21,6 @@ public partial class EntryViewModel : RecipientViewModelBase
     private readonly Entry _entry;
 
     private readonly ILogger<EntryViewModel> _logger;
-    private readonly IConfigurationManager _configurationManager;
     private readonly IEntryService _entryService;
     private readonly IGameLauncher _gameLauncher;
 
@@ -36,7 +35,6 @@ public partial class EntryViewModel : RecipientViewModelBase
         _entry = entry;
 
         _logger = Ioc.Default.GetRequiredService<ILogger<EntryViewModel>>();
-        _configurationManager = Ioc.Default.GetRequiredService<IConfigurationManager>();
         _entryService = Ioc.Default.GetRequiredService<IEntryService>();
         _gameLauncher = Ioc.Default.GetRequiredService<IGameLauncher>();
     }
