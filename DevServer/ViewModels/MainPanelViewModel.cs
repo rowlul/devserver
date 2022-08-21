@@ -14,8 +14,8 @@ namespace DevServer.ViewModels;
 
 public partial class MainPanelViewModel : RecipientViewModelBase
 {
-    private readonly ILogger<MainPanelViewModel> _logger;
     private readonly IEntryService _entryService;
+    private readonly ILogger<MainPanelViewModel> _logger;
 
     public MainPanelViewModel(ILogger<MainPanelViewModel> logger,
                               IEntryService entryService)

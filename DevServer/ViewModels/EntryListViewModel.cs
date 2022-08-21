@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 
 using Avalonia.Collections;
@@ -8,9 +7,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 using DevServer.Messages;
-using DevServer.Services;
-
-using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels;
 

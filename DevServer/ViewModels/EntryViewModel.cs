@@ -19,10 +19,10 @@ namespace DevServer.ViewModels;
 public partial class EntryViewModel : RecipientViewModelBase
 {
     private readonly Entry _entry;
-
-    private readonly ILogger<EntryViewModel> _logger;
     private readonly IEntryService _entryService;
     private readonly IGameLauncher _gameLauncher;
+
+    private readonly ILogger<EntryViewModel> _logger;
 
     [ObservableProperty]
     private Bitmap? _logo;
