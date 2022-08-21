@@ -6,12 +6,10 @@
              xmlns:local="clr-namespace:DevServer"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="40"
              x:Class="DevServer.Views.MainPanelView"
-             d:DataContext="{x:Static local:DesignData.MainPanelViewModel}">
+             d:DataContext="{x:Static local:DesignData.MainPanelViewModel}"
+             IsEnabled="{Binding IsEnabled}">
 
-    <Grid
-        IsEnabled="{Binding IsEnabled}"
-        ColumnDefinitions="Auto * Auto Auto">
-
+    <Grid ColumnDefinitions="Auto * Auto Auto Auto">
         <Button Grid.Column="0" Command="{Binding DirectConnectCommand}">
             <StackPanel Orientation="Horizontal">
                 <material:MaterialIcon Kind="PlayNetwork" />

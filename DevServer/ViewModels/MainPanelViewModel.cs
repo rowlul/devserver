@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -16,6 +17,9 @@ public partial class MainPanelViewModel : RecipientViewModelBase
 {
     private readonly IEntryService _entryService;
     private readonly ILogger<MainPanelViewModel> _logger;
+
+    [ObservableProperty]
+    private bool _isEnabled = true;
 
     public MainPanelViewModel(ILogger<MainPanelViewModel> logger,
                               IEntryService entryService)

@@ -8,7 +8,8 @@
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DevServer.Views.EntryListView"
-             d:DataContext="{x:Static local:DesignData.EntryListViewModel}">
+             d:DataContext="{x:Static local:DesignData.EntryListViewModel}"
+             IsEnabled="{Binding IsEnabled}">
 
     <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="AttachedToVisualTree">

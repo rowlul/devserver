@@ -13,6 +13,9 @@ namespace DevServer.ViewModels;
 public partial class EntryListViewModel : RecipientViewModelBase
 {
     [ObservableProperty]
+    private bool _isEnabled = true;
+
+    [ObservableProperty]
     private AvaloniaList<EntryViewModel> _entries = new();
 
     [ObservableProperty]
