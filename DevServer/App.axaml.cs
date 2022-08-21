@@ -100,12 +100,14 @@ public class App : Application
                                                                     new DialogFactory().AddMessageBox()),
                                                   viewModelFactory: x => provider.GetRequiredService<ViewLocator>()));
         services.AddSingleton<IProcess, ProcessProxy>();
-        services.AddSingleton<INativeRunner>(provider => new NativeRunner(provider.GetRequiredService<IProcess>()));
-        services.AddSingleton<IWineRunner>(provider => new WineRunner(provider.GetRequiredService<IProcess>()));
         services.AddSingleton<IFileSystem, FileSystem>();
         services.AddSingleton<IConfigurationManager>(
             provider => new ConfigurationManager(provider.GetRequiredService<IPlatformService>(),
                                                  provider.GetRequiredService<IFileSystem>()));
+        services.AddSingleton<IGameLauncher>(provider => new GameLauncher(
+                                                 provider.GetRequiredService<IProcess>(),
+                                                 provider.GetRequiredService<IPlatformService>(),
+                                                 provider.GetRequiredService<IConfigurationManager>()));
         services.AddSingleton<IEntryService>(provider => new EntryService(
                                                  provider.GetRequiredService<IPlatformService>(),
                                                  provider.GetRequiredService<IFileSystem>(),

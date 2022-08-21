@@ -23,8 +23,7 @@ public partial class EntryViewModel : RecipientViewModelBase
     private readonly ILogger<EntryViewModel> _logger;
     private readonly IConfigurationManager _configurationManager;
     private readonly IEntryService _entryService;
-    private readonly INativeRunner _nativeRunner;
-    private readonly IWineRunner _wineRunner;
+    private readonly IGameLauncher _gameLauncher;
 
     [ObservableProperty]
     private Bitmap? _logo;
@@ -40,8 +39,7 @@ public partial class EntryViewModel : RecipientViewModelBase
         _logger = Ioc.Default.GetRequiredService<ILogger<EntryViewModel>>();
         _configurationManager = Ioc.Default.GetRequiredService<IConfigurationManager>();
         _entryService = Ioc.Default.GetRequiredService<IEntryService>();
-        _nativeRunner = Ioc.Default.GetRequiredService<INativeRunner>();
-        _wineRunner = Ioc.Default.GetRequiredService<IWineRunner>();
+        _gameLauncher = Ioc.Default.GetRequiredService<IGameLauncher>();
     }
 
     [RelayCommand]
@@ -67,11 +65,7 @@ public partial class EntryViewModel : RecipientViewModelBase
     {
         Messenger.Send(new ProcessRunningMessage(true));
 
-        using var process = OperatingSystem.IsLinux()
-            ? _wineRunner.RunWithArgs(_configurationManager.Settings.OsuExePath,
-                                      _entry.ServerAddress,
-                                      _configurationManager.Settings.WineSettings!)
-            : _nativeRunner.RunWithArgs(_configurationManager.Settings.OsuExePath, _entry.ServerAddress);
+        using var process = _gameLauncher.Start(_entry.ServerAddress);
 
         process.ErrorDataReceived += (_, args) => _logger.LogError(args.Data);
         process.OutputDataReceived += (_, args) => _logger.LogTrace(args.Data);
