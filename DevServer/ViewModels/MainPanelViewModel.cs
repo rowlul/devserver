@@ -56,6 +56,18 @@ public partial class MainPanelViewModel : RecipientViewModelBase
         Messenger.Send(new EntriesChangedMessage(entries));
     }
 
+    [RelayCommand]
+    private Task ShowSettings()
+    {
+        return Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private Task ShowAbout()
+    {
+        return Task.CompletedTask;
+    }
+
     private async Task<IList<EntryViewModel>> GetEntryList()
     {
         List<EntryViewModel> entries = new();

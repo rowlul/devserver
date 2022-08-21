@@ -9,7 +9,7 @@
              d:DataContext="{x:Static local:DesignData.MainPanelViewModel}"
              IsEnabled="{Binding IsEnabled}">
 
-    <Grid ColumnDefinitions="Auto * Auto Auto Auto">
+    <Grid ColumnDefinitions="Auto * Auto Auto Auto Auto">
         <Button Grid.Column="0" Command="{Binding DirectConnectCommand}">
             <StackPanel Orientation="Horizontal">
                 <material:MaterialIcon Kind="PlayNetwork" />
@@ -26,6 +26,14 @@
 
         <Button Grid.Column="3" ToolTip.Tip="Refresh Servers" Command="{Binding RefreshEntriesCommand}">
             <material:MaterialIcon Kind="Refresh" />
+        </Button>
+
+        <Button Grid.Column="4" ToolTip.Tip="Settings" Command="{Binding ShowSettingsCommand}">
+            <material:MaterialIcon Kind="SettingsOutline" />
+        </Button>
+
+        <Button Grid.Column="5" ToolTip.Tip="About" Command="{Binding ShowAboutCommand}">
+            <material:MaterialIcon Kind="AboutOutline" />
         </Button>
 
         <Grid.Styles>
