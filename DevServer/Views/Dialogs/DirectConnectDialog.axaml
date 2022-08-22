@@ -1,0 +1,65 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="200"
+        x:Class="DevServer.Views.Dialogs.DirectConnectDialog"
+        MaxWidth="500" MaxHeight="200" Padding="20" CanResize="False"
+        Title="Direct Connect">
+
+    <Grid
+        RowDefinitions="* Auto">
+        <TextBlock Grid.Row="0" Text="Play server directly via IP"
+                   FontWeight="Bold" />
+        <StackPanel Grid.Row="0"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Server Address (e.g. example.com, 127.0.0.1)" />
+            <Separator Height="5" />
+            <TextBox Text="{Binding ServerAddress}" />
+        </StackPanel>
+        <Grid Grid.Row="1"
+              VerticalAlignment="Bottom"
+              ColumnDefinitions="Auto * Auto">
+            <StackPanel Grid.Column="0"
+                        Orientation="Horizontal"
+                        ToolTip.Tip="{Binding ErrorToolTip}">
+                <Panel>
+                    <material:MaterialIcon Kind="DotsHorizontal"
+                                           IsVisible="{Binding IsAwaitingInput}" />
+                    <material:MaterialIcon Kind="Check"
+                                           IsVisible="{Binding IsValid}" />
+                    <material:MaterialIcon Kind="Error"
+                                           IsVisible="{Binding IsInvalid}" />
+                    <Panel.Styles>
+                        <Style Selector="material|MaterialIcon">
+                            <Setter Property="Width" Value="32" />
+                            <Setter Property="Height" Value="32" />
+                        </Style>
+                    </Panel.Styles>
+                </Panel>
+                <Separator Width="10" />
+                <TextBlock Text="{Binding ErrorText}"
+                           FontWeight="Medium"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal">
+                <Button HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <material:MaterialIcon Kind="Play" />
+                        <Separator Width="8" />
+                        <TextBlock Text="Play"
+                                   FontWeight="Medium"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Separator Width="5" />
+                <Button HorizontalAlignment="Right"
+                        Content="Cancel" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</Window>
