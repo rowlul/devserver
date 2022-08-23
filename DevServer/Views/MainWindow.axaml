@@ -8,7 +8,6 @@
         x:Class="DevServer.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="DevServer"
-        WindowState="{Binding WindowState}"
         d:DataContext="{x:Static local:DesignData.MainWindowViewModel}">
 
     <Grid RowDefinitions="* Auto">

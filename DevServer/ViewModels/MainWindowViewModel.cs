@@ -9,9 +9,6 @@ namespace DevServer.ViewModels;
 
 public partial class MainWindowViewModel : RecipientViewModelBase
 {
-    [ObservableProperty]
-    private WindowState _windowState;
-
     public EntryListViewModel EntryListViewModel { get; }
     public MainPanelViewModel MainPanelViewModel { get; }
 
@@ -32,8 +29,6 @@ public partial class MainWindowViewModel : RecipientViewModelBase
                 // enabled if process is not running
                 r.MainPanelViewModel.IsEnabled = !m.Value;
                 r.EntryListViewModel.IsEnabled = !m.Value;
-
-                r.WindowState = m.Value ? WindowState.Minimized : WindowState.Normal;
             });
     }
 }
