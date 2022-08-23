@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -47,20 +48,27 @@ public partial class DirectConnectViewModel : DialogViewModelBase
     [RelayCommand]
     private async Task Play()
     {
-        Messenger.Send(new ProcessRunningMessage(true));
-        Close();
-
-        using var process = _gameLauncher.Start(ServerAddress);
-
-        process.ErrorDataReceived += (_, args) => _logger.LogError(args.Data);
-        process.OutputDataReceived += (_, args) => _logger.LogTrace(args.Data);
-        process.Exited += (_, _) =>
+        try
         {
-            Messenger.Send(new ProcessRunningMessage(false));
-            _logger.LogInformation("Process exited with exit code {}", process.ExitCode);
-            DialogResult = true;
-        };
+            using var process = _gameLauncher.Start(ServerAddress);
 
-        await process.WaitForExitAsync();
+            Messenger.Send(new ProcessRunningMessage(true));
+            Close();
+
+            process.ErrorDataReceived += (_, args) => _logger.LogError(args.Data);
+            process.OutputDataReceived += (_, args) => _logger.LogTrace(args.Data);
+            process.Exited += (_, _) =>
+            {
+                Messenger.Send(new ProcessRunningMessage(false));
+                _logger.LogInformation("Process exited with exit code {}", process.ExitCode);
+                DialogResult = true;
+            };
+
+            await process.WaitForExitAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Could not start game");
+        }
     }
 }

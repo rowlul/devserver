@@ -60,19 +60,26 @@ public partial class EntryViewModel : ViewModelBase
     [RelayCommand]
     private async Task Play()
     {
-        Messenger.Send(new ProcessRunningMessage(true));
-
-        using var process = _gameLauncher.Start(_entry.ServerAddress);
-
-        process.ErrorDataReceived += (_, args) => _logger.LogError(args.Data);
-        process.OutputDataReceived += (_, args) => _logger.LogTrace(args.Data);
-        process.Exited += (_, _) =>
+        try
         {
-            Messenger.Send(new ProcessRunningMessage(false));
-            _logger.LogInformation("Process exited with exit code {}", process.ExitCode);
-        };
+            using var process = _gameLauncher.Start(_entry.ServerAddress);
 
-        await process.WaitForExitAsync();
+            Messenger.Send(new ProcessRunningMessage(true));
+
+            process.ErrorDataReceived += (_, args) => _logger.LogError(args.Data);
+            process.OutputDataReceived += (_, args) => _logger.LogTrace(args.Data);
+            process.Exited += (_, _) =>
+            {
+                Messenger.Send(new ProcessRunningMessage(false));
+                _logger.LogInformation("Process exited with exit code {}", process.ExitCode);
+            };
+
+            await process.WaitForExitAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Could not start game");
+        }
     }
 
     [RelayCommand]
