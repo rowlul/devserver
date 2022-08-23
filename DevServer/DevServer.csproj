@@ -41,7 +41,4 @@
     <ProjectReference Include="..\DevServer.Models\DevServer.Models.csproj" />
     <ProjectReference Include="..\DevServer.Services\DevServer.Services.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Dialogs\MessageBoxView.axaml" />
-  </ItemGroup>
 </Project>
