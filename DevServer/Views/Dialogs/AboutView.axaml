@@ -6,7 +6,7 @@
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="200"
         x:Class="DevServer.Views.Dialogs.AboutView"
-        d:DataContext="{x:Static local:DesignData.DirectConnectViewModel}"
+        d:DataContext="{x:Static local:DesignData.AboutViewModel}"
         Width="600" Height="200" Padding="20" CanResize="False"
         Title="About DevServer">
 
