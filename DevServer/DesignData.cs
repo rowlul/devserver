@@ -10,7 +10,7 @@ public static class DesignData
 
     public static EntryListViewModel EntryListViewModel => new();
 
-    public static MainPanelViewModel MainPanelViewModel => new(null!, null!);
+    public static MainPanelViewModel MainPanelViewModel => new(null!, null!, null!);
 
     public static DirectConnectDialogViewModel DirectConnectDialogViewModel => new(null!, null!);
 

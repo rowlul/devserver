@@ -6,8 +6,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
+using DevServer.Extensions;
 using DevServer.Messages;
 using DevServer.Services;
+
+using HanumanInstitute.MvvmDialogs;
 
 using Microsoft.Extensions.Logging;
 
@@ -16,15 +19,18 @@ namespace DevServer.ViewModels;
 public partial class MainPanelViewModel : ViewModelBase
 {
     private readonly IEntryService _entryService;
+    private readonly IDialogService _dialogService;
     private readonly ILogger<MainPanelViewModel> _logger;
 
     [ObservableProperty]
     private bool _isEnabled = true;
 
     public MainPanelViewModel(ILogger<MainPanelViewModel> logger,
+                              IDialogService dialogService,
                               IEntryService entryService)
     {
         _logger = logger;
+        _dialogService = dialogService;
         _entryService = entryService;
 
         IsActive = true;
@@ -38,9 +44,9 @@ public partial class MainPanelViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private Task DirectConnect()
+    private async Task DirectConnect()
     {
-        return Task.CompletedTask;
+        await _dialogService.ShowDirectConnectDialog();
     }
 
     [RelayCommand]

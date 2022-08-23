@@ -119,6 +119,7 @@ public class App : Application
                                   provider.GetRequiredService<IGameLauncher>()));
         services.AddSingleton(provider => new MainPanelViewModel(
                                   provider.GetRequiredService<ILogger<MainPanelViewModel>>(),
+                                  provider.GetRequiredService<IDialogService>(),
                                   provider.GetRequiredService<IEntryService>()));
         services.AddSingleton(provider => new EntryListViewModel());
         services.AddSingleton(provider => new MainWindowViewModel(provider.GetRequiredService<EntryListViewModel>(),
