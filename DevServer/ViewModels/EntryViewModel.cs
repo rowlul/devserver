@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels;
 
-public partial class EntryViewModel : RecipientViewModelBase
+public partial class EntryViewModel : ViewModelBase
 {
     private readonly Entry _entry;
     private readonly IEntryService _entryService;

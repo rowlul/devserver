@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels;
 
-public partial class MainPanelViewModel : RecipientViewModelBase
+public partial class MainPanelViewModel : ViewModelBase
 {
     private readonly IEntryService _entryService;
     private readonly ILogger<MainPanelViewModel> _logger;

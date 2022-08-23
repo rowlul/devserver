@@ -10,7 +10,7 @@ using DevServer.Messages;
 
 namespace DevServer.ViewModels;
 
-public partial class EntryListViewModel : RecipientViewModelBase
+public partial class EntryListViewModel : ViewModelBase
 {
     [ObservableProperty]
     private bool _isEnabled = true;

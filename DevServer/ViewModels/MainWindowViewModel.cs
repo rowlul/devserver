@@ -7,7 +7,7 @@ using DevServer.Messages;
 
 namespace DevServer.ViewModels;
 
-public partial class MainWindowViewModel : RecipientViewModelBase
+public partial class MainWindowViewModel : ViewModelBase
 {
     public EntryListViewModel EntryListViewModel { get; }
     public MainPanelViewModel MainPanelViewModel { get; }
