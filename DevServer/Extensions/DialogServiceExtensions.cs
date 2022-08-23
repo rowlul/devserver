@@ -17,4 +17,11 @@ public static class DialogServiceExtensions
         var modal = Ioc.Default.GetRequiredService<DirectConnectViewModel>();
         return service.ShowDialogAsync(owner, modal);
     }
+
+    public static Task ShowAboutDialog(this IDialogService service)
+    {
+        var owner = Ioc.Default.GetRequiredService<MainWindowViewModel>();
+        var modal = Ioc.Default.GetRequiredService<AboutViewModel>();
+        return service.ShowDialogAsync(owner, modal);
+    }
 }

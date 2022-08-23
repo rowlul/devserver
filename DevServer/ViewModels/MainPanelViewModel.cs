@@ -69,9 +69,9 @@ public partial class MainPanelViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private Task ShowAbout()
+    private async Task ShowAbout()
     {
-        return Task.CompletedTask;
+        await _dialogService.ShowAboutDialog();
     }
 
     private async Task<IList<EntryViewModel>> GetEntryList()
