@@ -19,7 +19,7 @@ public class ViewLocator : ViewLocatorBase
     {
         var viewName = GetViewName(viewModel);
         var type = Assembly.GetEntryAssembly()?.GetType(viewName);
-        var obj = type != null ? Ioc.Default.GetRequiredService(type) : null;
+        var obj = type != null ? Ioc.Default.GetService(type) ?? Activator.CreateInstance(type) : null;
 
         return obj switch
         {
