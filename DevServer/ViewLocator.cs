@@ -15,11 +15,6 @@ namespace DevServer;
 
 public class ViewLocator : ViewLocatorBase
 {
-    protected override string GetViewName(object viewModel)
-    {
-        return viewModel.GetType().FullName!.Replace("ViewModel", "");
-    }
-
     public override object Locate(object viewModel)
     {
         var viewName = GetViewName(viewModel);
