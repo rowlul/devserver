@@ -14,6 +14,8 @@ public static class DesignData
 
     public static DirectConnectViewModel DirectConnectViewModel => new(null!, null!);
 
+    public static AboutViewModel AboutViewModel => new(null!);
+
     public static EntryViewModel EntryViewModel { get; } =
         new(new Entry
         {

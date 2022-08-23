@@ -122,6 +122,7 @@ public class App : Application
                                   provider.GetRequiredService<IDialogService>(),
                                   provider.GetRequiredService<IEntryService>()));
         services.AddSingleton(provider => new EntryListViewModel());
+        services.AddSingleton(provider => new AboutViewModel(provider.GetRequiredService<IProcess>()));
         services.AddSingleton(provider => new MainWindowViewModel(provider.GetRequiredService<EntryListViewModel>(),
                                                                   provider.GetRequiredService<MainPanelViewModel>()));
 
