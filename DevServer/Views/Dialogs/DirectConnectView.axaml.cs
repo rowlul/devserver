@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace DevServer.Views.Dialogs;
 
-public partial class DirectConnectDialogView : Window
+public partial class DirectConnectView : Window
 {
-    public DirectConnectDialogView()
+    public DirectConnectView()
     {
         InitializeComponent();
 #if DEBUG

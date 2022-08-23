@@ -114,8 +114,8 @@ public class App : Application
                                                  provider.GetRequiredService<IPlatformService>(),
                                                  provider.GetRequiredService<IFileSystem>(),
                                                  provider.GetRequiredService<IHttpHandler>()));
-        services.AddTransient(provider => new DirectConnectDialogViewModel(
-                                  provider.GetRequiredService<ILogger<DirectConnectDialogViewModel>>(),
+        services.AddTransient(provider => new DirectConnectViewModel(
+                                  provider.GetRequiredService<ILogger<DirectConnectViewModel>>(),
                                   provider.GetRequiredService<IGameLauncher>()));
         services.AddSingleton(provider => new MainPanelViewModel(
                                   provider.GetRequiredService<ILogger<MainPanelViewModel>>(),

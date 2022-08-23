@@ -11,10 +11,10 @@ using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels.Dialogs;
 
-public partial class DirectConnectDialogViewModel : DialogViewModelBase
+public partial class DirectConnectViewModel : DialogViewModelBase
 {
     private readonly IGameLauncher _gameLauncher;
-    private readonly ILogger<DirectConnectDialogViewModel> _logger;
+    private readonly ILogger<DirectConnectViewModel> _logger;
 
     [ObservableProperty]
     private bool _isTextBoxEnabled = true;
@@ -37,7 +37,7 @@ public partial class DirectConnectDialogViewModel : DialogViewModelBase
     [ObservableProperty]
     private string _serverAddress;
 
-    public DirectConnectDialogViewModel(ILogger<DirectConnectDialogViewModel> logger,
+    public DirectConnectViewModel(ILogger<DirectConnectViewModel> logger,
                                         IGameLauncher gameLauncher)
     {
         _logger = logger;
