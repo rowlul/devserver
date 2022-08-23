@@ -3,8 +3,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:local="clr-namespace:DevServer"
         mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="200"
-        x:Class="DevServer.Views.Dialogs.DirectConnectDialog"
+        x:Class="DevServer.Views.Dialogs.DirectConnectDialogView"
+        d:DataContext="{x:Static local:DesignData.DirectConnectDialogViewModel}"
         MaxWidth="500" MaxHeight="200" Padding="20" CanResize="False"
         Title="Direct Connect">
 
@@ -16,7 +18,8 @@
                     VerticalAlignment="Center">
             <TextBlock Text="Server Address (e.g. example.com, 127.0.0.1)" />
             <Separator Height="5" />
-            <TextBox Text="{Binding ServerAddress}" />
+            <TextBox Text="{Binding ServerAddress}"
+                     IsEnabled="{Binding IsTextBoxEnabled}"/>
         </StackPanel>
         <Grid Grid.Row="1"
               VerticalAlignment="Bottom"
@@ -46,7 +49,8 @@
 
             <StackPanel Grid.Column="2"
                         Orientation="Horizontal">
-                <Button HorizontalAlignment="Right">
+                <Button HorizontalAlignment="Right"
+                        Command="{Binding PlayCommand}">
                     <StackPanel Orientation="Horizontal">
                         <material:MaterialIcon Kind="Play" />
                         <Separator Width="8" />
@@ -57,7 +61,9 @@
                 </Button>
                 <Separator Width="5" />
                 <Button HorizontalAlignment="Right"
-                        Content="Cancel" />
+                        Content="Cancel"
+                        Command="{Binding CloseCommand}"
+                        IsCancel="True"/>
             </StackPanel>
         </Grid>
     </Grid>

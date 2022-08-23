@@ -1,5 +1,6 @@
 using DevServer.Models;
 using DevServer.ViewModels;
+using DevServer.ViewModels.Dialogs;
 
 namespace DevServer;
 
@@ -10,6 +11,8 @@ public static class DesignData
     public static EntryListViewModel EntryListViewModel => new();
 
     public static MainPanelViewModel MainPanelViewModel => new(null!, null!);
+
+    public static DirectConnectDialogViewModel DirectConnectDialogViewModel => new(null!, null!);
 
     public static EntryViewModel EntryViewModel { get; } =
         new(new Entry

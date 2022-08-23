@@ -12,7 +12,9 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 
 using DevServer.Services;
 using DevServer.ViewModels;
+using DevServer.ViewModels.Dialogs;
 using DevServer.Views;
+using DevServer.Views.Dialogs;
 
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
@@ -112,7 +114,9 @@ public class App : Application
                                                  provider.GetRequiredService<IPlatformService>(),
                                                  provider.GetRequiredService<IFileSystem>(),
                                                  provider.GetRequiredService<IHttpHandler>()));
-
+        services.AddTransient(provider => new DirectConnectDialogViewModel(
+                                  provider.GetRequiredService<ILogger<DirectConnectDialogViewModel>>(),
+                                  provider.GetRequiredService<IGameLauncher>()));
         services.AddSingleton(provider => new MainPanelViewModel(
                                   provider.GetRequiredService<ILogger<MainPanelViewModel>>(),
                                   provider.GetRequiredService<IEntryService>()));
