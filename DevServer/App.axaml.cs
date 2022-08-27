@@ -117,12 +117,12 @@ public class App : Application
         services.AddTransient(provider => new DirectConnectViewModel(
                                   provider.GetRequiredService<ILogger<DirectConnectViewModel>>(),
                                   provider.GetRequiredService<IGameLauncher>()));
+        services.AddTransient(provider => new AboutViewModel(provider.GetRequiredService<IProcess>()));
         services.AddSingleton(provider => new MainPanelViewModel(
                                   provider.GetRequiredService<ILogger<MainPanelViewModel>>(),
                                   provider.GetRequiredService<IDialogService>(),
                                   provider.GetRequiredService<IEntryService>()));
         services.AddSingleton(provider => new EntryListViewModel());
-        services.AddSingleton(provider => new AboutViewModel(provider.GetRequiredService<IProcess>()));
         services.AddSingleton(provider => new MainWindowViewModel(provider.GetRequiredService<EntryListViewModel>(),
                                                                   provider.GetRequiredService<MainPanelViewModel>()));
 
