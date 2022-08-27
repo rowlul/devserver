@@ -8,4 +8,10 @@ public enum WineArch
     [EnumMember(Value = "win64")] Win64
 }
 
-public record WineStartInfo(string Path, string Prefix, WineArch Arch, IDictionary<string, string>? Environment);
+public class WineStartInfo
+{
+    public string Path { get; set; }
+    public string Prefix { get; set; }
+    public WineArch Arch { get; set; }
+    public IDictionary<string, string>? Environment { get; set; }
+}

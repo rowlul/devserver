@@ -1,4 +1,3 @@
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace DevServer.Models;
@@ -14,11 +13,14 @@ public class Settings
 
     private static WineStartInfo? GetWineSettings() =>
         OperatingSystem.IsLinux()
-            ? new WineStartInfo(Path: "/usr/bin/wine",
-                                Prefix:
-                                $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.wineprefix",
-                                Arch: WineArch.Win32,
-                                new Dictionary<string, string>())
+            ? new WineStartInfo
+            {
+                Path = "/usr/bin/wine",
+                Prefix =
+                    $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.wineprefix",
+                Arch = WineArch.Win32,
+                Environment = new Dictionary<string, string>()
+            }
             : null;
 
     [JsonPropertyName("ExecutablePath")]
