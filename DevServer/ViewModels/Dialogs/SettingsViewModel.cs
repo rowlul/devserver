@@ -66,7 +66,7 @@ public partial class SettingsViewModel : DialogViewModelBase
     private static IDictionary<string, string> SplitEnvironment(string? env) =>
         !string.IsNullOrWhiteSpace(env)
             ? env.Split('\n', ' ')
-                 .Select(x => x.Split('='))
+                 .Select(x => x.Split('=', 2))
                  .Where(x => x.Length == 2)
                  .ToDictionary(x => x[0], x => x[1])
             : ImmutableDictionary<string, string>.Empty;
