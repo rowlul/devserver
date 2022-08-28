@@ -75,11 +75,13 @@
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10 5 10 5">
-            <Button Command="{Binding ReloadCommand}">
+            <Button ToolTip.Tip="Reload settings&#x0a;Useful if config was changed externally"
+                    Command="{Binding ReloadCommand}">
                 <material:MaterialIcon Kind="Refresh" />
             </Button>
             <Separator Width="4" />
-            <Button Command="{Binding ResetCommand}">
+            <Button ToolTip.Tip="Reset settings to default"
+                    Command="{Binding ResetCommand}">
                 <material:MaterialIcon Kind="SettingsBackupRestore" />
             </Button>
             <Separator Width="4" />
