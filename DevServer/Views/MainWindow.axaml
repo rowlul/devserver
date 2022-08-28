@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DevServer"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
         x:Class="DevServer.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="DevServer"
+        Title="DevServer" Width="600" Height="400"
         d:DataContext="{x:Static local:DesignData.MainWindowViewModel}">
 
     <Grid RowDefinitions="* Auto">
