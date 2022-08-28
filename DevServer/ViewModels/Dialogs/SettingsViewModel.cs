@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 using Avalonia.Controls;
@@ -16,20 +15,18 @@ namespace DevServer.ViewModels.Dialogs;
 
 public partial class SettingsViewModel : DialogViewModelBase
 {
-    private readonly IPlatformService _platformService;
     private readonly IConfigurationManager _configurationManager;
 
-    public bool IsLinux
+    public bool IsWineSettingsAvailable
     {
         get
         {
             if (Design.IsDesignMode)
             {
-                // always return true in designer to see tab on all platforms
                 return true;
             }
 
-            return _platformService.GetOperatingSystem() == OSPlatform.Linux;
+            return _configurationManager.Settings.WineSettings is not null;
         }
     }
 
@@ -50,10 +47,8 @@ public partial class SettingsViewModel : DialogViewModelBase
     [ObservableProperty]
     private WineArch? _selectedWineArch;
 
-    public SettingsViewModel(IPlatformService platformService,
-                             IConfigurationManager configurationManager)
+    public SettingsViewModel(IConfigurationManager configurationManager)
     {
-        _platformService = platformService;
         _configurationManager = configurationManager;
 
         Load();

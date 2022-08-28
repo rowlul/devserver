@@ -8,21 +8,18 @@ namespace DevServer.Services;
 public class GameLauncher : IGameLauncher
 {
     private readonly IProcess _process;
-    private readonly IPlatformService _platformService;
     private readonly IConfigurationManager _config;
 
     public GameLauncher(IProcess process,
-                        IPlatformService platformService,
                         IConfigurationManager config)
     {
         _process = process;
-        _platformService = platformService;
         _config = config;
     }
 
     public Process Start(string serverAddress)
     {
-        var process = _platformService.GetOperatingSystem() == OSPlatform.Linux
+        var process = _config.Settings.WineSettings is not null
             ? StartWine(serverAddress)
             : StartNative(serverAddress);
 

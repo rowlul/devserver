@@ -29,7 +29,7 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="Wine" IsVisible="{Binding IsLinux}">
+            <TabItem Header="Wine" IsVisible="{Binding IsWineSettingsAvailable}">
                 <Grid RowDefinitions="Auto 5 Auto 5 *" Margin="0 5">
                     <StackPanel Grid.Row="0">
                         <TextBlock Text="Path to wine" />

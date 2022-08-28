@@ -108,7 +108,6 @@ public class App : Application
                                                  provider.GetRequiredService<IFileSystem>()));
         services.AddSingleton<IGameLauncher>(provider => new GameLauncher(
                                                  provider.GetRequiredService<IProcess>(),
-                                                 provider.GetRequiredService<IPlatformService>(),
                                                  provider.GetRequiredService<IConfigurationManager>()));
         services.AddSingleton<IEntryService>(provider => new EntryService(
                                                  provider.GetRequiredService<IPlatformService>(),
@@ -118,8 +117,7 @@ public class App : Application
                                   provider.GetRequiredService<ILogger<DirectConnectViewModel>>(),
                                   provider.GetRequiredService<IGameLauncher>()));
         services.AddTransient(provider => new AboutViewModel(provider.GetRequiredService<IProcess>()));
-        services.AddTransient(provider => new SettingsViewModel(provider.GetRequiredService<IPlatformService>(),
-                                                                provider.GetRequiredService<IConfigurationManager>()));
+        services.AddTransient(provider => new SettingsViewModel(provider.GetRequiredService<IConfigurationManager>()));
         services.AddSingleton(provider => new MainPanelViewModel(
                                   provider.GetRequiredService<ILogger<MainPanelViewModel>>(),
                                   provider.GetRequiredService<IDialogService>(),
