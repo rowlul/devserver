@@ -21,13 +21,13 @@ public class ConfigurationManager : IConfigurationManager
         WriteIndented = true
     };
 
-    public Settings Settings { get; private set; } = new();
-
     public ConfigurationManager(IPlatformService platformService, IFileSystem fileSystem)
     {
         _platformService = platformService;
         _fileSystem = fileSystem;
     }
+
+    public Settings Settings { get; private set; } = new();
 
     public void Load()
     {

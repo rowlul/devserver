@@ -1,13 +1,10 @@
-﻿using Avalonia.Controls;
-
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 
 using DevServer.Messages;
 
 namespace DevServer.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ViewModelBase
 {
     public EntryListViewModel EntryListViewModel { get; }
     public MainPanelViewModel MainPanelViewModel { get; }

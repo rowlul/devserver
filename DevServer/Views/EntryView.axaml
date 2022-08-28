@@ -19,7 +19,8 @@
     <Grid ColumnDefinitions="Auto 10 * Auto">
         <Panel Grid.Column="0">
             <Image Width="42" Stretch="Uniform" Source="{Binding Logo}" />
-            <material:MaterialIcon Width="42" Height="42" Kind="CircleOutline" IsVisible="{Binding Logo, Converter={x:Static ObjectConverters.IsNull}}" />
+            <material:MaterialIcon Width="42" Height="42" Kind="CircleOutline"
+                                   IsVisible="{Binding Logo, Converter={x:Static ObjectConverters.IsNull}}" />
         </Panel>
         <DockPanel Grid.Column="2" VerticalAlignment="Center">
             <TextBlock Text="{Binding Name}" FontWeight="Bold" />

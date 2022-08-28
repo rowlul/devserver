@@ -14,14 +14,14 @@ namespace DevServer.ViewModels.Dialogs;
 
 public partial class DirectConnectViewModel : DialogViewModelBase
 {
-    private readonly IGameLauncher _gameLauncher;
     private readonly ILogger<DirectConnectViewModel> _logger;
+    private readonly IGameLauncher _gameLauncher;
 
     [ObservableProperty]
     private string _serverAddress;
 
     public DirectConnectViewModel(ILogger<DirectConnectViewModel> logger,
-                                        IGameLauncher gameLauncher)
+                                  IGameLauncher gameLauncher)
     {
         _logger = logger;
         _gameLauncher = gameLauncher;

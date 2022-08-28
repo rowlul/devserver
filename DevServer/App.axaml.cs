@@ -14,7 +14,6 @@ using DevServer.Services;
 using DevServer.ViewModels;
 using DevServer.ViewModels.Dialogs;
 using DevServer.Views;
-using DevServer.Views.Dialogs;
 
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;

@@ -4,15 +4,24 @@ namespace DevServer.Models;
 
 public class Settings
 {
-    private static string GetPath() =>
-        OperatingSystem.IsWindows()
+    [JsonPropertyName("ExecutablePath")]
+    public string OsuExePath { get; set; } = GetPath();
+
+    [JsonPropertyName("Wine")]
+    public WineStartInfo? WineSettings { get; set; } = GetWineSettings();
+
+    private static string GetPath()
+    {
+        return OperatingSystem.IsWindows()
             ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                            "osu!",
                            "osu!.exe")
             : string.Empty;
+    }
 
-    private static WineStartInfo? GetWineSettings() =>
-        OperatingSystem.IsLinux()
+    private static WineStartInfo? GetWineSettings()
+    {
+        return OperatingSystem.IsLinux()
             ? new WineStartInfo
             {
                 Path = "/usr/bin/wine",
@@ -22,10 +31,5 @@ public class Settings
                 Environment = new Dictionary<string, string>()
             }
             : null;
-
-    [JsonPropertyName("ExecutablePath")]
-    public string OsuExePath { get; set; } = GetPath();
-
-    [JsonPropertyName("Wine")]
-    public WineStartInfo? WineSettings { get; set; } = GetWineSettings();
+    }
 }

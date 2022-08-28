@@ -39,7 +39,7 @@
                 <Button HorizontalAlignment="Right"
                         Content="Cancel"
                         Command="{Binding CloseCommand}"
-                        IsCancel="True"/>
+                        IsCancel="True" />
             </StackPanel>
         </Grid>
     </Grid>

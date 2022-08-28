@@ -17,6 +17,21 @@ public partial class SettingsViewModel : DialogViewModelBase
 {
     private readonly IConfigurationManager _configurationManager;
 
+    [ObservableProperty]
+    private string? _environment;
+
+    [ObservableProperty]
+    private string _osuExePath;
+
+    [ObservableProperty]
+    private WineArch? _selectedWineArch;
+
+    [ObservableProperty]
+    private string? _winePath;
+
+    [ObservableProperty]
+    private string? _winePrefixPath;
+
     public bool IsWineSettingsAvailable
     {
         get
@@ -31,21 +46,6 @@ public partial class SettingsViewModel : DialogViewModelBase
     }
 
     public static List<WineArch> WineArches => new() { WineArch.Win32, WineArch.Win64 };
-
-    [ObservableProperty]
-    private string _osuExePath;
-
-    [ObservableProperty]
-    private string? _winePath;
-
-    [ObservableProperty]
-    private string? _winePrefixPath;
-
-    [ObservableProperty]
-    private string? _environment;
-
-    [ObservableProperty]
-    private WineArch? _selectedWineArch;
 
     public SettingsViewModel(IConfigurationManager configurationManager)
     {
@@ -63,13 +63,15 @@ public partial class SettingsViewModel : DialogViewModelBase
             : string.Empty;
     }
 
-    private static IDictionary<string, string> SplitEnvironment(string? env) =>
-        !string.IsNullOrWhiteSpace(env)
+    private static IDictionary<string, string> SplitEnvironment(string? env)
+    {
+        return !string.IsNullOrWhiteSpace(env)
             ? env.Split('\n', ' ')
                  .Select(x => x.Split('=', 2))
                  .Where(x => x.Length == 2)
                  .ToDictionary(x => x[0], x => x[1])
             : ImmutableDictionary<string, string>.Empty;
+    }
 
     [RelayCommand]
     private void Load()

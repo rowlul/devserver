@@ -18,9 +18,9 @@ namespace DevServer.ViewModels;
 
 public partial class MainPanelViewModel : ViewModelBase
 {
-    private readonly IEntryService _entryService;
-    private readonly IDialogService _dialogService;
     private readonly ILogger<MainPanelViewModel> _logger;
+    private readonly IDialogService _dialogService;
+    private readonly IEntryService _entryService;
 
     [ObservableProperty]
     private bool _isEnabled = true;

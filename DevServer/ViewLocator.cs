@@ -9,8 +9,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
 
-using Microsoft.Extensions.DependencyInjection;
-
 namespace DevServer;
 
 public class ViewLocator : ViewLocatorBase

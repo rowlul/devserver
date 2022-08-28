@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 using DevServer.Models;
 
@@ -49,13 +48,13 @@ public class GameLauncher : IGameLauncher
             Environment =
             {
                 { "WINEPREFIX", wine.Prefix },
-                { "WINEARCH", Enum.GetName(typeof(WineArch), wine.Arch)?.ToLower() },
+                { "WINEARCH", Enum.GetName(typeof(WineArch), wine.Arch)?.ToLower() }
             }
         };
 
         if (wine.Environment != null)
         {
-            foreach (KeyValuePair<string, string> envVar in wine.Environment)
+            foreach (var envVar in wine.Environment)
             {
                 processStartInfo.EnvironmentVariables[envVar.Key] = envVar.Value;
             }

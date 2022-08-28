@@ -50,7 +50,7 @@
                 Content="OK"
                 Command="{Binding CloseCommand}"
                 IsDefault="True"
-                IsCancel="True"/>
+                IsCancel="True" />
     </Grid>
 
 </Window>
