@@ -16,17 +16,17 @@
         </ia:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
-    <Grid ColumnDefinitions="Auto * Auto">
-        <Panel Grid.Column="0" Margin="0 0 10 0">
+    <Grid ColumnDefinitions="Auto 10 * Auto">
+        <Panel Grid.Column="0">
             <Image Width="42" Stretch="Uniform" Source="{Binding Logo}" />
             <material:MaterialIcon Width="42" Height="42" Kind="CircleOutline" IsVisible="{Binding Logo, Converter={x:Static ObjectConverters.IsNull}}" />
         </Panel>
-        <DockPanel Grid.Column="1" VerticalAlignment="Center">
+        <DockPanel Grid.Column="2" VerticalAlignment="Center">
             <TextBlock Text="{Binding Name}" FontWeight="Bold" />
             <Separator Width="10" />
             <TextBlock Text="{Binding Description}" FontSize="12" Margin="0 2 0 0" />
         </DockPanel>
-        <DockPanel Grid.Column="2">
+        <DockPanel Grid.Column="3">
             <Button ToolTip.Tip="Play Server" Command="{Binding PlayCommand}">
                 <material:MaterialIcon Kind="Play" />
             </Button>
