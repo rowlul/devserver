@@ -18,35 +18,11 @@
                     VerticalAlignment="Center">
             <TextBlock Text="Server Address (e.g. example.com, 127.0.0.1)" />
             <Separator Height="5" />
-            <TextBox Text="{Binding ServerAddress}"
-                     IsEnabled="{Binding IsTextBoxEnabled}"/>
+            <TextBox Text="{Binding ServerAddress}" />
         </StackPanel>
         <Grid Grid.Row="1"
               VerticalAlignment="Bottom"
               ColumnDefinitions="Auto * Auto">
-            <StackPanel Grid.Column="0"
-                        Orientation="Horizontal"
-                        ToolTip.Tip="{Binding ErrorToolTip}">
-                <Panel>
-                    <material:MaterialIcon Kind="DotsHorizontal"
-                                           IsVisible="{Binding IsAwaitingInput}" />
-                    <material:MaterialIcon Kind="Check"
-                                           IsVisible="{Binding IsValid}" />
-                    <material:MaterialIcon Kind="Error"
-                                           IsVisible="{Binding IsInvalid}" />
-                    <Panel.Styles>
-                        <Style Selector="material|MaterialIcon">
-                            <Setter Property="Width" Value="32" />
-                            <Setter Property="Height" Value="32" />
-                        </Style>
-                    </Panel.Styles>
-                </Panel>
-                <Separator Width="10" />
-                <TextBlock Text="{Binding ErrorText}"
-                           FontWeight="Medium"
-                           VerticalAlignment="Center" />
-            </StackPanel>
-
             <StackPanel Grid.Column="2"
                         Orientation="Horizontal">
                 <Button HorizontalAlignment="Right"

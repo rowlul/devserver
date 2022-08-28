@@ -18,24 +18,6 @@ public partial class DirectConnectViewModel : DialogViewModelBase
     private readonly ILogger<DirectConnectViewModel> _logger;
 
     [ObservableProperty]
-    private bool _isTextBoxEnabled = true;
-
-    [ObservableProperty]
-    private string _errorText;
-
-    [ObservableProperty]
-    private string _errorToolTip;
-
-    [ObservableProperty]
-    private bool _isAwaitingInput;
-
-    [ObservableProperty]
-    private bool _isInvalid;
-
-    [ObservableProperty]
-    private bool _isValid;
-
-    [ObservableProperty]
     private string _serverAddress;
 
     public DirectConnectViewModel(ILogger<DirectConnectViewModel> logger,
