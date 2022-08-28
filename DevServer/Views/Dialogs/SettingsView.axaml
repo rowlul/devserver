@@ -38,7 +38,7 @@
                                      Text="{Binding WinePath}" />
                             <Button Grid.Column="2"
                                     ToolTip.Tip="Open file..."
-                                    Command="{Binding OpenFileDialog}">
+                                    Command="{Binding OpenFileDialogCommand}">
                                 <material:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
                             </Button>
                         </Grid>
@@ -57,7 +57,7 @@
                                      Text="{Binding WinePrefixPath}" />
                             <Button Grid.Column="4"
                                     ToolTip.Tip="Open directory..."
-                                    Command="{Binding OpenDirectoryDialog}">
+                                    Command="{Binding OpenDirectoryDialogCommand}">
                                 <material:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
                             </Button>
                         </Grid>
