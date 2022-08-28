@@ -17,9 +17,10 @@
     </i:Interaction.Behaviors>
 
     <Grid ColumnDefinitions="Auto * Auto">
-        <DockPanel Grid.Column="0" Margin="0 0 10 0">
+        <Panel Grid.Column="0" Margin="0 0 10 0">
             <Image Width="42" Stretch="Uniform" Source="{Binding Logo}" />
-        </DockPanel>
+            <material:MaterialIcon Width="42" Height="42" Kind="CircleOutline" IsVisible="{Binding Logo, Converter={x:Static ObjectConverters.IsNull}}" />
+        </Panel>
         <DockPanel Grid.Column="1" VerticalAlignment="Center">
             <TextBlock Text="{Binding Name}" FontWeight="Bold" />
             <Separator Width="10" />
