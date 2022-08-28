@@ -37,7 +37,13 @@ public class ConfigurationManager : IConfigurationManager
 
     public async Task LoadAsync()
     {
-        await using var fileStream = _fileSystem.File.OpenRead(_platformService.GetConfigFile());
+        await using var fileStream = new FileStream(_platformService.GetConfigFile(),
+                                                    FileMode.Open,
+                                                    FileAccess.Read,
+                                                    FileShare.Read,
+                                                    bufferSize: 4096,
+                                                    useAsync: true);
+
         Settings = await JsonSerializer.DeserializeAsync<Settings>(fileStream, JsonSerializerOptions) ??
                    throw new InvalidOperationException("Settings was null");
     }
@@ -50,7 +56,13 @@ public class ConfigurationManager : IConfigurationManager
 
     public async Task SaveAsync()
     {
-        await using var fileStream = _fileSystem.File.OpenWrite(_platformService.GetConfigFile());
+        await using var fileStream = new FileStream(_platformService.GetConfigFile(),
+                                                    FileMode.Truncate,
+                                                    FileAccess.ReadWrite,
+                                                    FileShare.ReadWrite,
+                                                    bufferSize: 4096,
+                                                    useAsync: true);
+
         await JsonSerializer.SerializeAsync(fileStream, Settings, JsonSerializerOptions);
     }
 }
