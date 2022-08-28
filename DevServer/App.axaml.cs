@@ -118,6 +118,8 @@ public class App : Application
                                   provider.GetRequiredService<ILogger<DirectConnectViewModel>>(),
                                   provider.GetRequiredService<IGameLauncher>()));
         services.AddTransient(provider => new AboutViewModel(provider.GetRequiredService<IProcess>()));
+        services.AddTransient(provider => new SettingsViewModel(provider.GetRequiredService<IPlatformService>(),
+                                                                provider.GetRequiredService<IConfigurationManager>()));
         services.AddSingleton(provider => new MainPanelViewModel(
                                   provider.GetRequiredService<ILogger<MainPanelViewModel>>(),
                                   provider.GetRequiredService<IDialogService>(),
