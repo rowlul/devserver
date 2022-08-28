@@ -39,7 +39,7 @@ public class EntryServiceTests
         await entries.MoveNextAsync();
         var actual = entries.Current;
 
-        actual.Should().BeEquivalentTo(expected);
+        actual.Should().BeEquivalentTo(expected, x => x.Excluding(e => e!.FilePath));
     }
 
     [Fact]
@@ -125,7 +125,7 @@ public class EntryServiceTests
         var httpHandler = new HttpClientHandler(mockHttp.ToHttpClient());
         var service = new EntryService(mockPlatform, mockFileSystem, httpHandler);
 
-        var image = await service.GetLogoStream(source);
+        var image = await service.GetLogoStream(XFS.Path(source));
         image.Should().NotBeNull();
     }
 
