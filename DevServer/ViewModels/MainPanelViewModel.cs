@@ -63,9 +63,9 @@ public partial class MainPanelViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private Task ShowSettings()
+    private async Task ShowSettings()
     {
-        return Task.CompletedTask;
+        await _dialogService.ShowSettingsDialog();
     }
 
     [RelayCommand]
