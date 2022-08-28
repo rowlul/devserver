@@ -1,4 +1,5 @@
 using System.IO.Abstractions;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -52,6 +53,9 @@ public class ConfigurationManager : IConfigurationManager
     {
         using var fileStream = _fileSystem.File.OpenWrite(_platformService.GetConfigFile());
         JsonSerializer.Serialize(fileStream, Settings, JsonSerializerOptions);
+
+        var newline = Encoding.ASCII.GetBytes(Environment.NewLine);
+        fileStream.WriteAsync(newline, 0, newline.Length);
     }
 
     public async Task SaveAsync()
@@ -64,5 +68,8 @@ public class ConfigurationManager : IConfigurationManager
                                                     useAsync: true);
 
         await JsonSerializer.SerializeAsync(fileStream, Settings, JsonSerializerOptions);
+
+        var newline = Encoding.ASCII.GetBytes(Environment.NewLine);
+        await fileStream.WriteAsync(newline, 0, newline.Length);
     }
 }
