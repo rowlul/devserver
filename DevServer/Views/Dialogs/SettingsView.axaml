@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:local="clr-namespace:DevServer"
+        xmlns:converters="clr-namespace:DevServer.Converters"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
         x:Class="DevServer.Views.Dialogs.SettingsView"
         d:DataContext="{x:Static local:DesignData.SettingsViewModel}"
@@ -16,7 +17,7 @@
                 <Grid RowDefinitions="Auto" Margin="0 5">
                     <StackPanel Grid.Row="0">
                         <TextBlock Text="Path to osu! executable" />
-                        <Separator Height="2"/>
+                        <Separator Height="2" />
                         <Grid ColumnDefinitions="* 5 Auto">
                             <TextBox Grid.Column="0"
                                      Text="{Binding OsuExePath}" />
@@ -48,9 +49,20 @@
                         <Separator Height="2" />
                         <Grid ColumnDefinitions="Auto 5 * 5 Auto">
                             <ComboBox Grid.Column="0"
+                                      ToolTip.Tip="Winearch"
                                       Items="{Binding WineArches}"
-                                      SelectedItem="{Binding SelectedWineArch}"
-                                      ToolTip.Tip="Winearch">
+                                      SelectedItem="{Binding SelectedWineArch}">
+
+                                <ComboBox.Resources>
+                                    <converters:EnumMemberConverter x:Key="EnumMemberConverter" />
+                                </ComboBox.Resources>
+
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource EnumMemberConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+
                             </ComboBox>
                             <TextBox Grid.Column="2"
                                      ToolTip.Tip="Path to wineprefix"
@@ -65,7 +77,7 @@
                     <Grid Grid.Row="4"
                           RowDefinitions="Auto 5 *">
                         <TextBlock Grid.Row="0"
-                                   Text="Environment variables (separate by return or space)"/>
+                                   Text="Environment variables (separate by return or space)" />
                         <TextBox Grid.Row="2"
                                  AcceptsReturn="True"
                                  TextWrapping="Wrap"
