@@ -51,7 +51,11 @@ public class ConfigurationManager : IConfigurationManager
 
     public void Save()
     {
-        using var fileStream = _fileSystem.File.OpenWrite(_platformService.GetConfigFile());
+        using var fileStream = _fileSystem.File.Open(_platformService.GetConfigFile(),
+                                                     FileMode.Create,
+                                                     FileAccess.ReadWrite,
+                                                     FileShare.ReadWrite);
+
         JsonSerializer.Serialize(fileStream, Settings, JsonSerializerOptions);
 
         var newline = Encoding.ASCII.GetBytes(Environment.NewLine);
@@ -61,7 +65,7 @@ public class ConfigurationManager : IConfigurationManager
     public async Task SaveAsync()
     {
         await using var fileStream = _fileSystem.FileStream.Create(_platformService.GetConfigFile(),
-                                                                   FileMode.Truncate,
+                                                                   FileMode.Create,
                                                                    FileAccess.ReadWrite,
                                                                    FileShare.ReadWrite,
                                                                    bufferSize: 4096,
