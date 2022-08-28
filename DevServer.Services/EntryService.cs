@@ -84,7 +84,13 @@ public class EntryService : IEntryService
 
     internal Task<Stream> GetLogoStreamFromLocalFile(string path)
     {
-        var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
-        return Task.FromResult<Stream>(stream);
+        var stream = _fileSystem.FileStream.Create(path,
+                                                   FileMode.Open,
+                                                   FileAccess.Read,
+                                                   FileShare.Read,
+                                                   bufferSize: 4096,
+                                                   useAsync: true);
+
+        return Task.FromResult(stream);
     }
 }
