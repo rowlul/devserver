@@ -21,7 +21,7 @@ public class ViewLocator : ViewLocatorBase
 
         return obj switch
         {
-            Window or IWindow or IControl => obj,
+            Window or IView or IControl => obj,
             _ => throw new TypeLoadException($"Dialog {viewName} is missing")
         };
     }
