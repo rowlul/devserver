@@ -46,14 +46,16 @@ public class EntryService : IEntryService
         }
     }
 
-    public Task AddEntry(Entry entry)
+    public async Task UpsertEntry(Entry entry)
     {
-        throw new NotImplementedException();
-    }
+        await using var fileStream = _fileSystem.FileStream.Create(_platformService.GetConfigFile(),
+                                                                   FileMode.Create,
+                                                                   FileAccess.ReadWrite,
+                                                                   FileShare.ReadWrite,
+                                                                   bufferSize: 4096,
+                                                                   useAsync: true);
 
-    public Task EditEntry(Entry entry)
-    {
-        throw new NotImplementedException();
+        await JsonSerializer.SerializeAsync(fileStream, entry);
     }
 
     public async Task DeleteEntry(string filePath)
