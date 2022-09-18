@@ -92,6 +92,6 @@ public partial class EntryViewModel : ViewModelBase
     private async Task DeleteEntry()
     {
         await _entryService.DeleteEntry(_entry.FilePath);
-        Messenger.Send(new EntryChangedMessage(this));
+        Messenger.Send(new EntryDeletedMessage(this));
     }
 }

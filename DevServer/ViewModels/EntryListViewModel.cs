@@ -28,7 +28,7 @@ public partial class EntryListViewModel : ViewModelBase
 
     protected override void OnActivated()
     {
-        Messenger.Register<EntryListViewModel, EntryChangedMessage>(
+        Messenger.Register<EntryListViewModel, EntryDeletedMessage>(
             this,
             (r, m) =>
                 r.Entries.Remove(m.Value));
