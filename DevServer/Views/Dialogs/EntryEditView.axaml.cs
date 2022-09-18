@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace DevServer.Views.Dialogs;
 
-public partial class EntryEditView : UserControl
+public partial class EntryEditView : Window
 {
     public EntryEditView()
     {
@@ -16,4 +16,3 @@ public partial class EntryEditView : UserControl
         AvaloniaXamlLoader.Load(this);
     }
 }
-
