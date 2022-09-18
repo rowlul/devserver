@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+             x:Class="DevServer.Views.Dialogs.EntryEditView"
+             Padding="20">
+    <Grid RowDefinitions="* Auto">
+        <TextBlock Grid.Row="0"
+                   FontWeight="Bold"
+                   Text="{Binding HeaderText}"/>
+        <Grid Grid.Row="0"
+              VerticalAlignment="Center"
+              RowDefinitions="Auto 5 Auto 5 Auto 5 Auto 5">
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Name" />
+                <Separator Height="2" />
+                <TextBox Text="{Binding Name}" />
+            </StackPanel>
+            <StackPanel Grid.Row="2">
+                <TextBlock Text="Description" />
+                <Separator Height="2" />
+                <TextBox Text="{Binding Description}"
+                         Height="90"/>
+            </StackPanel>
+            <StackPanel Grid.Row="4">
+                <TextBlock Text="Logo (local file or URL)" />
+                <Separator Height="2" />
+                <TextBox Text="{Binding Logo}" />
+            </StackPanel>
+            <StackPanel Grid.Row="6">
+                <TextBlock Text="Server address" />
+                <Separator Height="2" />
+                <TextBox Text="{Binding ServerAddress}" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1"
+              VerticalAlignment="Bottom"
+              ColumnDefinitions="Auto * Auto">
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal">
+                <Button HorizontalAlignment="Right"
+                        Command="{Binding DoneCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <material:MaterialIcon Kind="CheckBold" />
+                        <Separator Width="8" />
+                        <TextBlock Text="Done"
+                                   FontWeight="Medium"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Separator Width="5" />
+                <Button HorizontalAlignment="Right"
+                        Content="Cancel"
+                        Command="{Binding CloseCommand}"
+                        IsCancel="True" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
