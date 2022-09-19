@@ -18,6 +18,8 @@ public static class DesignData
 
     public static SettingsViewModel SettingsViewModel => new(null!);
 
+    public static EntryEditViewModel EntryEditViewModel => new();
+
     public static EntryViewModel EntryViewModel { get; } =
         new(new Entry
         {
