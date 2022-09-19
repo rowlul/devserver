@@ -2,6 +2,8 @@ using DevServer.Models;
 using DevServer.ViewModels;
 using DevServer.ViewModels.Dialogs;
 
+using Material.Icons;
+
 namespace DevServer;
 
 public static class DesignData
@@ -19,6 +21,9 @@ public static class DesignData
     public static SettingsViewModel SettingsViewModel => new(null!);
 
     public static EntryEditViewModel EntryEditViewModel => new();
+
+    public static MessageBoxViewModel MessageBoxViewModel =>
+        new("Title", "Messagebox text", MaterialIconKind.Warning, MessageBoxButtons.OkCancel);
 
     public static EntryViewModel EntryViewModel { get; } =
         new(new Entry
