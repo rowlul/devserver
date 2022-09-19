@@ -1,6 +1,7 @@
 using System.IO.Abstractions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 using DevServer.Models;
 
@@ -54,6 +55,8 @@ public class EntryService : IEntryService
                                                                    FileShare.ReadWrite,
                                                                    bufferSize: 4096,
                                                                    useAsync: true);
+
+        entry.FilePath = Regex.Replace(entry.Name, @"[^0-9a-zA-Z_-]+", string.Empty).ToLower();
 
         await JsonSerializer.SerializeAsync(fileStream, entry);
     }
