@@ -49,14 +49,15 @@ public class EntryService : IEntryService
 
     public async Task UpsertEntry(Entry entry)
     {
-        await using var fileStream = _fileSystem.FileStream.Create(_platformService.GetConfigFile(),
-                                                                   FileMode.Create,
-                                                                   FileAccess.ReadWrite,
-                                                                   FileShare.ReadWrite,
-                                                                   bufferSize: 4096,
-                                                                   useAsync: true);
-
         entry.FilePath = Regex.Replace(entry.Name, @"[^0-9a-zA-Z_-]+", string.Empty).ToLower();
+
+        await using var fileStream = _fileSystem.FileStream.Create(
+            Path.Combine(_platformService.GetEntryStorePath(), entry.FilePath),
+            FileMode.Create,
+            FileAccess.ReadWrite,
+            FileShare.ReadWrite,
+            bufferSize: 4096,
+            useAsync: true);
 
         await JsonSerializer.SerializeAsync(fileStream, entry);
     }
