@@ -25,6 +25,7 @@
                 <TextBlock Text="Description" />
                 <Separator Height="2" />
                 <TextBox Text="{Binding Description}"
+                         TextWrapping="Wrap"
                          Height="90"/>
             </StackPanel>
             <StackPanel Grid.Row="4">
