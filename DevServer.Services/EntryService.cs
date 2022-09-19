@@ -59,7 +59,7 @@ public class EntryService : IEntryService
             bufferSize: 4096,
             useAsync: true);
 
-        await JsonSerializer.SerializeAsync(fileStream, entry);
+        await JsonSerializer.SerializeAsync(fileStream, entry, JsonSerializerOptions);
     }
 
     public async Task DeleteEntry(string filePath)
