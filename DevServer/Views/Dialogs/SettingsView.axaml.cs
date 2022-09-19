@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
@@ -8,6 +9,9 @@ public partial class SettingsView : Window
     public SettingsView()
     {
         InitializeComponent();
+#if DEBUG
+        this.AttachDevTools();
+#endif
     }
 
     private void InitializeComponent()

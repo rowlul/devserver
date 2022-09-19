@@ -9,6 +9,9 @@ public partial class EntryEditView : Window
     public EntryEditView()
     {
         InitializeComponent();
+#if DEBUG
+        this.AttachDevTools();
+#endif
     }
 
     private void InitializeComponent()
