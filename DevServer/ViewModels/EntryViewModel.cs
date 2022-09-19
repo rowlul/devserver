@@ -8,9 +8,12 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
+using DevServer.Extensions;
 using DevServer.Messages;
 using DevServer.Models;
 using DevServer.Services;
+
+using HanumanInstitute.MvvmDialogs;
 
 using Microsoft.Extensions.Logging;
 
@@ -18,17 +21,21 @@ namespace DevServer.ViewModels;
 
 public partial class EntryViewModel : ViewModelBase
 {
-    private readonly Entry _entry;
-
     private readonly ILogger<EntryViewModel> _logger;
     private readonly IEntryService _entryService;
     private readonly IGameLauncher _gameLauncher;
+    private readonly IDialogService _dialogService;
+
+    private Entry _entry;
 
     [ObservableProperty]
     private Bitmap? _logo;
 
-    public string Name => _entry.Name;
-    public string? Description => _entry.Description;
+    [ObservableProperty]
+    private string _name;
+
+    [ObservableProperty]
+    private string? _description;
 
     public EntryViewModel(Entry entry)
     {
@@ -37,6 +44,10 @@ public partial class EntryViewModel : ViewModelBase
         _logger = Ioc.Default.GetRequiredService<ILogger<EntryViewModel>>();
         _entryService = Ioc.Default.GetRequiredService<IEntryService>();
         _gameLauncher = Ioc.Default.GetRequiredService<IGameLauncher>();
+        _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
+        _name = _entry.Name;
+        _description = _entry.Description;
     }
 
     [RelayCommand]
@@ -83,9 +94,18 @@ public partial class EntryViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private Task EditEntry()
+    private async Task EditEntry()
     {
-        return Task.CompletedTask;
+        var entry = await _dialogService.ShowEntryEditViewModel(_entry);
+        if (entry is not null)
+        {
+            await _entryService.UpsertEntry(entry);
+            _entry = entry;
+
+            Name = entry.Name;
+            Description = entry.Description;
+            await LoadLogo();
+        }
     }
 
     [RelayCommand]
