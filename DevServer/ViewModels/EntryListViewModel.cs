@@ -33,6 +33,11 @@ public partial class EntryListViewModel : ViewModelBase
             (r, m) =>
                 r.Entries.Remove(m.Value));
 
+        Messenger.Register<EntryListViewModel, EntryCreatedMessage>(
+            this,
+            (r, m) =>
+                r.Entries.Add(m.Value));
+
         Messenger.Register<EntryListViewModel, EntriesChangedMessage>(this,
                                                                       (r, m) =>
                                                                       {

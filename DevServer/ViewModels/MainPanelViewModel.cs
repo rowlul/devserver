@@ -50,9 +50,14 @@ public partial class MainPanelViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private Task AddEntry()
+    private async Task AddEntry()
     {
-        return Task.CompletedTask;
+        var entry = await _dialogService.ShowEntryEditViewModel();
+        if (entry is not null)
+        {
+            await _entryService.UpsertEntry(entry);
+            Messenger.Send(new EntryCreatedMessage(new EntryViewModel(entry)));
+        }
     }
 
     [RelayCommand]
