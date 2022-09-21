@@ -7,6 +7,7 @@ using DevServer.ViewModels;
 using DevServer.ViewModels.Dialogs;
 
 using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 using Material.Icons;
 
@@ -51,5 +52,23 @@ public static class DialogServiceExtensions
         var modal = new EntryEditViewModel(entry);
         var result = await service.ShowDialogAsync(owner, modal);
         return result == true ? modal.Entry : null;
+    }
+
+    public static Task<string?> ShowOpenFileDialog(this IDialogService service, OpenFileDialogSettings? settings = null)
+    {
+        var owner = Ioc.Default.GetRequiredService<MainWindowViewModel>();
+        return service.ShowOpenFileDialogAsync(owner, settings);
+    }
+
+    public static Task<string[]> ShowOpenFilesDialog(this IDialogService service, OpenFileDialogSettings? settings = null)
+    {
+        var owner = Ioc.Default.GetRequiredService<MainWindowViewModel>();
+        return service.ShowOpenFilesDialogAsync(owner, settings);
+    }
+
+    public static Task<string?> ShowOpenDirectoryDialog(this IDialogService service, OpenFolderDialogSettings? settings = null)
+    {
+        var owner = Ioc.Default.GetRequiredService<MainWindowViewModel>();
+        return service.ShowOpenFolderDialogAsync(owner, settings);
     }
 }
