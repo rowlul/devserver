@@ -5,8 +5,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
+using DevServer.Extensions;
 using DevServer.Messages;
 using DevServer.Services;
+
+using HanumanInstitute.MvvmDialogs;
+
+using Material.Icons;
 
 using Microsoft.Extensions.Logging;
 
@@ -16,20 +21,31 @@ public partial class DirectConnectViewModel : DialogViewModelBase
 {
     private readonly ILogger<DirectConnectViewModel> _logger;
     private readonly IGameLauncher _gameLauncher;
+    private readonly IDialogService _dialogService;
 
     [ObservableProperty]
     private string _serverAddress;
 
     public DirectConnectViewModel(ILogger<DirectConnectViewModel> logger,
-                                  IGameLauncher gameLauncher)
+                                  IGameLauncher gameLauncher,
+                                  IDialogService dialogService)
     {
         _logger = logger;
         _gameLauncher = gameLauncher;
+        _dialogService = dialogService;
     }
 
     [RelayCommand]
     private async Task Play()
     {
+        if (string.IsNullOrEmpty(ServerAddress))
+        {
+            await _dialogService.ShowMessageBox("Warning",
+                                                "Server address cannot be empty",
+                                                MaterialIconKind.Warning);
+            return;
+        }
+
         try
         {
             using var process = _gameLauncher.Start(ServerAddress);
