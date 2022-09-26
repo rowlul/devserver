@@ -22,7 +22,8 @@
                             <TextBox Grid.Column="0"
                                      Text="{Binding OsuExePath}" />
                             <Button Grid.Column="2"
-                                    ToolTip.Tip="Open file...">
+                                    ToolTip.Tip="Open file..."
+                                    Command="{Binding OpenOsuExePathCommand}">
                                 <material:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
                             </Button>
                         </Grid>
@@ -39,7 +40,7 @@
                                      Text="{Binding WinePath}" />
                             <Button Grid.Column="2"
                                     ToolTip.Tip="Open file..."
-                                    Command="{Binding OpenFileDialogCommand}">
+                                    Command="{Binding OpenWinePathCommand}">
                                 <material:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
                             </Button>
                         </Grid>
@@ -69,7 +70,7 @@
                                      Text="{Binding WinePrefixPath}" />
                             <Button Grid.Column="4"
                                     ToolTip.Tip="Open directory..."
-                                    Command="{Binding OpenDirectoryDialogCommand}">
+                                    Command="{Binding OpenWinePrefixCommand}">
                                 <material:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
                             </Button>
                         </Grid>

@@ -4,18 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Avalonia.Controls;
+using Avalonia.Data;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
+using DevServer.Extensions;
 using DevServer.Models;
 using DevServer.Services;
+
+using DynamicData.Binding;
+
+using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 namespace DevServer.ViewModels.Dialogs;
 
 public partial class SettingsViewModel : DialogViewModelBase
 {
     private readonly IConfigurationManager _configurationManager;
+    private readonly IDialogService _dialogService;
 
     [ObservableProperty]
     private string? _environment;
@@ -47,9 +55,11 @@ public partial class SettingsViewModel : DialogViewModelBase
 
     public static List<WineArch> WineArches => new() { WineArch.Win32, WineArch.Win64 };
 
-    public SettingsViewModel(IConfigurationManager configurationManager)
+    public SettingsViewModel(IConfigurationManager configurationManager,
+                             IDialogService dialogService)
     {
         _configurationManager = configurationManager;
+        _dialogService = dialogService;
 
         Load();
     }
@@ -125,5 +135,39 @@ public partial class SettingsViewModel : DialogViewModelBase
         }
 
         await _configurationManager.SaveAsync();
+    }
+
+    [RelayCommand]
+    private async Task OpenOsuExePath()
+    {
+        var result = await _dialogService.ShowOpenFileDialog(
+            new OpenFileDialogSettings { Filters = new List<FileFilter> { new("osu! executable", ".exe") } });
+
+        if (result is not null)
+        {
+            OsuExePath = result;
+        }
+    }
+
+    [RelayCommand]
+    private async Task OpenWinePath()
+    {
+        var result = await _dialogService.ShowOpenDirectoryDialog();
+
+        if (result is not null)
+        {
+            WinePath = result;
+        }
+    }
+
+    [RelayCommand]
+    private async Task OpenWinePrefix()
+    {
+        var result = await _dialogService.ShowOpenDirectoryDialog();
+
+        if (result is not null)
+        {
+            WinePrefixPath = result;
+        }
     }
 }

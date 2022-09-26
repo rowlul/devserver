@@ -117,7 +117,8 @@ public class App : Application
                                   provider.GetRequiredService<IGameLauncher>(),
                                   provider.GetRequiredService<IDialogService>()));
         services.AddTransient(provider => new AboutViewModel(provider.GetRequiredService<IProcess>()));
-        services.AddTransient(provider => new SettingsViewModel(provider.GetRequiredService<IConfigurationManager>()));
+        services.AddTransient(provider => new SettingsViewModel(provider.GetRequiredService<IConfigurationManager>(),
+                                                                provider.GetRequiredService<IDialogService>()));
         services.AddSingleton(provider => new MainPanelViewModel(
                                   provider.GetRequiredService<ILogger<MainPanelViewModel>>(),
                                   provider.GetRequiredService<IDialogService>(),
