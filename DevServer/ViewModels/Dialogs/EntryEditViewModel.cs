@@ -1,7 +1,15 @@
+using System.Threading.Tasks;
+
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 
+using DevServer.Extensions;
 using DevServer.Models;
+
+using HanumanInstitute.MvvmDialogs;
+
+using Material.Icons;
 
 namespace DevServer.ViewModels.Dialogs;
 
@@ -40,19 +48,21 @@ public partial class EntryEditViewModel : DialogViewModelBase
     }
 
     [RelayCommand]
-    private void Done()
+    private async Task Done()
     {
-        if (_name is null || _serverAddress is null)
+        if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(ServerAddress))
         {
+            var dialog = Ioc.Default.GetRequiredService<IDialogService>();
+            await dialog.ShowMessageBox("Warning", "Name or Server Address cannot be empty", MaterialIconKind.Warning);
             return;
         }
 
         Entry = new Entry
         {
-            Name = _name,
-            Description = _description,
-            Logo = _logo,
-            ServerAddress = _serverAddress
+            Name = Name,
+            Description = Description,
+            Logo = Logo,
+            ServerAddress = ServerAddress
         };
 
         DialogResult = true;
