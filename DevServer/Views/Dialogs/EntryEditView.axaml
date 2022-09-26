@@ -31,7 +31,15 @@
             <StackPanel Grid.Row="4">
                 <TextBlock Text="Logo (local file or URL)" />
                 <Separator Height="2" />
-                <TextBox Text="{Binding Logo}" />
+                <Grid ColumnDefinitions="* 5 Auto">
+                    <TextBox Grid.Column="0"
+                             Text="{Binding Logo}" />
+                    <Button Grid.Column="2"
+                            ToolTip.Tip="Open file..."
+                            Command="{Binding OpenLogoCommand}">
+                        <material:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
+                    </Button>
+                </Grid>
             </StackPanel>
             <StackPanel Grid.Row="6">
                 <TextBlock Text="Server address" />
