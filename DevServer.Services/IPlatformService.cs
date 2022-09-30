@@ -6,6 +6,7 @@ public interface IPlatformService
 {
     string GetUserDataPath();
     string GetUserCachePath();
+    string GetImageCachePath();
     string GetAppRootPath();
     string GetAppCachePath();
     string GetEntryStorePath();

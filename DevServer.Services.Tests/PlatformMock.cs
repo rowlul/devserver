@@ -20,6 +20,8 @@ public class PlatformMock : IPlatformService
 
     public string GetUserCachePath() => Path;
 
+    public string GetImageCachePath() => Path;
+
     public string GetAppRootPath() => Path;
 
     public string GetAppCachePath() => Path;

@@ -32,6 +32,8 @@ public class PlatformService : IPlatformService
         throw new PlatformNotSupportedException();
     }
 
+    public string GetImageCachePath() => Path.Combine(GetAppCachePath(), "images");
+
     public string GetAppRootPath() => Path.Combine(GetUserDataPath(), _appBaseName);
 
     public string GetAppCachePath() => Path.Combine(GetUserCachePath(), _appBaseName);
