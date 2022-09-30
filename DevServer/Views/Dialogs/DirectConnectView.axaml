@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="200"
         x:Class="DevServer.Views.Dialogs.DirectConnectView"
         d:DataContext="{x:Static local:DesignData.DirectConnectViewModel}"
-        Width="500" Height="200" Padding="20" CanResize="False"
+        Width="500" Height="200" Padding="20" CanResize="False" WindowStartupLocation="CenterOwner"
         Title="Direct Connect">
 
     <Grid

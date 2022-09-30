@@ -8,7 +8,7 @@
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
         x:Class="DevServer.Views.Dialogs.SettingsView"
         d:DataContext="{x:Static local:DesignData.SettingsViewModel}"
-        Width="600" Height="400" CanResize="False"
+        Width="600" Height="400" CanResize="False" WindowStartupLocation="CenterOwner"
         Title="Settings">
 
     <Grid RowDefinitions="* Auto">

@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="170"
         x:Class="DevServer.Views.Dialogs.MessageBoxView"
         d:DataContext="{x:Static local:DesignData.MessageBoxViewModel}"
-        Height="170" SizeToContent="Width" Padding="20" CanResize="False">
+        Height="170" SizeToContent="Width" Padding="20" CanResize="False" WindowStartupLocation="CenterOwner">
     <Grid RowDefinitions="Auto 20 * Auto" MinWidth="200">
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <material:MaterialIcon Kind="{Binding Icon}"

@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
         x:Class="DevServer.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="DevServer" Width="600" Height="400"
+        Title="DevServer" Width="600" Height="400" WindowStartupLocation="CenterScreen"
         d:DataContext="{x:Static local:DesignData.MainWindowViewModel}">
 
     <Grid RowDefinitions="* Auto">
