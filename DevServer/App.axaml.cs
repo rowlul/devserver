@@ -63,6 +63,11 @@ public class App : Application
             Directory.CreateDirectory(platform.GetEntryStorePath());
         }
 
+        if (!Directory.Exists(platform.GetImageCachePath()))
+        {
+            Directory.CreateDirectory(platform.GetImageCachePath());
+        }
+
         if (!File.Exists(platform.GetConfigFile()))
         {
             config.Save();
