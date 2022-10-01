@@ -67,7 +67,7 @@ public class EntryService : IEntryService
         await Task.Run(() => _fileSystem.File.Delete(filePath));
     }
 
-    public async Task<Stream?> GetLogoStream(string? source)
+    public async Task<Stream?> GetLogoStream(string? source, string? cacheFileName = null)
     {
         if (source is null)
         {
@@ -76,7 +76,33 @@ public class EntryService : IEntryService
 
         if (source[..4] == "http" || source[..5] == "https")
         {
-            return await GetLogoStreamFromUrl(source);
+            if (cacheFileName is null)
+            {
+                return await GetLogoStreamFromUrl(source);
+            }
+
+            var logoPath = Path.Combine(_platformService.GetImageCachePath(),
+                                        Path.GetFileNameWithoutExtension(cacheFileName) +
+                                        Path.GetExtension(source));
+
+            if (File.Exists(logoPath))
+            {
+                // return cached file if exists
+                return await GetLogoStreamFromLocalFile(logoPath);
+            }
+
+            // create image in cache
+            var logoStream = await GetLogoStreamFromUrl(source);
+            await using var fileStream = _fileSystem.FileStream.Create(logoPath,
+                                                           FileMode.OpenOrCreate,
+                                                           FileAccess.ReadWrite,
+                                                           FileShare.ReadWrite,
+                                                           bufferSize: 4096,
+                                                           useAsync: true);
+            await logoStream.CopyToAsync(fileStream);
+
+            logoStream.Seek(0, SeekOrigin.Begin);
+            return logoStream;
         }
 
         return await GetLogoStreamFromLocalFile(source);

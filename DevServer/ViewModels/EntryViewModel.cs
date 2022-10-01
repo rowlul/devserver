@@ -57,7 +57,10 @@ public partial class EntryViewModel : ViewModelBase
         {
             try
             {
-                return Bitmap.DecodeToWidth(await _entryService.GetLogoStream(_entry.Logo), 42);
+                return Bitmap.DecodeToWidth(
+                    await _entryService.GetLogoStream(source: _entry.Logo,
+                                                      cacheFileName: _entry.FilePath),
+                    42);
             }
             catch (Exception e)
             {
