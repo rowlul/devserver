@@ -12,8 +12,11 @@ using DevServer.Extensions;
 using DevServer.Messages;
 using DevServer.Models;
 using DevServer.Services;
+using DevServer.ViewModels.Dialogs;
 
 using HanumanInstitute.MvvmDialogs;
+
+using Material.Icons;
 
 using Microsoft.Extensions.Logging;
 
@@ -114,6 +117,17 @@ public partial class EntryViewModel : ViewModelBase
     [RelayCommand]
     private async Task DeleteEntry()
     {
+        var result = await _dialogService.ShowMessageBox(
+            $"Are you sure to delete {_name}?",
+            "This action is irreversible.",
+            MaterialIconKind.QuestionMarkCircle,
+            MessageBoxButtons.OkCancel);
+
+        if (result is false)
+        {
+            return;
+        }
+
         await _entryService.DeleteEntry(_entry.FilePath);
         Messenger.Send(new EntryDeletedMessage(this));
     }

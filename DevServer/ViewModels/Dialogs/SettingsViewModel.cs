@@ -18,6 +18,8 @@ using DynamicData.Binding;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
+using Material.Icons;
+
 namespace DevServer.ViewModels.Dialogs;
 
 public partial class SettingsViewModel : DialogViewModelBase
@@ -100,13 +102,35 @@ public partial class SettingsViewModel : DialogViewModelBase
     [RelayCommand]
     private async Task Reload()
     {
+        var result = await _dialogService.ShowMessageBox(
+            "Are you sure to reload settings from file?",
+            "Any pending changes will be lost.",
+            MaterialIconKind.QuestionMarkCircle,
+            MessageBoxButtons.OkCancel);
+
+        if (result is false)
+        {
+            return;
+        }
+
         await _configurationManager.LoadAsync();
         Load();
     }
 
     [RelayCommand]
-    private void Reset()
+    private async Task Reset()
     {
+        var result = await _dialogService.ShowMessageBox(
+            "Are you sure to reset ALL settings?",
+            "This action is irreversible.",
+            MaterialIconKind.QuestionMarkCircle,
+            MessageBoxButtons.OkCancel);
+
+        if (result is false)
+        {
+            return;
+        }
+
         var settings = new Settings();
         OsuExePath = settings.OsuExePath;
 
