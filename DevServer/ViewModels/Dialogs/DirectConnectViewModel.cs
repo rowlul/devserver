@@ -41,7 +41,7 @@ public partial class DirectConnectViewModel : DialogViewModelBase
         if (string.IsNullOrEmpty(ServerAddress))
         {
             await _dialogService.ShowMessageBox("Warning",
-                                                "Server address cannot be empty",
+                                                "Server address cannot be empty.",
                                                 MaterialIconKind.Warning);
             return;
         }

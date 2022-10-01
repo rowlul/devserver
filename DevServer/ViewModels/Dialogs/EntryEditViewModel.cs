@@ -59,7 +59,7 @@ public partial class EntryEditViewModel : DialogViewModelBase
         if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(ServerAddress))
         {
             await _dialogService.ShowMessageBox("Warning",
-                                                "Name or Server Address cannot be empty",
+                                                "Name or Server Address cannot be empty.",
                                                 MaterialIconKind.Warning);
             return;
         }
