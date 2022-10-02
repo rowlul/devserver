@@ -9,16 +9,14 @@ using DevServer.ViewModels.Dialogs;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
-using Material.Icons;
-
 namespace DevServer.Extensions;
 
 public static class DialogServiceExtensions
 {
     public static async Task<bool?> ShowMessageBox(this IDialogService service,
                                                    string title, string text,
-                                                   MaterialIconKind? icon = null,
-                                                   MessageBoxButtons buttons = MessageBoxButtons.Ok)
+                                                   MessageBoxIcon? icon = null,
+                                                   MessageBoxButtons? buttons = MessageBoxButtons.Ok)
     {
         var owner = Ioc.Default.GetRequiredService<MainWindowViewModel>();
         var modal = new MessageBoxViewModel(title, text, icon, buttons);

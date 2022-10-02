@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Avalonia.Controls;
-using Avalonia.Data;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -13,12 +12,8 @@ using DevServer.Extensions;
 using DevServer.Models;
 using DevServer.Services;
 
-using DynamicData.Binding;
-
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
-
-using Material.Icons;
 
 namespace DevServer.ViewModels.Dialogs;
 
@@ -105,7 +100,7 @@ public partial class SettingsViewModel : DialogViewModelBase
         var result = await _dialogService.ShowMessageBox(
             "Are you sure to reload settings from file?",
             "Any pending changes will be lost.",
-            MaterialIconKind.QuestionMarkCircle,
+            MessageBoxIcon.Question,
             MessageBoxButtons.OkCancel);
 
         if (result is false)
@@ -123,7 +118,7 @@ public partial class SettingsViewModel : DialogViewModelBase
         var result = await _dialogService.ShowMessageBox(
             "Are you sure to reset ALL settings?",
             "This action is irreversible.",
-            MaterialIconKind.QuestionMarkCircle,
+            MessageBoxIcon.Question,
             MessageBoxButtons.OkCancel);
 
         if (result is false)

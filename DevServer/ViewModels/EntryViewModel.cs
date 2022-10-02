@@ -16,8 +16,6 @@ using DevServer.ViewModels.Dialogs;
 
 using HanumanInstitute.MvvmDialogs;
 
-using Material.Icons;
-
 using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels;
@@ -120,7 +118,7 @@ public partial class EntryViewModel : ViewModelBase
         var result = await _dialogService.ShowMessageBox(
             $"Are you sure to delete {_name}?",
             "This action is irreversible.",
-            MaterialIconKind.QuestionMarkCircle,
+            MessageBoxIcon.Question,
             MessageBoxButtons.OkCancel);
 
         if (result is false)

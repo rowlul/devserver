@@ -11,8 +11,6 @@ using DevServer.Services;
 
 using HanumanInstitute.MvvmDialogs;
 
-using Material.Icons;
-
 using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels.Dialogs;
@@ -42,7 +40,7 @@ public partial class DirectConnectViewModel : DialogViewModelBase
         {
             await _dialogService.ShowMessageBox("Warning",
                                                 "Server address cannot be empty.",
-                                                MaterialIconKind.Warning);
+                                                MessageBoxIcon.Warning);
             return;
         }
 

@@ -11,8 +11,6 @@ using DevServer.Models;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
-using Material.Icons;
-
 namespace DevServer.ViewModels.Dialogs;
 
 public partial class EntryEditViewModel : DialogViewModelBase
@@ -60,7 +58,7 @@ public partial class EntryEditViewModel : DialogViewModelBase
         {
             await _dialogService.ShowMessageBox("Warning",
                                                 "Name or Server Address cannot be empty.",
-                                                MaterialIconKind.Warning);
+                                                MessageBoxIcon.Warning);
             return;
         }
 
