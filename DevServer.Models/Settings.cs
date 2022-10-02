@@ -10,6 +10,9 @@ public class Settings
     [JsonPropertyName("Wine")]
     public WineStartInfo? WineSettings { get; set; } = GetWineSettings();
 
+    [JsonPropertyName("LastServer")]
+    public string? LastServerAddress { get; set; }
+
     private static string GetPath()
     {
         return OperatingSystem.IsWindows()

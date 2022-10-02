@@ -12,7 +12,7 @@ public static class DesignData
 
     public static MainPanelViewModel MainPanelViewModel => new(null!, null!, null!);
 
-    public static DirectConnectViewModel DirectConnectViewModel => new(null!, null!, null!);
+    public static DirectConnectViewModel DirectConnectViewModel => new(null!, null!, null!, null!);
 
     public static AboutViewModel AboutViewModel => new(null!);
 

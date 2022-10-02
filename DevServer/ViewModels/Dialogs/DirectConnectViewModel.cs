@@ -20,17 +20,22 @@ public partial class DirectConnectViewModel : DialogViewModelBase
     private readonly ILogger<DirectConnectViewModel> _logger;
     private readonly IGameLauncher _gameLauncher;
     private readonly IDialogService _dialogService;
+    private readonly IConfigurationManager _configurationManager;
 
     [ObservableProperty]
     private string _serverAddress;
 
     public DirectConnectViewModel(ILogger<DirectConnectViewModel> logger,
                                   IGameLauncher gameLauncher,
-                                  IDialogService dialogService)
+                                  IDialogService dialogService,
+                                  IConfigurationManager configurationManager)
     {
         _logger = logger;
         _gameLauncher = gameLauncher;
         _dialogService = dialogService;
+        _configurationManager = configurationManager;
+
+        ServerAddress = _configurationManager.Settings.LastServerAddress ?? string.Empty;
     }
 
     [RelayCommand]
@@ -43,6 +48,8 @@ public partial class DirectConnectViewModel : DialogViewModelBase
                                                 MessageBoxIcon.Warning);
             return;
         }
+
+        _configurationManager.Settings.LastServerAddress = ServerAddress;
 
         try
         {

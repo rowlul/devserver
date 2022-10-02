@@ -37,21 +37,26 @@ public class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         Ioc.Default.ConfigureServices(ConfigureServicesInternal());
+
         var ioc = Ioc.Default;
+        var config = ioc.GetRequiredService<IConfigurationManager>();
+        var platform = ioc.GetRequiredService<IPlatformService>();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow =
                 new MainWindow(ioc.GetRequiredService<MainWindowViewModel>());
+
+            desktop.ShutdownRequested += (_, _) =>
+            {
+                config.Save();
+            };
         }
 
         if (Design.IsDesignMode)
         {
             return;
         }
-
-        var config = ioc.GetRequiredService<IConfigurationManager>();
-        var platform = ioc.GetRequiredService<IPlatformService>();
 
         if (!Directory.Exists(platform.GetAppRootPath()))
         {
@@ -120,7 +125,8 @@ public class App : Application
         services.AddTransient(provider => new DirectConnectViewModel(
                                   provider.GetRequiredService<ILogger<DirectConnectViewModel>>(),
                                   provider.GetRequiredService<IGameLauncher>(),
-                                  provider.GetRequiredService<IDialogService>()));
+                                  provider.GetRequiredService<IDialogService>(),
+                                  provider.GetRequiredService<IConfigurationManager>()));
         services.AddTransient(provider => new AboutViewModel(provider.GetRequiredService<IProcess>()));
         services.AddTransient(provider => new SettingsViewModel(provider.GetRequiredService<IConfigurationManager>(),
                                                                 provider.GetRequiredService<IDialogService>()));
