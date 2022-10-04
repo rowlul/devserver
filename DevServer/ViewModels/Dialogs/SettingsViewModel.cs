@@ -98,6 +98,7 @@ public partial class SettingsViewModel : DialogViewModelBase
     private async Task Reload()
     {
         var result = await _dialogService.ShowMessageBox(
+            this,
             "Are you sure to reload settings from file?",
             "Any pending changes will be lost.",
             MessageBoxIcon.Question,
@@ -116,6 +117,7 @@ public partial class SettingsViewModel : DialogViewModelBase
     private async Task Reset()
     {
         var result = await _dialogService.ShowMessageBox(
+            this,
             "Are you sure to reset ALL settings?",
             "This action is irreversible.",
             MessageBoxIcon.Question,

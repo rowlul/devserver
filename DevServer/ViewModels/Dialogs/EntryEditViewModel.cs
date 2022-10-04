@@ -56,19 +56,16 @@ public partial class EntryEditViewModel : DialogViewModelBase
     {
         if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(ServerAddress))
         {
-            await _dialogService.ShowMessageBox("Warning",
-                                                "Name or Server Address cannot be empty.",
-                                                MessageBoxIcon.Warning);
+            await _dialogService.ShowMessageBox(
+                this,
+                "Warning",
+                "Name or Server Address cannot be empty.",
+                MessageBoxIcon.Warning);
+
             return;
         }
 
-        Entry = new Entry
-        {
-            Name = Name,
-            Description = Description,
-            Logo = Logo,
-            ServerAddress = ServerAddress
-        };
+        Entry = new Entry { Name = Name, Description = Description, Logo = Logo, ServerAddress = ServerAddress };
 
         DialogResult = true;
         base.Close();
@@ -79,7 +76,8 @@ public partial class EntryEditViewModel : DialogViewModelBase
     {
         var filters = new List<FileFilter>
         {
-            new("All pictures", new[] { ".jpg", ".jpeg", ".jfif", ".png", ".bmp", ".gif", ".tif", ".tiff", ".ico" }),
+            new("All pictures",
+                new[] { ".jpg", ".jpeg", ".jfif", ".png", ".bmp", ".gif", ".tif", ".tiff", ".ico" }),
             new("All files", ".*")
         };
 

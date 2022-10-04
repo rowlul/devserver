@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -14,11 +15,11 @@ namespace DevServer.Extensions;
 public static class DialogServiceExtensions
 {
     public static async Task<bool?> ShowMessageBox(this IDialogService service,
+                                                   INotifyPropertyChanged owner,
                                                    string title, string text,
                                                    MessageBoxIcon? icon = null,
                                                    MessageBoxButtons? buttons = MessageBoxButtons.Ok)
     {
-        var owner = Ioc.Default.GetRequiredService<MainWindowViewModel>();
         var modal = new MessageBoxViewModel(title, text, icon, buttons);
         return await service.ShowDialogAsync(owner, modal);
     }

@@ -116,6 +116,7 @@ public partial class EntryViewModel : ViewModelBase
     private async Task DeleteEntry()
     {
         var result = await _dialogService.ShowMessageBox(
+            Ioc.Default.GetRequiredService<MainWindowViewModel>(),
             $"Are you sure to delete {_name}?",
             "This action is irreversible.",
             MessageBoxIcon.Question,
