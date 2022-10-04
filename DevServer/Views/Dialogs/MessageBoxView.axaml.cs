@@ -19,4 +19,3 @@ public partial class MessageBoxView : Window
         AvaloniaXamlLoader.Load(this);
     }
 }
-

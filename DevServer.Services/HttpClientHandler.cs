@@ -1,5 +1,3 @@
-using System.Drawing;
-
 namespace DevServer.Services;
 
 public class HttpClientHandler : IHttpHandler

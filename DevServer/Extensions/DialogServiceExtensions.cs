@@ -59,13 +59,15 @@ public static class DialogServiceExtensions
         return service.ShowOpenFileDialogAsync(owner, settings);
     }
 
-    public static Task<string[]> ShowOpenFilesDialog(this IDialogService service, OpenFileDialogSettings? settings = null)
+    public static Task<string[]> ShowOpenFilesDialog(this IDialogService service,
+                                                     OpenFileDialogSettings? settings = null)
     {
         var owner = Ioc.Default.GetRequiredService<MainWindowViewModel>();
         return service.ShowOpenFilesDialogAsync(owner, settings);
     }
 
-    public static Task<string?> ShowOpenDirectoryDialog(this IDialogService service, OpenFolderDialogSettings? settings = null)
+    public static Task<string?> ShowOpenDirectoryDialog(this IDialogService service,
+                                                        OpenFolderDialogSettings? settings = null)
     {
         var owner = Ioc.Default.GetRequiredService<MainWindowViewModel>();
         return service.ShowOpenFolderDialogAsync(owner, settings);
