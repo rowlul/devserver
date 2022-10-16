@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 using DevServer.Extensions;
 using DevServer.Messages;
 using DevServer.Services;
+using DevServer.ViewModels.Dialogs;
 
 using HanumanInstitute.MvvmDialogs;
 
@@ -63,6 +65,18 @@ public partial class MainPanelViewModel : ViewModelBase
     [RelayCommand]
     private async Task RefreshEntries()
     {
+        var result = await _dialogService.ShowMessageBox(
+            Ioc.Default.GetRequiredService<MainWindowViewModel>(),
+            "Are you sure to refresh all servers?",
+            "Icon cache will also be cleared thus new icons should appear.",
+            MessageBoxIcon.Question,
+            MessageBoxButtons.OkCancel);
+
+        if (result is false)
+        {
+            return;
+        }
+
         var entries = await GetEntryList();
         Messenger.Send(new EntriesChangedMessage(entries));
     }

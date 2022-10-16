@@ -40,7 +40,8 @@ public class App : Application
 
         var ioc = Ioc.Default;
         var config = ioc.GetRequiredService<IConfigurationManager>();
-        var platform = ioc.GetRequiredService<IPlatformService>();
+        var entryService = ioc.GetRequiredService<IEntryService>();
+        var logoService = ioc.GetRequiredService<ILogoService>();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -58,22 +59,17 @@ public class App : Application
             return;
         }
 
-        if (!Directory.Exists(platform.GetAppRootPath()))
+        if (!Directory.Exists(entryService.EntryStorePath))
         {
-            Directory.CreateDirectory(platform.GetAppRootPath());
+            Directory.CreateDirectory(entryService.EntryStorePath);
         }
 
-        if (!Directory.Exists(platform.GetEntryStorePath()))
+        if (!Directory.Exists(logoService.ImageCachePath))
         {
-            Directory.CreateDirectory(platform.GetEntryStorePath());
+            Directory.CreateDirectory(logoService.ImageCachePath);
         }
 
-        if (!Directory.Exists(platform.GetImageCachePath()))
-        {
-            Directory.CreateDirectory(platform.GetImageCachePath());
-        }
-
-        if (!File.Exists(platform.GetConfigFile()))
+        if (!File.Exists(config.ConfigFilePath))
         {
             config.Save();
         }
@@ -120,8 +116,10 @@ public class App : Application
                                                  provider.GetRequiredService<IConfigurationManager>()));
         services.AddSingleton<IEntryService>(provider => new EntryService(
                                                  provider.GetRequiredService<IPlatformService>(),
-                                                 provider.GetRequiredService<IFileSystem>(),
-                                                 provider.GetRequiredService<IHttpHandler>()));
+                                                 provider.GetRequiredService<IFileSystem>()));
+        services.AddSingleton<ILogoService>(provider => new LogoService(provider.GetRequiredService<IPlatformService>(),
+                                                                        provider.GetRequiredService<IFileSystem>(),
+                                                                        provider.GetRequiredService<IHttpHandler>()));
         services.AddTransient(provider => new DirectConnectViewModel(
                                   provider.GetRequiredService<ILogger<DirectConnectViewModel>>(),
                                   provider.GetRequiredService<IGameLauncher>(),

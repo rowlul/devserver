@@ -24,6 +24,7 @@ public partial class EntryViewModel : ViewModelBase
 {
     private readonly ILogger<EntryViewModel> _logger;
     private readonly IEntryService _entryService;
+    private readonly ILogoService _logoService;
     private readonly IGameLauncher _gameLauncher;
     private readonly IDialogService _dialogService;
 
@@ -44,6 +45,7 @@ public partial class EntryViewModel : ViewModelBase
 
         _logger = Ioc.Default.GetRequiredService<ILogger<EntryViewModel>>();
         _entryService = Ioc.Default.GetRequiredService<IEntryService>();
+        _logoService = Ioc.Default.GetRequiredService<ILogoService>();
         _gameLauncher = Ioc.Default.GetRequiredService<IGameLauncher>();
         _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -59,8 +61,8 @@ public partial class EntryViewModel : ViewModelBase
             try
             {
                 return Bitmap.DecodeToWidth(
-                    await _entryService.GetLogoStream(source: _entry.Logo,
-                                                      cacheFileName: _entry.FilePath),
+                    await _logoService.GetLogoStream(source: _entry.Logo,
+                                                     cacheFileName: _entry.FilePath),
                     42);
             }
             catch (Exception e)

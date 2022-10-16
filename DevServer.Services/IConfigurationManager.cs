@@ -4,6 +4,7 @@ namespace DevServer.Services;
 
 public interface IConfigurationManager
 {
+    string ConfigFilePath { get; }
     Settings Settings { get; }
     void Load();
     Task LoadAsync();
