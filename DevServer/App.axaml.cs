@@ -112,8 +112,7 @@ public class App : Application
             provider => new ConfigurationManager(provider.GetRequiredService<IPlatformService>(),
                                                  provider.GetRequiredService<IFileSystem>()));
         services.AddSingleton<IGameLauncher>(provider => new GameLauncher(
-                                                 provider.GetRequiredService<IProcess>(),
-                                                 provider.GetRequiredService<IConfigurationManager>()));
+                                                 provider.GetRequiredService<IProcess>()));
         services.AddSingleton<IEntryService>(provider => new EntryService(
                                                  provider.GetRequiredService<IPlatformService>(),
                                                  provider.GetRequiredService<IFileSystem>()));
@@ -123,8 +122,8 @@ public class App : Application
         services.AddTransient(provider => new DirectConnectViewModel(
                                   provider.GetRequiredService<ILogger<DirectConnectViewModel>>(),
                                   provider.GetRequiredService<IGameLauncher>(),
-                                  provider.GetRequiredService<IDialogService>(),
-                                  provider.GetRequiredService<IConfigurationManager>()));
+                                  provider.GetRequiredService<IConfigurationManager>(),
+                                  provider.GetRequiredService<IDialogService>()));
         services.AddTransient(provider => new AboutViewModel(provider.GetRequiredService<IProcess>()));
         services.AddTransient(provider => new SettingsViewModel(provider.GetRequiredService<IConfigurationManager>(),
                                                                 provider.GetRequiredService<IDialogService>()));

@@ -19,23 +19,23 @@ public partial class DirectConnectViewModel : DialogViewModelBase
 {
     private readonly ILogger<DirectConnectViewModel> _logger;
     private readonly IGameLauncher _gameLauncher;
+    private readonly IConfigurationManager _config;
     private readonly IDialogService _dialogService;
-    private readonly IConfigurationManager _configurationManager;
 
     [ObservableProperty]
     private string _serverAddress;
 
     public DirectConnectViewModel(ILogger<DirectConnectViewModel> logger,
                                   IGameLauncher gameLauncher,
-                                  IDialogService dialogService,
-                                  IConfigurationManager configurationManager)
+                                  IConfigurationManager config,
+                                  IDialogService dialogService)
     {
         _logger = logger;
         _gameLauncher = gameLauncher;
+        _config = config;
         _dialogService = dialogService;
-        _configurationManager = configurationManager;
 
-        ServerAddress = _configurationManager.Settings.LastServerAddress ?? string.Empty;
+        ServerAddress = config.Settings.LastServerAddress ?? string.Empty;
     }
 
     [RelayCommand]
@@ -52,11 +52,12 @@ public partial class DirectConnectViewModel : DialogViewModelBase
             return;
         }
 
-        _configurationManager.Settings.LastServerAddress = ServerAddress;
+        _config.Settings.LastServerAddress = ServerAddress;
 
         try
         {
-            using var process = _gameLauncher.Start(ServerAddress);
+            using var process =
+                _gameLauncher.Start(_config.Settings.OsuExePath, ServerAddress, _config.Settings.WineSettings);
 
             Messenger.Send(new ProcessRunningMessage(true));
             Close();

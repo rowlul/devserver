@@ -26,6 +26,7 @@ public partial class EntryViewModel : ViewModelBase
     private readonly IEntryService _entryService;
     private readonly ILogoService _logoService;
     private readonly IGameLauncher _gameLauncher;
+    private readonly IConfigurationManager _config;
     private readonly IDialogService _dialogService;
 
     private Entry _entry;
@@ -47,6 +48,7 @@ public partial class EntryViewModel : ViewModelBase
         _entryService = Ioc.Default.GetRequiredService<IEntryService>();
         _logoService = Ioc.Default.GetRequiredService<ILogoService>();
         _gameLauncher = Ioc.Default.GetRequiredService<IGameLauncher>();
+        _config = Ioc.Default.GetRequiredService<IConfigurationManager>();
         _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
         _name = _entry.Name;
@@ -79,7 +81,9 @@ public partial class EntryViewModel : ViewModelBase
     {
         try
         {
-            using var process = _gameLauncher.Start(_entry.ServerAddress);
+            using var process = _gameLauncher.Start(_config.Settings.OsuExePath,
+                                                    _entry.ServerAddress,
+                                                    _config.Settings.WineSettings);
 
             Messenger.Send(new ProcessRunningMessage(true));
 
