@@ -25,6 +25,9 @@ indent_size = 2
 # C# files
 [*.cs]
 
+# Suppress warnings
+dotnet_diagnostic.CS8618.severity = none
+
 # Organize usings
 dotnet_separate_import_directive_groups = true
 dotnet_sort_system_directives_first = true
