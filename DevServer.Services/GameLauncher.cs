@@ -1,7 +1,5 @@
 using System.Diagnostics;
 
-using DevServer.Models;
-
 namespace DevServer.Services;
 
 public class GameLauncher : IGameLauncher
@@ -13,7 +11,7 @@ public class GameLauncher : IGameLauncher
         _process = process;
     }
 
-    public Process Start(string executablePath, string serverAddress, WineStartInfo? wine = null)
+    public System.Diagnostics.Process Start(string executablePath, string serverAddress, WineStartInfo? wine = null)
     {
         var process = wine is not null
             ? StartWine(executablePath, serverAddress, wine)
@@ -27,14 +25,14 @@ public class GameLauncher : IGameLauncher
         return process;
     }
 
-    internal Process? StartNative(string executablePath, string serverAddress)
+    internal System.Diagnostics.Process? StartNative(string executablePath, string serverAddress)
     {
         var args = $"-devserver {serverAddress}";
         var process = _process.Start(executablePath, args);
         return process;
     }
 
-    internal Process? StartWine(string executablePath, string serverAddress, WineStartInfo wine)
+    internal System.Diagnostics.Process? StartWine(string executablePath, string serverAddress, WineStartInfo wine)
     {
         var processStartInfo = new ProcessStartInfo
         {

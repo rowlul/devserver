@@ -1,0 +1,47 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:views1="clr-namespace:DevServer.Avalonia.Views"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="200"
+        x:Class="DevServer.Avalonia.Views.DirectConnectView"
+        d:DataContext="{x:Static views1:DesignData.DirectConnectViewModel}"
+        Width="500" Height="200" Padding="20" CanResize="False" WindowStartupLocation="CenterOwner"
+        Title="Direct Connect">
+
+    <Grid
+        RowDefinitions="* Auto">
+        <TextBlock Grid.Row="0" Text="Play server directly via IP"
+                   FontWeight="Bold" />
+        <StackPanel Grid.Row="0"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Server Address (e.g. example.com, 127.0.0.1)" />
+            <Separator Height="5" />
+            <TextBox Text="{Binding ServerAddress}" />
+        </StackPanel>
+        <Grid Grid.Row="1"
+              VerticalAlignment="Bottom"
+              ColumnDefinitions="Auto * Auto">
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal">
+                <Button HorizontalAlignment="Right"
+                        Command="{Binding PlayCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <material:MaterialIcon Kind="Play" />
+                        <Separator Width="8" />
+                        <TextBlock Text="Play"
+                                   FontWeight="Medium"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Separator Width="5" />
+                <Button HorizontalAlignment="Right"
+                        Content="Cancel"
+                        Command="{Binding CloseCommand}"
+                        IsCancel="True" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</Window>

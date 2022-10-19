@@ -5,6 +5,8 @@ using Avalonia;
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 
+using DevServer.Avalonia;
+
 using Microsoft.Extensions.Logging;
 
 namespace DevServer;

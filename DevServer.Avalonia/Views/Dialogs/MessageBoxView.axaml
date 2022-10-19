@@ -1,0 +1,45 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:views1="clr-namespace:DevServer.Avalonia.Views"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="170"
+        x:Class="DevServer.Avalonia.Views.MessageBoxView"
+        d:DataContext="{x:Static views1:DesignData.MessageBoxViewModel}"
+        Height="170" SizeToContent="Width" Padding="20" CanResize="False" WindowStartupLocation="CenterOwner">
+    <Grid RowDefinitions="Auto 20 * Auto" MinWidth="200">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <material:MaterialIcon Kind="{Binding Icon}"
+                                   IsVisible="{Binding Path=Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                   Width="32" Height="32" />
+            <Separator Width="10"
+                       IsVisible="{Binding Path=Icon, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="{Binding Title}" />
+        </StackPanel>
+
+        <TextBlock Grid.Row="2"
+                   Text="{Binding Text}" />
+
+        <Grid Grid.Row="3"
+              VerticalAlignment="Bottom"
+              ColumnDefinitions="Auto * Auto">
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal">
+                <Button HorizontalAlignment="Right"
+                        Content="OK"
+                        Command="{Binding OkCommand}" />
+                <Separator Width="5"
+                           IsVisible="{Binding IsCancelVisible}" />
+                <Button HorizontalAlignment="Right"
+                        Content="Cancel"
+                        Command="{Binding CloseCommand}"
+                        IsCancel="True"
+                        IsVisible="{Binding IsCancelVisible}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

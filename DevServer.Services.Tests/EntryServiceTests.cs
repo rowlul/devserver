@@ -4,8 +4,6 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using DevServer.Models;
-
 using FluentAssertions;
 
 using Xunit;
