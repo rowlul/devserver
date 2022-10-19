@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevServer.ViewModels", "Dev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevServer.Avalonia", "DevServer.Avalonia\DevServer.Avalonia.csproj", "{14CCF437-51A1-47B7-AA44-B573B31F6778}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevServer.ViewModels.Tests", "DevServer.ViewModels.Tests\DevServer.ViewModels.Tests.csproj", "{201F1AD7-72A5-4ED4-B179-71EC6A075F46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevServer.Avalonia.Tests", "DevServer.Avalonia.Tests\DevServer.Avalonia.Tests.csproj", "{4CBFEDDB-554A-40D4-B6C5-524322353ABB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +46,13 @@ Global
 		{14CCF437-51A1-47B7-AA44-B573B31F6778}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14CCF437-51A1-47B7-AA44-B573B31F6778}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14CCF437-51A1-47B7-AA44-B573B31F6778}.Release|Any CPU.Build.0 = Release|Any CPU
+		{201F1AD7-72A5-4ED4-B179-71EC6A075F46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{201F1AD7-72A5-4ED4-B179-71EC6A075F46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{201F1AD7-72A5-4ED4-B179-71EC6A075F46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{201F1AD7-72A5-4ED4-B179-71EC6A075F46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CBFEDDB-554A-40D4-B6C5-524322353ABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CBFEDDB-554A-40D4-B6C5-524322353ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CBFEDDB-554A-40D4-B6C5-524322353ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CBFEDDB-554A-40D4-B6C5-524322353ABB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
