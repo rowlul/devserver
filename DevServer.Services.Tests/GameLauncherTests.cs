@@ -1,9 +1,6 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
-
-using DevServer.Models;
 
 using FluentAssertions;
 
@@ -19,16 +16,12 @@ public class GameLauncherTests
     public void Start_ShouldStartProcess_Native()
     {
         var mockProcess = new ProcessMock();
-        var mockPlatform = new PlatformMock();
-        var mockFileSystem = new MockFileSystem();
-        var mockConfig = new ConfigurationManager(mockPlatform, mockFileSystem);
-        var service = new GameLauncher(mockProcess, mockConfig);
+        var service = new GameLauncher(mockProcess);
 
-        mockConfig.Settings.OsuExePath = XFS.Path(@"C:\osu.exe");
-        mockConfig.Settings.WineSettings = null;
+        var path = XFS.Path(@"C:\osu.exe");
 
-        var expected = mockConfig.Settings.OsuExePath;
-        var actual = service.Start("localhost").StartInfo.FileName;
+        var expected = path;
+        var actual = service.Start(path, "localhost", null).StartInfo.FileName;
 
         actual.Should().Be(expected);
     }
@@ -37,13 +30,9 @@ public class GameLauncherTests
     public void Start_ShouldStartProcess_Wine()
     {
         var mockProcess = new ProcessMock();
-        var mockPlatform = new PlatformMock();
-        var mockFileSystem = new MockFileSystem();
-        var mockConfig = new ConfigurationManager(mockPlatform, mockFileSystem);
-        var service = new GameLauncher(mockProcess, mockConfig);
+        var service = new GameLauncher(mockProcess);
 
-        mockConfig.Settings.OsuExePath = XFS.Path(@"C:\osu.exe");
-        mockConfig.Settings.WineSettings = new WineStartInfo
+        var wine = new WineStartInfo
         {
             Path = "/bin/wine",
             Prefix = "/wineprefix",
@@ -51,8 +40,8 @@ public class GameLauncherTests
             Environment = ImmutableDictionary<string, string>.Empty
         };
 
-        var expected = mockConfig.Settings.WineSettings.Path;
-        var actual = service.Start("localhost").StartInfo.FileName;
+        var expected = wine.Path;
+        var actual = service.Start(XFS.Path(@"C:\osu.exe"), "localhost", wine).StartInfo.FileName;
 
         actual.Should().Be(expected);
     }
@@ -61,19 +50,13 @@ public class GameLauncherTests
     public void StartNative_ShouldStartProcess()
     {
         var mockProcess = new ProcessMock();
-        var mockPlatform = new PlatformMock();
-        var mockFileSystem = new MockFileSystem();
-        var mockConfig = new ConfigurationManager(mockPlatform, mockFileSystem);
-        var service = new GameLauncher(mockProcess, mockConfig);
+        var service = new GameLauncher(mockProcess);
 
-        mockConfig.Settings.OsuExePath = XFS.Path(@"C:\osu.exe");
-        mockConfig.Settings.WineSettings = null;
+        var path = XFS.Path(@"C:\osu.exe");
+        var address = "localhost";
 
-        var expected = new ProcessStartInfo
-        {
-            FileName = mockConfig.Settings.OsuExePath, Arguments = "-devserver localhost"
-        };
-        var actual = service.StartNative("localhost")?.StartInfo;
+        var expected = new ProcessStartInfo { FileName = path, Arguments = $"-devserver {address}" };
+        var actual = service.StartNative(path, address)?.StartInfo;
 
         actual.Should().BeEquivalentTo(expected,
                                        x => x
@@ -88,10 +71,7 @@ public class GameLauncherTests
     public void StartWine_ShouldStartProcess(string? environment)
     {
         var mockProcess = new ProcessMock();
-        var mockPlatform = new PlatformMock();
-        var mockFileSystem = new MockFileSystem();
-        var mockConfig = new ConfigurationManager(mockPlatform, mockFileSystem);
-        var service = new GameLauncher(mockProcess, mockConfig);
+        var service = new GameLauncher(mockProcess);
 
         var envVars = environment?
                       .Split(" ")
@@ -99,20 +79,21 @@ public class GameLauncherTests
                       .ToDictionary(x => x[0],
                                     x => x[1]);
 
-        mockConfig.Settings.OsuExePath = XFS.Path(@"C:\osu.exe");
-        mockConfig.Settings.WineSettings = new WineStartInfo
+        var path = XFS.Path(@"C:\osu.exe");
+        var address = "localhost";
+        var wine = new WineStartInfo
         {
             Path = "/bin/wine", Prefix = "/wineprefix", Arch = WineArch.Win32, Environment = envVars
         };
 
         var expected = new ProcessStartInfo
         {
-            FileName = mockConfig.Settings.WineSettings.Path,
-            Arguments = $"{mockConfig.Settings.OsuExePath} -devserver localhost",
+            FileName = wine.Path,
+            Arguments = $"{path} -devserver {address}",
             Environment =
             {
-                { "WINEPREFIX", $"{mockConfig.Settings.WineSettings.Prefix}" },
-                { "WINEARCH", mockConfig.Settings.WineSettings.Arch.ToString().ToLower() }
+                { "WINEPREFIX", $"{wine.Prefix}" },
+                { "WINEARCH", wine.Arch.ToString().ToLower() }
             }
         };
 
@@ -124,7 +105,7 @@ public class GameLauncherTests
             }
         }
 
-        var actual = service.StartWine("localhost")!.StartInfo;
+        var actual = service.StartWine(path, "localhost", wine)!.StartInfo;
 
         actual.Should().BeEquivalentTo(expected,
                                        x => x

@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="DevServer.Services.Tests" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="HanumanInstitute.MvvmDialogs.Avalonia" Version="1.4.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IO.Abstractions" Version="17.2.3" />
+    <ProjectReference Include="..\DevServer.Services\DevServer.Services.csproj" />
   </ItemGroup>
 
 </Project>

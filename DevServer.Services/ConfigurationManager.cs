@@ -3,8 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using DevServer.Models;
-using DevServer.Services.Helpers;
+using DevServer.Services.Converters;
 
 namespace DevServer.Services;
 
@@ -21,6 +20,8 @@ public class ConfigurationManager : IConfigurationManager
         WriteIndented = true
     };
 
+    public string ConfigFilePath => Path.Combine(_platformService.GetAppDataPath(), "settings.json");
+
     public ConfigurationManager(IPlatformService platformService, IFileSystem fileSystem)
     {
         _platformService = platformService;
@@ -31,14 +32,14 @@ public class ConfigurationManager : IConfigurationManager
 
     public void Load()
     {
-        using var fileStream = _fileSystem.File.OpenRead(_platformService.GetConfigFile());
+        using var fileStream = _fileSystem.File.OpenRead(ConfigFilePath);
         Settings = JsonSerializer.Deserialize<Settings>(fileStream, JsonSerializerOptions) ??
                    throw new InvalidOperationException("Settings was null");
     }
 
     public async Task LoadAsync()
     {
-        await using var fileStream = _fileSystem.FileStream.Create(_platformService.GetConfigFile(),
+        await using var fileStream = _fileSystem.FileStream.Create(ConfigFilePath,
                                                                    FileMode.Open,
                                                                    FileAccess.Read,
                                                                    FileShare.Read,
@@ -51,7 +52,7 @@ public class ConfigurationManager : IConfigurationManager
 
     public void Save()
     {
-        using var fileStream = _fileSystem.File.Open(_platformService.GetConfigFile(),
+        using var fileStream = _fileSystem.File.Open(ConfigFilePath,
                                                      FileMode.Create,
                                                      FileAccess.ReadWrite,
                                                      FileShare.ReadWrite);
@@ -64,7 +65,7 @@ public class ConfigurationManager : IConfigurationManager
 
     public async Task SaveAsync()
     {
-        await using var fileStream = _fileSystem.FileStream.Create(_platformService.GetConfigFile(),
+        await using var fileStream = _fileSystem.FileStream.Create(ConfigFilePath,
                                                                    FileMode.Create,
                                                                    FileAccess.ReadWrite,
                                                                    FileShare.ReadWrite,

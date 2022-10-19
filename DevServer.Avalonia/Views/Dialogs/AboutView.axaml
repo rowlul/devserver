@@ -1,0 +1,56 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:views1="clr-namespace:DevServer.Avalonia.Views"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="200"
+        x:Class="DevServer.Avalonia.Views.AboutView"
+        d:DataContext="{x:Static views1:DesignData.AboutViewModel}"
+        Width="600" Height="200" Padding="20" CanResize="False" WindowStartupLocation="CenterOwner"
+        Title="About DevServer">
+
+    <Grid RowDefinitions="Auto * Auto"
+          ColumnDefinitions="* Auto">
+        <StackPanel Grid.Row="0" Grid.Column="0"
+                    VerticalAlignment="Center">
+            <TextBlock FontWeight="Bold">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} {1}">
+                        <Binding Path="ApplicationName" />
+                        <Binding Path="ApplicationVersion" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <TextBlock FontWeight="Medium">
+                Cross-platform osu! private server switcher
+            </TextBlock>
+        </StackPanel>
+        <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
+                ToolTip.Tip="Follow development on GitHub"
+                Command="{Binding OpenRepoCommand}">
+            <Button.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Background" Value="Transparent" />
+                </Style>
+                <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                    <Setter Property="Background" Value="Transparent" />
+                </Style>
+            </Button.Styles>
+            <Button.Content>
+                <avalonia:MaterialIcon Kind="Github"
+                                       Width="36"
+                                       Height="36" />
+            </Button.Content>
+        </Button>
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
+            This project is licensed to you under the MIT license.
+        </TextBlock>
+        <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"
+                Content="OK"
+                Command="{Binding CloseCommand}"
+                IsDefault="True"
+                IsCancel="True" />
+    </Grid>
+
+</Window>

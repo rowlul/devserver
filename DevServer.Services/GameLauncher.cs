@@ -1,26 +1,21 @@
 using System.Diagnostics;
 
-using DevServer.Models;
-
 namespace DevServer.Services;
 
 public class GameLauncher : IGameLauncher
 {
     private readonly IProcess _process;
-    private readonly IConfigurationManager _config;
 
-    public GameLauncher(IProcess process,
-                        IConfigurationManager config)
+    public GameLauncher(IProcess process)
     {
         _process = process;
-        _config = config;
     }
 
-    public Process Start(string serverAddress)
+    public System.Diagnostics.Process Start(string executablePath, string serverAddress, WineStartInfo? wine = null)
     {
-        var process = _config.Settings.WineSettings is not null
-            ? StartWine(serverAddress)
-            : StartNative(serverAddress);
+        var process = wine is not null
+            ? StartWine(executablePath, serverAddress, wine)
+            : StartNative(executablePath, serverAddress);
 
         if (process is null)
         {
@@ -30,21 +25,19 @@ public class GameLauncher : IGameLauncher
         return process;
     }
 
-    internal Process? StartNative(string serverAddress)
+    internal System.Diagnostics.Process? StartNative(string executablePath, string serverAddress)
     {
         var args = $"-devserver {serverAddress}";
-        var process = _process.Start(_config.Settings.OsuExePath, args);
+        var process = _process.Start(executablePath, args);
         return process;
     }
 
-    internal Process? StartWine(string serverAddress)
+    internal System.Diagnostics.Process? StartWine(string executablePath, string serverAddress, WineStartInfo wine)
     {
-        var wine = _config.Settings.WineSettings!;
-
         var processStartInfo = new ProcessStartInfo
         {
             FileName = wine.Path,
-            Arguments = $"{_config.Settings.OsuExePath} -devserver {serverAddress}",
+            Arguments = $"{executablePath} -devserver {serverAddress}",
             Environment =
             {
                 { "WINEPREFIX", wine.Prefix },

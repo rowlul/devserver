@@ -4,8 +4,7 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using DevServer.Models;
-using DevServer.Services.Helpers;
+using DevServer.Services.Converters;
 
 using FluentAssertions;
 
@@ -89,7 +88,8 @@ public class ConfigurationManagerTests
                 Prefix = "/wineprefix",
                 Arch = WineArch.Win32,
                 Environment = ImmutableDictionary<string, string>.Empty
-            }
+            },
+            LastServerAddress = "localhost"
         };
 
         var jsonSerializerOptions = new JsonSerializerOptions
@@ -104,7 +104,12 @@ public class ConfigurationManagerTests
         var mockFileSystem = new MockFileSystem();
         var service = new ConfigurationManager(mockPlatform, mockFileSystem)
         {
-            Settings = { OsuExePath = settings.OsuExePath, WineSettings = settings.WineSettings }
+            Settings =
+            {
+                OsuExePath = settings.OsuExePath,
+                WineSettings = settings.WineSettings,
+                LastServerAddress = settings.LastServerAddress
+            }
         };
 
         service.Save();
@@ -126,7 +131,8 @@ public class ConfigurationManagerTests
                 Prefix = "/wineprefix",
                 Arch = WineArch.Win32,
                 Environment = ImmutableDictionary<string, string>.Empty
-            }
+            },
+            LastServerAddress = "localhost"
         };
 
         var jsonSerializerOptions = new JsonSerializerOptions
@@ -141,7 +147,12 @@ public class ConfigurationManagerTests
         var mockFileSystem = new MockFileSystem();
         var service = new ConfigurationManager(mockPlatform, mockFileSystem)
         {
-            Settings = { OsuExePath = settings.OsuExePath, WineSettings = settings.WineSettings }
+            Settings =
+            {
+                OsuExePath = settings.OsuExePath,
+                WineSettings = settings.WineSettings,
+                LastServerAddress = settings.LastServerAddress
+            }
         };
 
         await service.SaveAsync();
