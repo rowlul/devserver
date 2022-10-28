@@ -2,11 +2,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-        xmlns:views1="clr-namespace:DevServer.Avalonia.Views"
+        xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:v="clr-namespace:DevServer.Avalonia.Views"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="200"
         x:Class="DevServer.Avalonia.Views.AboutView"
-        d:DataContext="{x:Static views1:DesignData.AboutViewModel}"
+        d:DataContext="{x:Static v:DesignData.AboutViewModel}"
         Width="600" Height="200" Padding="20" CanResize="False" WindowStartupLocation="CenterOwner"
         Title="About DevServer">
 
@@ -38,7 +38,7 @@
                 </Style>
             </Button.Styles>
             <Button.Content>
-                <avalonia:MaterialIcon Kind="Github"
+                <ic:MaterialIcon Kind="Github"
                                        Width="36"
                                        Height="36" />
             </Button.Content>

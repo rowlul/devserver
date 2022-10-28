@@ -2,12 +2,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:converters="clr-namespace:DevServer.Converters"
-        xmlns:views1="clr-namespace:DevServer.Avalonia.Views"
+        xmlns:v="clr-namespace:DevServer.Avalonia.Views"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
         x:Class="DevServer.Avalonia.Views.SettingsView"
-        d:DataContext="{x:Static views1:DesignData.SettingsViewModel}"
+        d:DataContext="{x:Static v:DesignData.SettingsViewModel}"
         Width="600" Height="400" CanResize="False" WindowStartupLocation="CenterOwner"
         Title="Settings">
 
@@ -24,7 +24,7 @@
                             <Button Grid.Column="2"
                                     ToolTip.Tip="Open file..."
                                     Command="{Binding OpenOsuExePathCommand}">
-                                <material:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
+                                <ic:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -41,7 +41,7 @@
                             <Button Grid.Column="2"
                                     ToolTip.Tip="Open file..."
                                     Command="{Binding OpenWinePathCommand}">
-                                <material:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
+                                <ic:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -71,7 +71,7 @@
                             <Button Grid.Column="4"
                                     ToolTip.Tip="Open directory..."
                                     Command="{Binding OpenWinePrefixCommand}">
-                                <material:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
+                                <ic:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -90,17 +90,17 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10 5 10 5">
             <Button ToolTip.Tip="Reload settings&#x0a;Useful if config was changed externally"
                     Command="{Binding ReloadCommand}">
-                <material:MaterialIcon Kind="Refresh" />
+                <ic:MaterialIcon Kind="Refresh" />
             </Button>
             <Separator Width="4" />
             <Button ToolTip.Tip="Reset settings to default"
                     Command="{Binding ResetCommand}">
-                <material:MaterialIcon Kind="SettingsBackupRestore" />
+                <ic:MaterialIcon Kind="SettingsBackupRestore" />
             </Button>
             <Separator Width="4" />
             <Button Command="{Binding ApplyCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <material:MaterialIcon Kind="CheckBold" />
+                    <ic:MaterialIcon Kind="CheckBold" />
                     <Separator Width="8" />
                     <TextBlock Text="Apply"
                                FontWeight="Medium"

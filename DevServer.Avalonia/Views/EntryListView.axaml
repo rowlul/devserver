@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-             xmlns:views1="clr-namespace:DevServer.Avalonia.Views"
+             xmlns:v="clr-namespace:DevServer.Avalonia.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DevServer.Avalonia.Views.EntryListView"
-             d:DataContext="{x:Static views1:DesignData.EntryListViewModel}"
+             d:DataContext="{x:Static v:DesignData.EntryListViewModel}"
              IsEnabled="{Binding IsEnabled}">
 
     <i:Interaction.Behaviors>
@@ -24,7 +24,7 @@
                  SelectionMode="Single">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <views1:EntryView />
+                    <v:EntryView />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

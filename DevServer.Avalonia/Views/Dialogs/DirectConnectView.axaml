@@ -2,11 +2,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-        xmlns:views1="clr-namespace:DevServer.Avalonia.Views"
+        xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:v="clr-namespace:DevServer.Avalonia.Views"
         mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="200"
         x:Class="DevServer.Avalonia.Views.DirectConnectView"
-        d:DataContext="{x:Static views1:DesignData.DirectConnectViewModel}"
+        d:DataContext="{x:Static v:DesignData.DirectConnectViewModel}"
         Width="500" Height="200" Padding="20" CanResize="False" WindowStartupLocation="CenterOwner"
         Title="Direct Connect">
 
@@ -28,7 +28,7 @@
                 <Button HorizontalAlignment="Right"
                         Command="{Binding PlayCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <material:MaterialIcon Kind="Play" />
+                        <ic:MaterialIcon Kind="Play" />
                         <Separator Width="8" />
                         <TextBlock Text="Play"
                                    FontWeight="Medium"

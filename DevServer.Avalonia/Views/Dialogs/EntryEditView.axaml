@@ -2,10 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-        xmlns:views1="clr-namespace:DevServer.Avalonia.Views"
+        xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:v="clr-namespace:DevServer.Avalonia.Views"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
-        d:DataContext="{x:Static views1:DesignData.EntryEditViewModel}"
+        d:DataContext="{x:Static v:DesignData.EntryEditViewModel}"
         x:Class="DevServer.Avalonia.Views.EntryEditView"
         Width="400" Height="450" CanResize="False" WindowStartupLocation="CenterOwner"
         Padding="20">
@@ -37,7 +37,7 @@
                     <Button Grid.Column="2"
                             ToolTip.Tip="Open file..."
                             Command="{Binding OpenLogoCommand}">
-                        <material:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
+                        <ic:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
                     </Button>
                 </Grid>
             </StackPanel>
@@ -55,7 +55,7 @@
                 <Button HorizontalAlignment="Right"
                         Command="{Binding DoneCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <material:MaterialIcon Kind="CheckBold" />
+                        <ic:MaterialIcon Kind="CheckBold" />
                         <Separator Width="8" />
                         <TextBlock Text="Done"
                                    FontWeight="Medium"
