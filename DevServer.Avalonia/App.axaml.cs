@@ -103,7 +103,8 @@ public class App : Application
         services.AddSingleton(provider => new MainPanelViewModel(
                                   provider.GetRequiredService<ILogger<MainPanelViewModel>>(),
                                   provider.GetRequiredService<IDialogService>(),
-                                  provider.GetRequiredService<IEntryService>()));
+                                  provider.GetRequiredService<IEntryService>(),
+                                  provider.GetRequiredService<ILogoService>()));
         services.AddSingleton(provider => new EntryListViewModel());
         services.AddSingleton(provider => new MainWindowViewModel(provider.GetRequiredService<EntryListViewModel>(),
                                                                   provider.GetRequiredService<MainPanelViewModel>()));

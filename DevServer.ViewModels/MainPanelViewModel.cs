@@ -18,17 +18,20 @@ public partial class MainPanelViewModel : ViewModelBase
     private readonly ILogger<MainPanelViewModel> _logger;
     private readonly IDialogService _dialogService;
     private readonly IEntryService _entryService;
+    private readonly ILogoService _logoService;
 
     [ObservableProperty]
     private bool _isEnabled = true;
 
     public MainPanelViewModel(ILogger<MainPanelViewModel> logger,
                               IDialogService dialogService,
-                              IEntryService entryService)
+                              IEntryService entryService,
+                              ILogoService logoService)
     {
         _logger = logger;
         _dialogService = dialogService;
         _entryService = entryService;
+        _logoService = logoService;
 
         IsActive = true;
     }
@@ -71,6 +74,8 @@ public partial class MainPanelViewModel : ViewModelBase
         {
             return;
         }
+
+        _logoService.PurgeCache();
 
         var entries = await GetEntryList();
         Messenger.Send(new EntriesChangedMessage(entries));
