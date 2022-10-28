@@ -15,8 +15,7 @@ public class ViewLocator : ViewLocatorBase
     public override object Locate(object viewModel)
     {
         var viewName = GetViewName(viewModel);
-        var ass = Assembly.GetExecutingAssembly();
-        var type = Assembly.GetExecutingAssembly()?.GetType(viewName);
+        var type = Assembly.GetExecutingAssembly().GetType(viewName);
         var obj = type != null ? Ioc.Default.GetService(type) ?? Activator.CreateInstance(type) : null;
 
         return obj switch
