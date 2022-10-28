@@ -11,8 +11,8 @@ public partial class AboutViewModel : DialogViewModelBase
 {
     private readonly IProcess _process;
 
-    public string ApplicationName => Assembly.GetExecutingAssembly().GetName().Name ?? "devserver";
-    public string ApplicationVersion => (Assembly.GetExecutingAssembly().GetName().Version ?? new Version()).ToString();
+    public string ApplicationName => Assembly.GetEntryAssembly()?.GetName().Name ?? "devserver";
+    public string ApplicationVersion => (Assembly.GetEntryAssembly()?.GetName().Version ?? new Version()).ToString();
 
     public AboutViewModel(IProcess process)
     {
