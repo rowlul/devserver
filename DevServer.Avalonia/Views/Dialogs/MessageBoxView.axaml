@@ -4,15 +4,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:v="clr-namespace:DevServer.Avalonia.Views"
+        xmlns:converters="clr-namespace:DevServer.Avalonia.Converters"
         mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="170"
         x:Class="DevServer.Avalonia.Views.MessageBoxView"
         d:DataContext="{x:Static v:DesignData.MessageBoxViewModel}"
         Height="170" SizeToContent="Width" Padding="20" CanResize="False" WindowStartupLocation="CenterOwner">
     <Grid RowDefinitions="Auto 20 * Auto" MinWidth="200">
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <ic:MaterialIcon Kind="{Binding Icon}"
-                                   IsVisible="{Binding Path=Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                   Width="32" Height="32" />
+            <StackPanel.Resources>
+                <converters:MaterialIconConverter x:Key="MaterialIconConverter" />
+            </StackPanel.Resources>
+
+            <ic:MaterialIcon Kind="{Binding Path=Icon, Converter={StaticResource MaterialIconConverter}}"
+                             IsVisible="{Binding Path=Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                             Width="32" Height="32" />
             <Separator Width="10"
                        IsVisible="{Binding Path=Icon, Converter={x:Static ObjectConverters.IsNotNull}}" />
             <TextBlock
