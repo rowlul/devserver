@@ -91,25 +91,6 @@ public partial class SettingsViewModel : DialogViewModelBase
     }
 
     [RelayCommand]
-    private async Task Reload()
-    {
-        var result = await _dialogService.ShowMessageBox(
-            this,
-            "Are you sure to reload settings from file?",
-            "Any pending changes will be lost.",
-            MessageBoxIcon.Question,
-            MessageBoxButtons.OkCancel);
-
-        if (result is false)
-        {
-            return;
-        }
-
-        await _configurationManager.LoadAsync();
-        Load();
-    }
-
-    [RelayCommand]
     private async Task Reset()
     {
         var result = await _dialogService.ShowMessageBox(
