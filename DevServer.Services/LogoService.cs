@@ -58,6 +58,14 @@ public class LogoService : ILogoService
         return await GetLogoStreamFromLocalFile(source);
     }
 
+    public void PurgeCache()
+    {
+        foreach (var file in _fileSystem.DirectoryInfo.FromDirectoryName(ImageCachePath).EnumerateFiles())
+        {
+            file.Delete();
+        }
+    }
+
     internal async Task<Stream> GetLogoStreamFromUrl(string url)
     {
         var bytes = await _httpHandler.GetByteArrayAsync(url);
