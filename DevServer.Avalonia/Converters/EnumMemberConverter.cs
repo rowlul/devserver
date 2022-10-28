@@ -1,10 +1,9 @@
-using System;
 using System.Globalization;
 using System.Runtime.Serialization;
 
 using Avalonia.Data.Converters;
 
-namespace DevServer.Converters;
+namespace DevServer.Avalonia.Converters;
 
 public class EnumMemberConverter : IValueConverter
 {
