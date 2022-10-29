@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -73,6 +74,9 @@ public partial class DirectConnectViewModel : DialogViewModelBase
         catch (Exception e)
         {
             _logger.LogError(e, "Could not start game");
+            await _dialogService.ShowLogBox(Ioc.Default.GetRequiredService<MainWindowViewModel>(),
+                $"Could not start game",
+                e.Message, showReport: true, MessageBoxIcon.Error);
         }
     }
 }

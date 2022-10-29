@@ -59,7 +59,7 @@ public partial class EntryViewModel : ViewModelBase
             {
                 return Bitmap.DecodeToWidth(
                     await _logoService.GetLogoStream(source: _entry.Logo,
-                                                     cacheFileName: _entry.FilePath),
+                        cacheFileName: _entry.FilePath),
                     42);
             }
             catch (Exception e)
@@ -77,8 +77,8 @@ public partial class EntryViewModel : ViewModelBase
         try
         {
             using var process = _gameLauncher.Start(_config.Settings.OsuExePath,
-                                                    _entry.ServerAddress,
-                                                    _config.Settings.WineSettings);
+                _entry.ServerAddress,
+                _config.Settings.WineSettings);
 
             Messenger.Send(new ProcessRunningMessage(true));
 
@@ -95,6 +95,9 @@ public partial class EntryViewModel : ViewModelBase
         catch (Exception e)
         {
             _logger.LogError(e, "Could not start game");
+            await _dialogService.ShowLogBox(Ioc.Default.GetRequiredService<MainWindowViewModel>(),
+                $"Could not start game",
+                e.Message, showReport: true, MessageBoxIcon.Error);
         }
     }
 

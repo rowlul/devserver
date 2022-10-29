@@ -107,7 +107,10 @@ public partial class MainPanelViewModel : ViewModelBase
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Could not parse entry");
+                _logger.LogError(e, "Could not parse one or more entries");
+                await _dialogService.ShowLogBox(Ioc.Default.GetRequiredService<MainWindowViewModel>(),
+                    $"Could not parse one or more entries",
+                    e.Message, showReport: true, MessageBoxIcon.Error);
                 continue;
             }
 
