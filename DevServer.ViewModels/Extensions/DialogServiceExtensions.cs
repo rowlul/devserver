@@ -11,14 +11,18 @@ namespace DevServer.ViewModels.Extensions;
 
 public static class DialogServiceExtensions
 {
-    public static async Task<bool?> ShowMessageBox(this IDialogService service,
-                                                   INotifyPropertyChanged owner,
-                                                   string title, string text,
-                                                   MessageBoxIcon? icon = null,
-                                                   MessageBoxButtons? buttons = MessageBoxButtons.Ok)
+    public static async Task<bool?> ShowMessageBox(this IDialogService service, INotifyPropertyChanged owner,
+        string title, string text, MessageBoxIcon? icon = null, MessageBoxButtons? buttons = MessageBoxButtons.Ok)
     {
         var modal = new MessageBoxViewModel(title, text, icon, buttons);
         return await service.ShowDialogAsync(owner, modal);
+    }
+
+    public static async Task ShowLogBox(this IDialogService service, INotifyPropertyChanged owner,
+        string title, string logText, bool showReport = false, MessageBoxIcon? icon = null)
+    {
+        var modal = new LogBoxViewModel(title, logText, showReport, icon);
+        await service.ShowDialogAsync(owner, modal);
     }
 
     public static Task ShowDirectConnectDialog(this IDialogService service)
@@ -57,14 +61,14 @@ public static class DialogServiceExtensions
     }
 
     public static Task<string[]> ShowOpenFilesDialog(this IDialogService service,
-                                                     OpenFileDialogSettings? settings = null)
+        OpenFileDialogSettings? settings = null)
     {
         var owner = Ioc.Default.GetRequiredService<MainWindowViewModel>();
         return service.ShowOpenFilesDialogAsync(owner, settings);
     }
 
     public static Task<string?> ShowOpenDirectoryDialog(this IDialogService service,
-                                                        OpenFolderDialogSettings? settings = null)
+        OpenFolderDialogSettings? settings = null)
     {
         var owner = Ioc.Default.GetRequiredService<MainWindowViewModel>();
         return service.ShowOpenFolderDialogAsync(owner, settings);

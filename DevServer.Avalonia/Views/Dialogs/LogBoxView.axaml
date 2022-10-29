@@ -1,0 +1,77 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:v="clr-namespace:DevServer.Avalonia.Views"
+        xmlns:converters="clr-namespace:DevServer.Avalonia.Converters"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
+        x:Class="DevServer.Avalonia.Views.LogBoxView"
+        d:DataContext="{x:Static v:DesignData.LogBoxViewModel}"
+        SizeToContent="WidthAndHeight" Padding="20" CanResize="False" WindowStartupLocation="CenterOwner"
+        MinWidth="400" MaxWidth="700">
+    <Grid RowDefinitions="Auto 20 Auto 20 Auto">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <converters:MaterialIconConverter x:Key="MaterialIconConverter" />
+            </StackPanel.Resources>
+
+            <ic:MaterialIcon Kind="{Binding Path=Icon, Converter={StaticResource MaterialIconConverter}}"
+                             IsVisible="{Binding Path=Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                             Width="32" Height="32" />
+            <Separator Width="10"
+                       IsVisible="{Binding Path=Icon, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="{Binding Title}"
+                TextWrapping="Wrap"
+                MaxWidth="600" />
+        </StackPanel>
+
+        <TextBox Grid.Row="2" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True"
+                 Text="{Binding LogText}" MaxHeight="400">
+            <TextBox.Styles>
+                <Style Selector="TextBox">
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="BorderBrush" Value="#cccccc" />
+                    <Setter Property="FontFamily" Value="/Assets/Inconsolata/Inconsolata-Regular.ttf#Inconsolata"/>
+                    <Setter Property="FontSize" Value="16" />
+                </Style>
+                <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="BorderBrush" Value="#bbbbbb" />
+                </Style>
+                <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="BorderBrush" Value="#bbbbbb" />
+                </Style>
+            </TextBox.Styles>
+        </TextBox>
+
+        <Grid Grid.Row="4"
+              VerticalAlignment="Bottom"
+              ColumnDefinitions="Auto * Auto">
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal">
+                <Button HorizontalAlignment="Right"
+                        IsVisible="{Binding ShowReport}"
+                        Command="{Binding ReportCommand}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <ic:MaterialIcon Kind="BugReport" />
+                            <Separator Width="8" />
+                            <TextBlock Text="Report"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Separator Width="5" />
+                <Button HorizontalAlignment="Right"
+                        Content="OK"
+                        Command="{Binding OkCommand}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

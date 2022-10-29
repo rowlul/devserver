@@ -22,6 +22,9 @@ public static class DesignData
     public static MessageBoxViewModel MessageBoxViewModel =>
         new("Title", "Messagebox text", MessageBoxIcon.Warning, MessageBoxButtons.OkCancel);
 
+    public static LogBoxViewModel LogBoxViewModel =>
+        new("Could not start process", "Exception", true, MessageBoxIcon.Error);
+
     public static EntryViewModel EntryViewModel { get; } =
         new(new Entry
         {
