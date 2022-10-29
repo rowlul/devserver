@@ -15,7 +15,7 @@ public enum MessageBoxButtons
     OkCancel
 }
 
-public partial class MessageBoxViewModel : DialogViewModelBase
+public partial class MessageBoxViewModel : ObservableDialog
 {
     public string Title { get; }
     public string Text { get; }

@@ -1,10 +1,11 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 using DevServer.ViewModels.Messages;
 
 namespace DevServer.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ObservableRecipient
 {
     public EntryListViewModel EntryListViewModel { get; }
     public MainPanelViewModel MainPanelViewModel { get; }

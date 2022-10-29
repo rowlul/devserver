@@ -7,7 +7,7 @@ using DevServer.Services;
 
 namespace DevServer.ViewModels;
 
-public partial class AboutViewModel : DialogViewModelBase
+public partial class AboutViewModel : ObservableDialog
 {
     private readonly IProcess _process;
 

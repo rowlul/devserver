@@ -7,7 +7,7 @@ using DevServer.Services;
 
 namespace DevServer.ViewModels;
 
-public partial class LogBoxViewModel : DialogViewModelBase
+public partial class LogBoxViewModel : ObservableDialog
 {
     private readonly IProcess _process;
 

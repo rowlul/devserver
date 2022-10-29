@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels;
 
-public partial class DirectConnectViewModel : DialogViewModelBase
+public partial class DirectConnectViewModel : ObservableDialogRecipient
 {
     private readonly ILogger<DirectConnectViewModel> _logger;
     private readonly IGameLauncher _gameLauncher;

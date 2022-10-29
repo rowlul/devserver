@@ -13,7 +13,7 @@ using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 namespace DevServer.ViewModels;
 
-public partial class SettingsViewModel : DialogViewModelBase
+public partial class SettingsViewModel : ObservableDialog
 {
     private readonly IConfigurationManager _configurationManager;
     private readonly IDialogService _dialogService;

@@ -8,7 +8,7 @@ using DevServer.ViewModels.Messages;
 
 namespace DevServer.ViewModels;
 
-public partial class EntryListViewModel : ViewModelBase
+public partial class EntryListViewModel : ObservableRecipient
 {
     [ObservableProperty]
     private AvaloniaList<EntryViewModel> _entries = new();

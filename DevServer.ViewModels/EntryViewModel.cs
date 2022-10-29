@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DevServer.ViewModels;
 
-public partial class EntryViewModel : ViewModelBase
+public partial class EntryViewModel : ObservableRecipient
 {
     private readonly ILogger<EntryViewModel> _logger;
     private readonly IEntryService _entryService;

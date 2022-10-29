@@ -1,10 +1,11 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using HanumanInstitute.MvvmDialogs;
 
 namespace DevServer.ViewModels;
 
-public partial class DialogViewModelBase : ViewModelBase, IModalDialogViewModel, ICloseable
+public partial class ObservableDialog : ObservableObject, IModalDialogViewModel, ICloseable
 {
     private bool? _dialogResult;
 

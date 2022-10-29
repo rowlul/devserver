@@ -10,7 +10,7 @@ using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 namespace DevServer.ViewModels;
 
-public partial class EntryEditViewModel : DialogViewModelBase
+public partial class EntryEditViewModel : ObservableDialog
 {
     public string HeaderText
     {
