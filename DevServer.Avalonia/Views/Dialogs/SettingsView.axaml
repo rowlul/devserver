@@ -24,7 +24,7 @@
                             <Button Grid.Column="2"
                                     ToolTip.Tip="Open file..."
                                     Command="{Binding OpenOsuExePathCommand}">
-                                <ic:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
+                                <ic:MaterialIcon Kind="FolderOpen" Width="18" Height="18" />
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -41,7 +41,7 @@
                             <Button Grid.Column="2"
                                     ToolTip.Tip="Open file..."
                                     Command="{Binding OpenWinePathCommand}">
-                                <ic:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
+                                <ic:MaterialIcon Kind="FolderOpen" Width="18" Height="18" />
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -71,7 +71,7 @@
                             <Button Grid.Column="4"
                                     ToolTip.Tip="Open directory..."
                                     Command="{Binding OpenWinePrefixCommand}">
-                                <ic:MaterialIcon Kind="DotsHorizontal" Width="18" Height="18" />
+                                <ic:MaterialIcon Kind="FolderOpen" Width="18" Height="18" />
                             </Button>
                         </Grid>
                     </StackPanel>
