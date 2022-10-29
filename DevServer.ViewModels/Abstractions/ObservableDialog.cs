@@ -5,7 +5,7 @@ using HanumanInstitute.MvvmDialogs;
 
 namespace DevServer.ViewModels;
 
-public partial class ObservableDialog : ObservableObject, IModalDialogViewModel, ICloseable
+public abstract partial class ObservableDialog : ObservableObject, IModalDialogViewModel, ICloseable
 {
     private bool? _dialogResult;
 
